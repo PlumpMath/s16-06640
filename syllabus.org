@@ -48,14 +48,16 @@ You will need to bring your laptop to class. Your laptop should have an ssh clie
 
 #+caption: Categories and weights for graded assignments
 #+tblname: categories
-| Category      | weight |
-|---------------+--------|
-| homework      |    0.2 |
-| participation |    0.1 |
-| lit-review-1  |    0.1 |
-| lit-review-2  |    0.1 |
-| mini-1        |    0.2 |
-| final-project |    0.3 |
+| Category           | weight |
+|--------------------+--------|
+| homework           |    0.2 |
+| participation      |    0.1 |
+| lit-review-1       |    0.1 |
+| lit-review-2       |    0.1 |
+| mini-1             |    0.2 |
+| final-project      |    0.2 |
+| final-presentation |    0.1 |
+
 
 Here is a brief description of what you will do in this course:
 
@@ -147,8 +149,6 @@ You will use your computers every day in class. I do not want to see or hear you
 
 *** Accommodations for Individuals with Disabilities
 If you wish to request an accommodation due to a documented disability, please inform me and contact Disability Resources as soon as possible. The request can be initiated at http://www.cmu.edu/hr/eos/disability/students.
-
-<<<<<<< HEAD
 
 * Class schedule [0/32]
 
