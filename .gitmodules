@@ -1,0 +1,3 @@
+[submodule "dft-book"]
+	path = dft-book
+	url = git@github.com:jkitchin/dft-book.git
