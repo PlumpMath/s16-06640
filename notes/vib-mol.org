@@ -1,4 +1,4 @@
-* [[file:~/dft-book/dft.org::*Vibrational%20frequencies][Vibrational frequencies]]
+* [[file:../dft-book/dft.org::*Vibrational%20frequencies][Vibrational frequencies]]
 
 - We can use DFT to estimate vibrational frequencies of a bond
 
@@ -21,7 +21,7 @@
 
 - That is the curvature of $E$ vs. bond length
 
-- We have already done the calculations for that here: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Manual%20determination%20of%20a%20bond%20length][Manual determination of a bond length]]
+- We have already done the calculations for that here: [[file:../dft-book/dft.org::*Manual%20determination%20of%20a%20bond%20length][Manual determination of a bond length]]
 
 - We determine $k$ by fitting an equation to that data, and evaluating the second derivative at the minimum.
 
@@ -67,7 +67,7 @@ print 'f = {0} N'.format(force / (kg * m / s**2))
 
 Then, we do some unit conversions to get the vibrational frequency they way we want it.
 
-[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Manual%20calculation%20of%20vibrational%20frequency][Manual calculation of vibrational frequency]]
+[[file:../dft-book/dft.org::*Manual%20calculation%20of%20vibrational%20frequency][Manual calculation of vibrational frequency]]
 
 Typical units include:
 1. Hz (1/s)
@@ -143,14 +143,14 @@ and $z_\alpha$ being the the coordinates of the $\alpha^{th}$ atom
 because the spring constants are defined at a minimum /usually/.
 :END:
 
-Let us see it in action: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::water-vib][dft.org::water-vib]]
+Let us see it in action: [[file:../dft-book/dft.org::water-vib][dft.org::water-vib]]
 
-Visualizing modes: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::h2o-vib-vis][dft.org::h2o-vib-vis]]
+Visualizing modes: [[file:../dft-book/dft.org::h2o-vib-vis][dft.org::h2o-vib-vis]]
 
-Read this on your own: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Zero-point%20energy%20for%20multiple%20modes][Zero-point energy for multiple modes]]
+Read this on your own: [[file:../dft-book/dft.org::*Zero-point%20energy%20for%20multiple%20modes][Zero-point energy for multiple modes]]
 
-Finally:  [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Simulated%20infrared%20spectra][Simulated infrared spectra]]
-* [[file:~//dft-book/dft.org::*Simulated%20infrared%20spectra][Simulated infrared spectra]]
+Finally:  [[file:../dft-book/dft.org::*Simulated%20infrared%20spectra][Simulated infrared spectra]]
+* [[file:../dft-book/dft.org::*Simulated%20infrared%20spectra][Simulated infrared spectra]]
 
 - Last time we reviewed calculating vibrational frequencies
 
@@ -169,11 +169,11 @@ Finally:  [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Si
     - symmetric stretch   O <- C -> O is invisible  - no dipole moment
     - asymmetric stretch  O -> C -> O is visible    - changing dipole moment
 
-- Refresh your self on the [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Dipole%20moments][Dipole moments]]
+- Refresh your self on the [[file:../dft-book/dft.org::*Dipole%20moments][Dipole moments]]
 
-  - A dipole moment is the magnitude of the vector connecting the center of electrical charge to nuclear charge#+BEGIN_SRC python :results output :exports both
+  - A dipole moment is the magnitude of the vector connecting the center of electrical charge to nuclear charge
 
-- For molecules, it is important to have a continuous electron density like this: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::co-centered][co-centered]]
+- For molecules, it is important to have a continuous electron density like this: [[file:../dft-book/dft.org::co-centered][co-centered]]
 
 #+BEGIN_SRC python :results output :exports both
 from jasp import *
@@ -190,9 +190,9 @@ with jasp('molecules/co-centered') as calc:
 
 - The intensity of an IR absorbance is related to the derivative of the dipole moment with respect to displacement along the vibrational mode
 
-- We need additional information in our calculation to do this. [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::vib-ir][See the new keywords]].
+- We need additional information in our calculation to do this. [[file:../dft-book/dft.org::vib-ir][See the new keywords]].
 
-- this approach is based on the work [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::ir-shell-script][here]].
+- this approach is based on the work [[file:../dft-book/dft.org::ir-shell-script][here]].
   - We will attempt to see what is happening in the shell script
 
 - The shell script above has been translated to a convenient python function in mod:jasp.
