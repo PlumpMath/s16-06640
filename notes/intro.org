@@ -39,11 +39,11 @@ You can also use a shortcut template. Put your cursor after <s below and press T
 <s
 
 
-Put your cursor after <p and press Tab. It will expand out into the source block for python. [fn:1]
+Put your cursor after <p and press Tab. It will expand out into the source block for python.
 
 <p
 
-You can add a footnote too. Type C-c C-x f  and enter the footnote text. [fn:3]
+You can add a footnote too. Type C-c C-x f  and enter the footnote text.[fn:1]
 
 
 You can "run" a code block by putting the cursor in it, and typing C-c C-c. Try it out here.
@@ -68,7 +68,7 @@ All functions are then available in the "np" namespace, and you access them with
 
 Or, try M-x pydoc
 
-then type numpy.  [fn:2]
+then type numpy.
 
 Python functions take arguments. Sometimes they are optional. You have to learn what they are. You do that by paying attention, reading alot, asking what does that do? And then finding out. Emacs makes that simple. Google is your friend.
 
@@ -290,13 +290,6 @@ press l (lowercase L), then o
 
 Wait a bit, and you should see a pdf file open.
 
-
-
-
 * Footnotes
 
-[fn:1] This is a custom template I added because I use it so much. The point is you can add features like that to emacs. Experimentalists get to build new instruments. We do too.
-
-[fn:2] This is not a vanilla feature. I wrote a simple function to do it. Type C-h f pydoc to get help on the pydoc function.
-
-[fn:3] it is tricky navigating back to where you were. Move the cursor to the beginning of the line in the footnote label and press C-c C-c. Or click on the footnote label.
+[fn:1] test
