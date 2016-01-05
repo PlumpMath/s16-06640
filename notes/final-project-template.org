@@ -1,0 +1,50 @@
+#+LATEX_CLASS: revtex4-1
+#+LATEX_CLASS_OPTIONS: [aps,prb,citeautoscript,preprint,citeautoscript,showkeys]
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+OPTIONS: toc:nil author:nil date:nil
+#+LATEX_HEADER: \usepackage{natbib}
+#+LATEX_HEADER: \usepackage{url}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage[version=3]{mhchem}
+#+TITLE: empty
+\title{Your title}
+
+\author{Your name}
+\email{your email}
+\affiliation{Department of Chemical Engineering, Carnegie Mellon University, 5000 Forbes, Ave, Pittsburgh, PA 15213}
+
+
+\date{\today}
+
+#+begin_abstract
+Your abstract in 300 words or less.
+#+end_abstract
+
+\pacs{}
+\keywords{kw1, kw2}
+\maketitle
+
+* Introduction
+Delete this text.
+
+* Methods
+Tell me how you did it.
+
+* Results and Discussion
+You know what goes here.
+
+* Conclusions
+State your conclusions
+
+
+\begin{acknowledgments}
+Acknowledge anyone appropriate.
+\end{acknowledgments}
+
+
+bibliography:references.bib
+
+* build                                                            :noexport:
+
+To create your pdf type these keys: C-c C-e j o

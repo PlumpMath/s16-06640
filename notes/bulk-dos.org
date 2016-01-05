@@ -1,0 +1,165 @@
+* [[file:~/dft-book/dft.org::*Bulk%20density%20of%20states][Bulk density of states]]
+
+The density of states refers to the number of electronic states in a particular energy range.
+
+- the Kohn-Sham orbitals have a set of eigenvalues that correspond to the energies of these
+orbitals
+
+- neither the orbitals nor the eigenvalues have any known directly observable meaning
+cite:RevModPhys.71.1253
+
+- BUT, the sum of the squared K-S orbitals, however, is equal to the electron density
+
+- AND, the sum of the eigenvalues is a significant part of the total energy
+
+- it seems reasonable to suppose these quantities have other significant relationships to
+physical observables
+
+- Perdew et al. showed that the highest occupied eigenvalue is equal to the ionization energy of a system within an exact density functional theory
+
+- a DFT analog of Koopmans' theorem has been developed that formally identifies the eigenvalues with vertical ionization potentials
+
+- it has become fairly standard, especially for solids, to use them to calculate the density of states (DOS) cite:jones1989
+
+- So, how do we get the DOS?
+\begin{equation}\label{eq:dos}
+\rho(\epsilon)=\sum_\mathbf{\mathrm{k}} \omega_\mathbf{\mathrm{k}} \sum_i \beta(\epsilon -\epsilon_{i\mathbf{\mathrm{k}}})
+\end{equation}
+
+- \omega_\mathbf{\mathrm{k}} is the symmetry adapted weight of the k-point
+
+- \beta(\epsilon -\epsilon_{i\mathbf{\mathrm{k}}}) is a broadening/smoothing function, often a gaussian function
+  - This compensates for the finite sampling of the band structure by k-points
+
+#+BEGIN_SRC python
+from ase import Atoms, Atom
+from jasp import *
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+npoints = 200
+width = 0.1
+
+
+def gaussian(energies, eik):
+    x = ((energies - eik) / width)
+    return np.exp(-x**2) / np.sqrt(np.pi) / width
+
+a = 3.9  # approximate lattice constant
+b = a / 2.
+bulk = Atoms([Atom('Pd', (0.0, 0.0, 0.0))],
+             cell=[(0, b, b),
+                   (b, 0, b),
+                   (b, b, 0)])
+
+
+with jasp('pd-dos',
+          encut=300,
+          xc='PBE',
+          kpts=(8, 8, 8),  # this is too low for high quality DOS
+          atoms=bulk) as calc:
+
+    # this runs the calculation
+    bulk.get_potential_energy()
+
+    # kpt weights
+    wk = calc.get_k_point_weights()
+
+    # for each k-point there are a series of eigenvalues
+    # here we get all the eigenvalues for each k-point
+    e_kn = []
+    for i,k in enumerate(wk):
+        e_kn.append(calc.get_eigenvalues(kpt=i))
+
+    e_kn = np.array(e_kn) - calc.get_fermi_level()
+
+    # these are the energies we want to evaluate the dos at
+    energies = np.linspace(e_kn.min(), e_kn.max(), npoints)
+
+    # this is where we build up the dos
+    dos = np.zeros(npoints)
+
+    for j in range(npoints):
+        for k in range(len(wk)): # loop over all kpoints
+            for i in range(len(e_kn[k])): # loop over eigenvalues in each k
+                dos[j] += wk[k] * gaussian(energies[j], e_kn[k][i])
+
+import matplotlib.pyplot as plt
+plt.plot(energies, dos)
+plt.show()
+#+END_SRC
+
+#+RESULTS:
+
+
+Here is a more convenient way to compute the DOS using mod:ase.dft.
+
+#+BEGIN_SRC python
+from jasp import *
+import matplotlib.pyplot as plt
+from ase.dft import DOS
+
+with jasp('pd-dos') as calc:
+    dos = DOS(calc, width=0.2)
+    d = dos.get_dos()
+    e = dos.get_energies()
+
+import pylab as plt
+plt.plot(e,d)
+plt.xlabel('energy (eV)')
+plt.ylabel('DOS')
+plt.show()
+#+END_SRC
+
+#+RESULTS:
+
+The VASP manual [[http://cms.mpi.univie.ac.at/vasp/guide/node124.html#SECTION000933000000000000000][recommends]] a final run be made with ISMEAR=-5, which uses the tetrahedron method with Bl\"ochl corrections.
+
+See the results here:
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::dos-ismear-5][file:~/06-640-s14/course/dft-book/dft.org::dos-ismear-5]]
+ - Results for other systems may be different, e.g. semiconductors or insulators
+
+You need to consider convergence: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::dos-k-convergence][file:~/06-640-s14/course/dft-book/dft.org::dos-k-convergence]]
+
+* Atom-projected DOS
+[[file:~/dft-book/dft.org::*Atom%20projected%20density%20of%20states][Atom projected density of states]]
+
+- planewaves are delocalized
+
+- bonding is usually localized and involves orbitals
+
+-  In VASP, the one electron wave functions can be projected onto
+spherical harmonic orbitals
+
+- the projection on one atom may overlap with the projection on a neighboring atom
+
+- We use a cutoff radius to reduce the overlap
+
+- It is not obvious what the best cutoff radius is
+  - too small, it might not capture all of the electrons associated with the atom
+  - too large, and you overcount neighboring electrons
+
+- One might want to use different cutoff radii for different atoms
+
+- These quantities are not physically observable
+
+- But they qualitatively guide analysis
+
+
+- We are interested in properties of the $d$-band on Pd, such as the $d$-band center and $d$-band width. You must set the [[incar:RWIGS][RWIGS]] tag to get ADOS, and these are the Wigner-Seitz radii for each atom.
+
+- Moment analysis of distributions
+
+\begin{equation}
+\mu_n = \frac{\int_{-\infty}^\infty \epsilon^n \rho(\epsilon-\epsilon_o)d\epsilon}
+{\int_{-\infty}^\infty \rho(\epsilon-\epsilon_o)d\epsilon}
+\end{equation}
+
+- zeroth moment is just the total number of states
+- first moment is the average energy of distribution
+- The second moment is the mean squared width of the distribution
+
+See example: [[file:~/dft-book/dft.org::%20ados-pd-example][file:~/dft-book/dft.org:: ados-pd-example]]
+
+See also the effect of RWIGS on the results: [[file:~/dft-book/dft.org::*Effect%20of%20RWIGS%20on%20ADOS][Effect of RWIGS on ADOS]]

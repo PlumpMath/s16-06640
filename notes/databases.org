@@ -1,0 +1,845 @@
+#+TITLE: DATA
+
+- You have seen by now there is a need for better sharing of data
+
+- not all data sharing is equal
+
+- consider this supporting information file http://pubs.acs.org/doi/suppl/10.1021/cs200039t
+  - the data is there
+  - is it usable?
+  - you can see the computational parameters,
+  - You can copy and paste the data, but what next?
+
+--------------------------------Dacapo
+calculation from Ru-subs+S/Fe-layer/Ru111-subs+Fe-overlayer+S-relaxed-DOS.nc
+status = finished
+version = ifc ser v2-3-3
+Energy = -11855.504750 eV
+Unit Cell vectors (angstroms)
+       x        y       z   length
+a0 [ 5.4266  0.0000  0.0000] 5.43
+a1 [ 2.7133  4.6996  0.0000] 5.43
+a2 [ 0.0000  0.0000  18.8616] 18.86
+No stress calculated.
+Volume = 481.03 A^3
+Atom,  sym, position (in x,y,z),     tag, rmsForce and psp
+ 0    Ru  [  0.000  0.000  0.000]   4   0.722  Ru_us_gga.pseudo
+ 1    Ru  [  2.713  0.000  0.000]   4   0.717  Ru_us_gga.pseudo
+ 2    Ru  [  1.357  2.350  0.000]   4   0.717  Ru_us_gga.pseudo
+ 3    Ru  [  4.070  2.350  0.000]   4   0.680  Ru_us_gga.pseudo
+ 4    Ru  [  1.357  0.783  2.215]   3   0.836  Ru_us_gga.pseudo
+ 5    Ru  [  4.070  0.783  2.215]   3   0.638  Ru_us_gga.pseudo
+ 6    Ru  [  2.713  3.133  2.215]   3   0.638  Ru_us_gga.pseudo
+ 7    Ru  [  5.427  3.133  2.215]   3   0.640  Ru_us_gga.pseudo
+ 8    Ru  [  5.425  1.575  4.485]   2   0.013  Ru_us_gga.pseudo
+ 9    Ru  [  2.725  1.574  4.485]   2   0.009  Ru_us_gga.pseudo
+10    Ru  [  6.789  3.919  4.468]   2   0.008  Ru_us_gga.pseudo
+11    Ru  [  4.076  3.911  4.485]   2   0.013  Ru_us_gga.pseudo
+12    Fe  [  0.084  0.048  6.478]   1   0.022  Fe_us_gga_d2.1.8.pseudo
+13    Fe  [  2.638  0.048  6.478]   1   0.013  Fe_us_gga_d2.1.8.pseudo
+14    Fe  [  1.360  2.261  6.478]   1   0.013  Fe_us_gga_d2.1.8.pseudo
+15    Fe  [  4.072  2.351  6.442]   1   0.038  Fe_us_gga_d2.1.8.pseudo
+16     S  [  1.362  0.786  8.096]   0   0.002  S_tm.pseudo
+Details:
+XCfunctional        = PW91
+Planewavecutoff     = 340 eV
+Densitywavecutoff   = 340 eV
+FermiTemperature    = 0.100000 kT
+Number of electrons = 134.0
+Number of bands     = 91
+Kpoint grid         = 36 kpts
+Spin-polarized      = True
+Dipole correction   = False
+Symmetry            = False
+Constraints         = []
+--------------------------------
+
+- but there are hundreds of these, and it would be tedious at best to do this all by hand.
+
+* better way to provide data
+
+- now consider this more recent work http://pubs.acs.org/doi/suppl/10.1021/am4059149
+
+- This contains machine-readable data that can be extracted from the file
+
+- there are also examples of how to use the data.
+
+
+* How can you make your own datafiles?
+
+- You have already seen one way to do this via org files
+  - These files document how work was done, and what the results are
+
+- jasp provides some "pretty-printing" capability to see calculator results in a variety of formats.
+
+#+BEGIN_SRC python
+from jasp import *
+
+with jasp('Cu-bcc-2.75') as calc:
+    print calc
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/06-640-s14/course/exercises/Cu-bcc-2.75
+  converged: True
+  Energy = -3.587522 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 1.375  1.375 -1.375] 2.382
+  a1 [-1.375  1.375  1.375] 2.382
+  a2 [ 1.375 -1.375  1.375] 2.382
+  a,b,c,alpha,beta,gamma (deg): 2.382 2.382 2.382 109.5 109.5 109.5
+  Unit cell volume = 10.398 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+            -0.178 -0.178 -0.178 -0.000 -0.000 -0.000
+ Atom#  sym       position [x,y,z]         tag  rmsForce constraints
+   0    Cu  [0.000      0.000      0.000]   0   0.00      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 9
+         encut: 350.0
+        magmom: None
+          prec: Normal
+          kpts: [8, 8, 8]
+    reciprocal: False
+        setups: {}
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+Cu: potpaw_PBE/Cu/POTCAR (git-hash: a44c591415026f53deb16a99ca3f06b1e69be10b)
+#+end_example
+
+This format is for you to read. It is not readily usable without cutting and pasting (bad idea), and it is not that usable then anyway
+
+- Other formats are better for machines
+
+- I like json a lot
+  - It is easy to parse and very flexible
+
+- json is easy to get from a calculator
+
+* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Exporting%20data%20json,%20xml,%20python,%20sqlite][Exporting data json, xml, python, sqlite]]
+
+#+BEGIN_SRC python
+from jasp import *
+
+with jasp('Cu-bcc-2.75') as calc:
+    print calc.json
+#+END_SRC
+
+#+RESULTS:
+: {"incar": {"doc": "INCAR parameters", "nbands": 9, "prec": "Normal", "encut": 350.0}, "doc": "JSON representation of a VASP calculation.\n\nenergy is in eV\nforces are in eV/\\AA\nstress is in GPa (sxx, syy, szz,  syz, sxz, sxy)\nmagnetic moments are in Bohr-magneton\nThe density of states is reported with E_f at 0 eV.\nVolume is reported in \\AA^3\nCoordinates and cell parameters are reported in \\AA\n\nIf atom-projected dos are included they are in the form:\n{ados:{energy:data, {atom index: {orbital : dos}}}\n", "potcar": [["Cu", "potpaw_PBE/Cu/POTCAR", "a44c591415026f53deb16a99ca3f06b1e69be10b"]], "input": {"kpts": [8, 8, 8], "kpts_nintersections": null, "reciprocal": false, "setups": {}, "xc": "PBE", "txt": "-", "gamma": false}, "atoms": {"cell": [[1.375, 1.375, -1.375], [-1.375, 1.375, 1.375], [1.375, -1.375, 1.375]], "symbols": ["Cu"], "tags": [0], "pbc": [true, true, true], "positions": [[0.0, 0.0, 0.0]]}, "data": {"stress": [-0.1776553660261814, -0.1776553660261814, -0.1776553660261814, -0.0, -0.0, -0.0], "doc": "Data from the output of the calculation", "volume": 10.398437499999998, "total_energy": -3.587522, "forces": [[0.0, 0.0, 0.0]], "fermi_level": 4.5234}, "metadata": {"date.created": 1392819686.081219, "uuid": "1dc158a6-9971-11e3-906f-003048f5e49e", "date.created.ascii": "Wed Feb 19 09:21:26 2014", "user.username": "jkitchin", "atoms.resort": [0], "user.email": "jkitchin@andrew.cmu.edu", "user.fullname": "John Kitchin", "Cu.potential.git_hash": "a44c591415026f53deb16a99ca3f06b1e69be10b", "atoms.tags": [0], "Cu.potential.path": "potpaw_PBE/Cu/POTCAR"}}
+
+#+BEGIN_SRC python
+from jasp import *
+
+with jasp('Cu-bcc-2.75') as calc:
+    # be mindful of what the current working path is
+    with open('../Cu.json', 'w') as f:
+        f.write(calc.pretty_json)
+#+END_SRC
+
+#+RESULTS:
+
+Now, we can read that data in easily
+
+#+BEGIN_SRC python
+import json
+with open('Cu.json') as f:
+    data = json.loads(f.read())
+
+print data
+#+END_SRC
+
+#+RESULTS:
+: {u'incar': {u'doc': u'INCAR parameters', u'nbands': 9, u'prec': u'Normal', u'encut': 350.0}, u'doc': u'JSON representation of a VASP calculation.\n\nenergy is in eV\nforces are in eV/\\AA\nstress is in GPa (sxx, syy, szz,  syz, sxz, sxy)\nmagnetic moments are in Bohr-magneton\nThe density of states is reported with E_f at 0 eV.\nVolume is reported in \\AA^3\nCoordinates and cell parameters are reported in \\AA\n\nIf atom-projected dos are included they are in the form:\n{ados:{energy:data, {atom index: {orbital : dos}}}\n', u'atoms': {u'cell': [[1.375, 1.375, -1.375], [-1.375, 1.375, 1.375], [1.375, -1.375, 1.375]], u'positions': [[0.0, 0.0, 0.0]], u'symbols': [u'Cu'], u'pbc': [True, True, True], u'tags': [0]}, u'input': {u'kpts': [8, 8, 8], u'reciprocal': False, u'xc': u'PBE', u'kpts_nintersections': None, u'setups': {}, u'txt': u'-', u'gamma': False}, u'potcar': [[u'Cu', u'potpaw_PBE/Cu/POTCAR', u'a44c591415026f53deb16a99ca3f06b1e69be10b']], u'data': {u'stress': [-0.1776553660261814, -0.1776553660261814, -0.1776553660261814, -0.0, -0.0, -0.0], u'doc': u'Data from the output of the calculation', u'volume': 10.398437499999998, u'fermi_level': 4.5234, u'forces': [[0.0, 0.0, 0.0]], u'total_energy': -3.587522}, u'metadata': {u'date.created': 1392819686.081219, u'uuid': u'1dc158a6-9971-11e3-906f-003048f5e49e', u'date.created.ascii': u'Wed Feb 19 09:21:26 2014', u'Cu.potential.git_hash': u'a44c591415026f53deb16a99ca3f06b1e69be10b', u'atoms.resort': [0], u'user.email': u'jkitchin@andrew.cmu.edu', u'user.fullname': u'John Kitchin', u'user.username': u'jkitchin', u'atoms.tags': [0], u'Cu.potential.path': u'potpaw_PBE/Cu/POTCAR'}}
+
+- We routinely create json files containing large datasets and include them in Supporting information files.
+
+- some other formats include python:
+#+BEGIN_SRC python
+from jasp import *
+
+with jasp('Cu-bcc-2.75') as calc:
+    print calc.python
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+from numpy import array
+from ase import Atom, Atoms
+from jasp import *
+
+atoms = Atoms([Atom('Cu',[0.0, 0.0, 0.0]),
+               cell = [[1.375, 1.375, -1.375],
+                       [-1.375, 1.375, 1.375],
+                       [1.375, -1.375, 1.375]])
+
+with jasp('Cu-bcc-2.75',
+          nbands = 9,
+          encut = 350.0,
+          prec = 'Normal',
+          kpts = [8, 8, 8],
+          reciprocal = False,
+          setups = {},
+          xc = 'PBE',
+          txt = '-',
+          gamma = False,
+          atoms=atoms) as calc:
+    # your code here
+
+#+end_example
+
+
+- as a dictionary (looks a little like json right?)
+#+BEGIN_SRC python
+from jasp import *
+
+with jasp('Cu-bcc-2.75') as calc:
+    print calc.dict
+#+END_SRC
+
+#+RESULTS:
+: {'incar': {'doc': 'INCAR parameters', 'nbands': 9, 'prec': 'Normal', 'encut': 350.0}, 'doc': 'JSON representation of a VASP calculation.\n\nenergy is in eV\nforces are in eV/\\AA\nstress is in GPa (sxx, syy, szz,  syz, sxz, sxy)\nmagnetic moments are in Bohr-magneton\nThe density of states is reported with E_f at 0 eV.\nVolume is reported in \\AA^3\nCoordinates and cell parameters are reported in \\AA\n\nIf atom-projected dos are included they are in the form:\n{ados:{energy:data, {atom index: {orbital : dos}}}\n', 'potcar': [('Cu', 'potpaw_PBE/Cu/POTCAR', 'a44c591415026f53deb16a99ca3f06b1e69be10b')], 'input': {'kpts': [8, 8, 8], 'kpts_nintersections': None, 'reciprocal': False, 'setups': {}, 'xc': 'PBE', 'txt': '-', 'gamma': False}, 'atoms': {'cell': [[1.375, 1.375, -1.375], [-1.375, 1.375, 1.375], [1.375, -1.375, 1.375]], 'symbols': ['Cu'], 'tags': [0], 'pbc': [True, True, True], 'positions': [[0.0, 0.0, 0.0]]}, 'data': {'stress': [-0.1776553660261814, -0.1776553660261814, -0.1776553660261814, -0.0, -0.0, -0.0], 'doc': 'Data from the output of the calculation', 'volume': 10.398437499999998, 'total_energy': -3.587522, 'forces': [[0.0, 0.0, 0.0]], 'fermi_level': 4.5234}, 'metadata': {u'date.created': 1392819686.081219, u'uuid': u'1dc158a6-9971-11e3-906f-003048f5e49e', u'date.created.ascii': u'Wed Feb 19 09:21:26 2014', u'user.username': u'jkitchin', u'atoms.resort': [0], u'user.email': u'jkitchin@andrew.cmu.edu', u'user.fullname': u'John Kitchin', u'Cu.potential.git_hash': u'a44c591415026f53deb16a99ca3f06b1e69be10b', u'atoms.tags': [0], u'Cu.potential.path': u'potpaw_PBE/Cu/POTCAR'}}
+
+
+
+- xml is not currently well-supported
+
+* Actual databases
+
+- Sometimes you may want more than simply structured data. You may want flexible searching.
+- That is what databases are for
+
+- ASE has a database module
+
+- Here we add all directories that contain valid vasp calculations to a database. We use for now the json format.
+
+#+BEGIN_SRC python
+import os
+from jasp import *
+from ase.db import connect
+
+if os.path.exists('vaspdb.json'): os.unlink('vaspdb.json')
+c = connect('vaspdb.json')
+
+def vasp_p(directory):
+    'returns True if a finished OUTCAR file exists in the current directory, else False'
+    outcar = os.path.join(directory, 'OUTCAR')
+    if os.path.exists(outcar):
+        with open(outcar, 'r') as f:
+            contents = f.read()
+            if 'General timing and accounting informations for this job:' in contents:
+                return True
+    return False
+
+count = 0
+for root, dirs, files in os.walk('/home-research/jkitchin/06-640-s14/course/dft-book'):
+    for d in dirs:
+        # compute absolute path to each directory in the current root
+        absd = os.path.join(root, d)
+        if (('test' not in absd)
+            and('archive' not in absd)
+            and vasp_p(absd)):
+            relpath = os.path.relpath(absd, '/home-research/jkitchin/06-640-s14/course/dft-book')
+
+            # we found a vasp directory, so we can do something in it.
+            # here we get the elapsed time from the calculation
+            try:
+                with jasp(absd) as calc:
+                    atoms = calc.get_atoms()
+                    calc.results['energy'] = atoms.get_potential_energy()
+                    calc.results['forces'] = atoms.get_forces()
+                # it is important that this line not be inside the jasp
+                # context-manager, because c.write writes in the local
+                # dir.
+                print c.write(atoms, relpath.split('/'))
+            except:
+                import sys; print sys.exc_info()
+                print 'caught exception in ', absd, '\n'
+            count += 1
+
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x18f49200>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/molecules/nh3-neb/01
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x18f492d8>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/molecules/nh3-neb/02
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x18f49ab8>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/molecules/nh3-neb/03
+
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+(<type 'exceptions.AttributeError'>, AttributeError("FixScaled instance has no attribute 'todict'",), <traceback object at 0x18b76f38>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-slab-O-bridge-vib
+
+(<type 'exceptions.AttributeError'>, AttributeError("FixScaled instance has no attribute 'todict'",), <traceback object at 0x18e11998>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-slab-O-bridge-xy-constrained
+
+113
+114
+115
+116
+117
+118
+119
+120
+121
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x19041dd0>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-cineb/01
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x190414d0>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-cineb/02
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x19041998>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-cineb/03
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x19041e60>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-neb/01
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x19041e18>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-neb/02
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x19041ea8>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-neb/03
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x19041a28>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-neb/Pt-O-fcc-hcp-neb.bak/01
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x19041dd0>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-neb/Pt-O-fcc-hcp-neb.bak/02
+
+(<type 'exceptions.AttributeError'>, AttributeError("'NoneType' object has no attribute 'copy'",), <traceback object at 0x19041638>)
+caught exception in  /home-research/jkitchin/06-640-s14/course/dft-book/surfaces/Pt-O-fcc-hcp-neb/Pt-O-fcc-hcp-neb.bak/03
+
+#+end_example
+
+
+Ok, now that we have a database, let us see what we can do with it. Let us see one entry.
+
+#+BEGIN_SRC python
+from ase.db import connect
+c = connect('vaspdb.json')
+
+g = c.select()  # g is a generator
+print g.next()
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+{u'forces': array([[ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.005572]]), u'tags': array([3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 0]), u'energy': -73.663924, u'calculator_parameters': {u'incar': {u'doc': u'INCAR parameters', u'encut': 350.0, u'ibrion': 2, u'nbands': 75, u'prec': u'Normal', u'nsw': 25}, u'doc': u'JSON representation of a VASP calculation.\n\nenergy is in eV\nforces are in eV/\\AA\nstress is in GPa (sxx, syy, szz,  syz, sxz, sxy)\nmagnetic moments are in Bohr-magneton\nThe density of states is reported with E_f at 0 eV.\nVolume is reported in \\AA^3\nCoordinates and cell parameters are reported in \\AA\n\nIf atom-projected dos are included they are in the form:\n{ados:{energy:data, {atom index: {orbital : dos}}}\n', u'potcar': [[u'O', u'potpaw_PBE/O/POTCAR', u'9a0489b46120b0cad515d935f44b5fbe3a3b1dfa'], [u'Pt', u'potpaw_PBE/Pt/POTCAR', u'42f3d00092bf953980bbb2434c84f8798b1b07fb']], u'input': {u'kpts': array([4, 4, 1]), u'reciprocal': False, u'xc': u'PBE', u'kpts_nintersections': None, u'setups': {}, u'txt': u'-', u'gamma': False}, u'atoms': {u'cell': array([[  5.54371716,   0.        ,   0.        ],
+       [  2.77185858,   4.8009999 ,   0.        ],
+       [  0.        ,   0.        ,  24.52642611]]), u'symbols': [u'Pt', u'Pt', u'Pt', u'Pt', u'Pt', u'Pt', u'Pt', u'Pt', u'Pt', u'Pt', u'Pt', u'Pt', u'O'], u'tags': array([3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 0]), u'pbc': array([ True,  True,  True], dtype=bool), u'positions': array([[  1.38592929,   0.80016665,  10.        ],
+       [  4.15778787,   0.80016665,  10.        ],
+       [  2.77185858,   3.2006666 ,  10.        ],
+       [  5.54371716,   3.2006666 ,  10.        ],
+       [  5.54371716,   1.6003333 ,  12.26321306],
+       [  2.77185858,   1.6003333 ,  12.26321306],
+       [  6.92964646,   4.00083325,  12.26321306],
+       [  4.15778787,   4.00083325,  12.26321306],
+       [  0.        ,   0.        ,  14.52642611],
+       [  2.77185858,   0.        ,  14.52642611],
+       [  1.38592929,   2.40049995,  14.52642611],
+       [  4.15778787,   2.40049995,  14.52642611],
+       [  1.38592929,   0.80016665,  15.81137817]])}, u'data': {u'stress': array([ 0.00720754,  0.00720754, -0.01295319, -0.        , -0.        , -0.        ]), u'doc': u'Data from the output of the calculation', u'volume': 652.780286588528, u'total_energy': -73.663924, u'forces': array([[ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.      ],
+       [ 0.      ,  0.      ,  0.005572]]), u'fermi_level': -1.9607}, u'metadata': {u'Pt.potential.git_hash': u'42f3d00092bf953980bbb2434c84f8798b1b07fb', u'date.created': 1346378534.269343, u'uuid': u'beeba664-b046-11e3-8b19-003048f5e49e', u'date.created.ascii': u'Thu Aug 30 22:02:14 2012', u'user.username': u'jkitchin', u'atoms.resort': array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  0]), u'Pt.potential.path': u'potpaw_PBE/Pt/POTCAR', u'user.fullname': u'John Kitchin', u'user.email': u'jkitchin@andrew.cmu.edu', u'O.potential.git_hash': u'9a0489b46120b0cad515d935f44b5fbe3a3b1dfa', u'atoms.constraints': u"(lp0\n(iase.constraints\nFixAtoms\np1\n(dp2\nS'index'\np3\ncnumpy.core.multiarray\n_reconstruct\np4\n(cnumpy\nndarray\np5\n(I0\ntp6\nS'b'\np7\ntp8\nRp9\n(I1\n(I13\ntp10\ncnumpy\ndtype\np11\n(S'b1'\np12\nI0\nI1\ntp13\nRp14\n(I3\nS'|'\np15\nNNNI-1\nI-1\nI0\ntp16\nbI00\nS'\\x01\\x01\\x01\\x01\\x01\\x01\\x01\\x01\\x01\\x01\\x01\\x01\\x00'\np17\ntp18\nbsba.", u'atoms.tags': array([3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 0]), u'O.potential.path': u'potpaw_PBE/O/POTCAR', u'cloned on': u'Thu Mar 20 11:46:04 2014'}}, u'user': u'jkitchin', u'mtime': 14.277134630074753, u'keywords': [u'Pt-slab-O-fcc-vib-ibrion=6'], 'id': 1, u'ctime': 14.277134630074753, u'positions': array([[  1.38592929,   0.80016665,  10.        ],
+       [  4.15778787,   0.80016665,  10.        ],
+       [  2.77185858,   3.2006666 ,  10.        ],
+       [  5.54371716,   3.2006666 ,  10.        ],
+       [  5.54371716,   1.6003333 ,  12.26321306],
+       [  2.77185858,   1.6003333 ,  12.26321306],
+       [  6.92964646,   4.00083325,  12.26321306],
+       [  4.15778787,   4.00083325,  12.26321306],
+       [  0.        ,   0.        ,  14.52642611],
+       [  2.77185858,   0.        ,  14.52642611],
+       [  1.38592929,   2.40049995,  14.52642611],
+       [  4.15778787,   2.40049995,  14.52642611],
+       [  1.38592929,   0.80016665,  15.81137817]]), u'cell': array([[  5.54371716,   0.        ,   0.        ],
+       [  2.77185858,   4.8009999 ,   0.        ],
+       [  0.        ,   0.        ,  24.52642611]]), u'pbc': array([ True,  True,  True], dtype=bool), u'constraints': [{u'__name__': u'ase.constraints.FixAtoms', u'mask': [True, True, True, True, True, True, True, True, True, True, True, True, False]}], u'calculator': u'vasp', u'unique_id': u'4890a7a1a2627841b2e74537c03944c3', u'numbers': array([78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78,  8])}
+#+end_example
+
+That in its self does not look that interesting. We can actually use the database to search for specific results.
+
+I stored the path components as keywords, so we can search for results by the name we saved the results in.
+
+#+BEGIN_SRC python
+from ase.db import connect
+c = connect('vaspdb.json')
+
+g = c.select(['molecules','simple-co'])  # g is a generator
+data = g.next()
+
+print data
+
+print data['energy']
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+{u'ctime': 14.277137137330408, u'energy': -14.687906, u'tags': array([0, 0]), u'positions': array([[ 0. ,  0. ,  0. ],
+       [ 1.2,  0. ,  0. ]]), u'calculator': u'vasp', u'calculator_parameters': {u'incar': {u'doc': u'INCAR parameters', u'encut': 350.0, u'nbands': 6, u'prec': u'Normal', u'ismear': 1, u'sigma': 0.01}, u'doc': u'JSON representation of a VASP calculation.\n\nenergy is in eV\nforces are in eV/\\AA\nstress is in GPa (sxx, syy, szz,  syz, sxz, sxy)\nmagnetic moments are in Bohr-magneton\nThe density of states is reported with E_f at 0 eV.\nVolume is reported in \\AA^3\nCoordinates and cell parameters are reported in \\AA\n\nIf atom-projected dos are included they are in the form:\n{ados:{energy:data, {atom index: {orbital : dos}}}\n', u'potcar': [[u'C', u'potpaw_PBE/C/POTCAR', u'2272d6745da89a3d872983542cef1d18750fc952'], [u'O', u'potpaw_PBE/O/POTCAR', u'9a0489b46120b0cad515d935f44b5fbe3a3b1dfa']], u'input': {u'kpts': array([1, 1, 1]), u'reciprocal': False, u'xc': u'PBE', u'kpts_nintersections': None, u'setups': {}, u'txt': u'-', u'gamma': False}, u'atoms': {u'cell': array([[ 6.,  0.,  0.],
+       [ 0.,  6.,  0.],
+       [ 0.,  0.,  6.]]), u'symbols': [u'C', u'O'], u'tags': array([0, 0]), u'pbc': array([ True,  True,  True], dtype=bool), u'positions': array([[ 0. ,  0. ,  0. ],
+       [ 1.2,  0. ,  0. ]])}, u'data': {u'stress': array([ 0.04152352,  0.01099997,  0.01099997, -0.        , -0.        , -0.        ]), u'doc': u'Data from the output of the calculation', u'volume': 216.00000000000006, u'total_energy': -14.687906, u'forces': array([[ 5.095488,  0.      ,  0.      ],
+       [-5.095488,  0.      ,  0.      ]]), u'fermi_level': -8.4709}, u'metadata': {u'date.created': 1349921035.468043, u'C.potential.git_hash': u'2272d6745da89a3d872983542cef1d18750fc952', u'uuid': u'e9719fb2-1347-11e2-8ed6-003048f5e49e', u'date.created.ascii': u'Wed Oct 10 22:03:55 2012', u'user.username': u'jkitchin', u'atoms.resort': array([0, 1]), u'user.email': u'jkitchin@andrew.cmu.edu', u'user.fullname': u'John Kitchin', u'O.potential.git_hash': u'9a0489b46120b0cad515d935f44b5fbe3a3b1dfa', u'atoms.tags': array([0, 0]), u'O.potential.path': u'potpaw_PBE/O/POTCAR', u'C.potential.path': u'potpaw_PBE/C/POTCAR'}}, u'cell': array([[ 6.,  0.,  0.],
+       [ 0.,  6.,  0.],
+       [ 0.,  0.,  6.]]), u'numbers': array([6, 8]), u'pbc': array([ True,  True,  True], dtype=bool), u'mtime': 14.277137137330408, u'keywords': [u'molecules', u'simple-co'], u'forces': array([[ 5.095488,  0.      ,  0.      ],
+       [-5.095488,  0.      ,  0.      ]]), 'id': 327, u'unique_id': u'd3eaa9cd3031dd6e707378c42422db75', u'user': u'jkitchin'}
+-14.687906
+#+end_example
+
+- You can look up almost every calculation in dft-book this way.
+
+- Some calculations like neb calculations are not in there.
+
+- We can search by composition. let us find an NH3 calculation
+#+BEGIN_SRC python
+from ase.db import connect
+c = connect('vaspdb.json')
+
+g = c.select(N=1, H=3)  # g is a generator
+data = g.next()
+
+print data
+
+print data['energy']
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+{u'forces': array([[ 0.      ,  0.      ,  0.      ],
+       [ 0.      , -0.016338,  0.012329],
+       [-0.013983,  0.007685,  0.012276],
+       [ 0.013983,  0.007685,  0.012276]]), u'tags': array([0, 0, 0, 0]), u'energy': -19.442059, u'calculator_parameters': {u'incar': {u'doc': u'INCAR parameters', u'encut': 350.0, u'ibrion': 1, u'nbands': 8, u'prec': u'Normal', u'nsw': 10}, u'doc': u'JSON representation of a VASP calculation.\n\nenergy is in eV\nforces are in eV/\\AA\nstress is in GPa (sxx, syy, szz,  syz, sxz, sxy)\nmagnetic moments are in Bohr-magneton\nThe density of states is reported with E_f at 0 eV.\nVolume is reported in \\AA^3\nCoordinates and cell parameters are reported in \\AA\n\nIf atom-projected dos are included they are in the form:\n{ados:{energy:data, {atom index: {orbital : dos}}}\n', u'potcar': [[u'H', u'potpaw_PBE/H/POTCAR', u'fbc0773b08b32f553234b0b50cc6ad6f5085c816'], [u'N', u'potpaw_PBE/N/POTCAR', u'2103b91d5e0797b30a43f8be011c6aa862eb2d80']], u'input': {u'kpts': array([1, 1, 1]), u'reciprocal': False, u'xc': u'PBE', u'kpts_nintersections': None, u'setups': {}, u'txt': u'-', u'gamma': False}, u'atoms': {u'cell': array([[ 10.,   0.,   0.],
+       [  0.,  10.,   0.],
+       [  0.,   0.,  10.]]), u'symbols': [u'N', u'H', u'H', u'H'], u'tags': array([0, 0, 0, 0]), u'pbc': array([ True,  True,  True], dtype=bool), u'positions': array([[ 5.        ,  5.        ,  5.        ],
+       [ 5.        ,  5.94923698,  5.39276853],
+       [ 5.82198001,  4.5253716 ,  5.39273168],
+       [ 4.17801999,  4.5253716 ,  5.39273168]])}, u'data': {u'stress': array([  1.85825248e-03,   1.86628530e-03,   1.93113455e-03,
+         1.49172002e-06,  -0.00000000e+00,  -0.00000000e+00]), u'doc': u'Data from the output of the calculation', u'volume': 1000.0000000000007, u'total_energy': -19.442059, u'forces': array([[ 0.      ,  0.      ,  0.      ],
+       [ 0.      , -0.016338,  0.012329],
+       [-0.013983,  0.007685,  0.012276],
+       [ 0.013983,  0.007685,  0.012276]]), u'fermi_level': -5.8969}, u'metadata': {u'N.potential.path': u'potpaw_PBE/N/POTCAR', u'date.created': 1357920415.081362, u'uuid': u'eb3f1cfc-5c08-11e2-b377-003048f5e49e', u'date.created.ascii': u'Fri Jan 11 11:06:55 2013', u'user.username': u'jkitchin', u'atoms.resort': array([3, 0, 1, 2]), u'user.email': u'jkitchin@andrew.cmu.edu', u'user.fullname': u'John Kitchin', u'N.potential.git_hash': u'2103b91d5e0797b30a43f8be011c6aa862eb2d80', u'atoms.constraints': u"(lp0\n(iase.constraints\nFixAtoms\np1\n(dp2\nS'index'\np3\ncnumpy.core.multiarray\n_reconstruct\np4\n(cnumpy\nndarray\np5\n(I0\ntp6\nS'b'\np7\ntp8\nRp9\n(I1\n(I1\ntp10\ncnumpy\ndtype\np11\n(S'i8'\np12\nI0\nI1\ntp13\nRp14\n(I3\nS'<'\np15\nNNNI-1\nI-1\nI0\ntp16\nbI00\nS'\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00'\np17\ntp18\nbsba.", u'H.potential.path': u'potpaw_PBE/H/POTCAR', u'atoms.tags': array([0, 0, 0, 0]), u'H.potential.git_hash': u'fbc0773b08b32f553234b0b50cc6ad6f5085c816'}}, u'user': u'jkitchin', u'mtime': 14.277137113271449, u'keywords': [u'molecules', u'nh3-final'], 'id': 325, u'ctime': 14.277137113271449, u'positions': array([[ 5.        ,  5.        ,  5.        ],
+       [ 5.        ,  5.94923698,  5.39276853],
+       [ 5.82198001,  4.5253716 ,  5.39273168],
+       [ 4.17801999,  4.5253716 ,  5.39273168]]), u'cell': array([[ 10.,   0.,   0.],
+       [  0.,  10.,   0.],
+       [  0.,   0.,  10.]]), u'pbc': array([ True,  True,  True], dtype=bool), u'constraints': [{u'indices': [0], u'__name__': u'ase.constraints.FixAtoms'}], u'calculator': u'vasp', u'unique_id': u'dbe1618189c1d96a39fbfd9d4419d66d', u'numbers': array([7, 1, 1, 1])}
+-19.442059
+#+end_example
+
+- There is also a commandline utility.
+
+#+BEGIN_SRC sh
+ase-db vaspdb.json N=1 H=3
+#+END_SRC
+
+#+RESULTS:
+:  id|age |user    |formula|calc| energy| fmax|pbc|    size|keywords             |  mass|fixed
+: 325|110m|jkitchin|H3N    |vasp|-19.442|0.020|111|1000.000|molecules,nh3-final  |17.031|    1
+: 326|110m|jkitchin|H3N    |vasp|-19.442|0.020|111|1000.000|molecules,nh3-initial|17.031|    1
+
+
+The order of the keywords is not important.
+
+#+BEGIN_SRC sh
+ase-db vaspdb.json molecules nh3-initial
+
+ase-db vaspdb.json  nh3-initial molecules
+#+END_SRC
+
+#+RESULTS:
+:  id|age |user    |formula|calc| energy| fmax|pbc|    size|keywords             |  mass|fixed
+: 326|111m|jkitchin|H3N    |vasp|-19.442|0.020|111|1000.000|molecules,nh3-initial|17.031|    1
+:  id|age |user    |formula|calc| energy| fmax|pbc|    size|keywords             |  mass|fixed
+: 326|111m|jkitchin|H3N    |vasp|-19.442|0.020|111|1000.000|molecules,nh3-initial|17.031|    1
+
+- this file is simple json, but there is a database module that provides some searchability.

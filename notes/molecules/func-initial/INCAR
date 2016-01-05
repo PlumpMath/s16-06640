@@ -1,0 +1,4 @@
+INCAR created by Atomic Simulation Environment
+ PREC = Normal
+ GGA = PS
+ IBRION = -1

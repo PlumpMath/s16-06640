@@ -1,0 +1,65 @@
+#+STARTUP: showall
+
+* This is for practice. Type your name below.
+
+Put your cursor on the headline, and press Tab a few times.
+
+Press S-Tab a few times.
+
+* Cutting and pasting and undoing
+Highlight this text then press C-w to cut the text
+
+Put your cursor here ->  and press C-y to paste the text
+
+Highlight this new text, and press M-w to copy the text
+
+Put your cursor here -> and press C-y to paste the text
+
+Type C-x u to undo the last thing.
+
+* window management
+
+Type C-x 2 to split the window on top and bottom.
+
+Type C-x o to switch to the other window.
+
+Type C-x 1 to make the current window into the only window
+
+Type C-x 3 to split the window side-by-side
+
+Type C-x 1 to make the current window into the only window
+
+Remember this: after you run the next command, which opens the dft pages, type C-x b, then press return to switch back to this buffer.
+
+Type M-x dft to open the course page in the window
+
+* save this file by a new name
+Save this file now. Type C-x C-s to save your assignment.
+
+Type C-x C-w and enter a new filename, and press enter. You are now in your new file.
+
+Enter some new text here:
+
+Save the file again.
+
+* open the old file file
+
+Type C-x C-f, and in the minibuffer (bottom of screen) enter beginner.org. Press Enter.
+
+you should be viewing your old assignment.
+
+* Getting some help
+
+Type C-h k   then press a key sequence like C-x C-w. This will give you a help screen. Read it. Type C-x 1 to get rid of it.
+
+Type C-h f, then enter dft.
+
+* Saving and exiting
+
+Type C-x C-s to save your assignment.
+
+Type C-x k then press enter to close this buffer.
+
+Type C-x C-c to exit emacs.
+
+Celebrate. You have done some things in emacs now!

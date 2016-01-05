@@ -1,0 +1,168 @@
+Someone asked in class how sensitive the result of geometry optimization can be to initial guesses. Here I illustrate some examples of sensitivity. Let us consider an \ce{H_2O} molecule. We will make a naive guess that the molecule is linear. \ce{CO_2} is linear, and if you do not know much about chemistry, you might guess this.
+
+Here is the first example. We create a linear molecule and calculate the forces.
+
+#+BEGIN_SRC python
+from jasp import *
+from ase import Atom, Atoms
+
+atoms = Atoms([Atom('H', [0, 0, 0]),
+               Atom('O', [0.96, 0, 0]),
+               Atom('H', [2*0.96, 0, 0])],
+              cell=(8, 8, 8))
+atoms.center()
+
+with jasp('h2o-linear-static',
+          xc='PBE',
+          atoms=atoms) as calc:
+    print atoms.get_forces()
+#+END_SRC
+
+#+RESULTS:
+: [[ 0.914  0.     0.   ]
+:  [ 0.     0.     0.   ]
+:  [-0.914  0.     0.   ]]
+
+Note that the forces /only point along the x-axis/. That is because this molecule has an axis of symmetry. It also means that any optimization algorithm that is based on forces will only move the atoms in the x-direction. Let us try relaxing the molecule.
+
+#+BEGIN_SRC python
+from jasp import *
+from ase import Atom, Atoms
+
+atoms = Atoms([Atom('H', [0, 0, 0]),
+               Atom('O', [0.96, 0, 0]),
+               Atom('H', [2*0.96, 0, 0])],
+              cell=(8, 8, 8))
+atoms.center()
+
+with jasp('h2o-linear-relax',
+          xc='PBE',
+          ibrion=2, nsw=10, ediffg=-0.05,
+          atoms=atoms) as calc:
+    print atoms.get_forces()
+    print calc
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+[[-0.001  0.     0.   ]
+ [ 0.     0.     0.   ]
+ [ 0.001  0.     0.   ]]
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/06-640-s14/course/exercises/h2o-linear-relax
+  converged: True
+  Energy = -12.949810 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 8.000  0.000  0.000] 8.000
+  a1 [ 0.000  8.000  0.000] 8.000
+  a2 [ 0.000  0.000  8.000] 8.000
+  a,b,c,alpha,beta,gamma (deg): 8.000 8.000 8.000 90.0 90.0 90.0
+  Unit cell volume = 512.000 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+            -2.040 -2.669 -2.669  0.000  0.000  0.000
+ Atom#  sym       position [x,y,z]         tag  rmsForce constraints
+   0    H   [3.057      4.000      4.000]   0   0.00      T T T
+   1    O   [4.000      4.000      4.000]   0   0.00      T T T
+   2    H   [4.943      4.000      4.000]   0   0.00      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 8
+           nsw: 10
+        ibrion: 2
+        ediffg: -0.05
+        magmom: None
+          prec: Normal
+          kpts: [1, 1, 1]
+    reciprocal: False
+        setups: {}
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+H: potpaw_PBE/H/POTCAR (git-hash: fbc0773b08b32f553234b0b50cc6ad6f5085c816)
+O: potpaw_PBE/O/POTCAR (git-hash: 9a0489b46120b0cad515d935f44b5fbe3a3b1dfa)
+#+end_example
+
+You can see that the molecule is actually still linear after optimization. To avoid this, we must break the symmetry. A simple way to do that is the pydoc:ase.Atoms.rattle function. Let us try that out.
+
+#+BEGIN_SRC python
+from jasp import *
+from ase import Atom, Atoms
+
+atoms = Atoms([Atom('H', [0, 0, 0]),
+               Atom('O', [0.96, 0, 0]),
+               Atom('H', [2*0.96, 0, 0])],
+              cell=(8, 8, 8))
+atoms.center()
+atoms.rattle(0.01)
+
+from ase.io import write
+
+with jasp('h2o-linear-relax-rattled',
+          xc='PBE',
+          ibrion=2, nsw=10, ediffg=-0.05,
+          atoms=atoms) as calc:
+    print atoms.get_forces()
+    print calc
+
+
+    write('h2o-linear-relax-rattled.png', atoms)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+[[ 0.005 -0.007 -0.002]
+ [ 0.017  0.02   0.006]
+ [-0.022 -0.013 -0.005]]
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/06-640-s14/course/exercises/h2o-linear-relax-rattled
+  converged: True
+  Energy = -14.220635 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 8.000  0.000  0.000] 8.000
+  a1 [ 0.000  8.000  0.000] 8.000
+  a2 [ 0.000  0.000  8.000] 8.000
+  a,b,c,alpha,beta,gamma (deg): 8.000 8.000 8.000 90.0 90.0 90.0
+  Unit cell volume = 512.000 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+            -2.236 -2.541 -2.576  0.131 -0.044 -0.071
+ Atom#  sym       position [x,y,z]         tag  rmsForce constraints
+   0    H   [3.246      4.179      4.110]   0   0.01      T T T
+   1    O   [4.007      3.657      3.800]   0   0.03      T T T
+   2    H   [4.783      4.168      4.090]   0   0.03      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 8
+           nsw: 10
+        ibrion: 2
+        ediffg: -0.05
+        magmom: None
+          prec: Normal
+          kpts: [1, 1, 1]
+    reciprocal: False
+        setups: {}
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+H: potpaw_PBE/H/POTCAR (git-hash: fbc0773b08b32f553234b0b50cc6ad6f5085c816)
+O: potpaw_PBE/O/POTCAR (git-hash: 9a0489b46120b0cad515d935f44b5fbe3a3b1dfa)
+#+end_example
+
+You can see here that the atoms are now bent, as expected.
+
+[[./h2o-linear-relax-rattled/h2o-linear-relax-rattled.png]]
+
+Note I had to run the code above 3 times because 10 steps was not enough to finish the optimization. It took somewhere between 20-30 steps to finish.

@@ -1,0 +1,35 @@
+* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Atomistic%20thermodynamics][Atomistic thermodynamics]]
+
+- So far we have only considered the total energy in our thermodynamic calculations
+
+- The total energy is like the internal energy \U\ at absolute 0 K (but at what pressure?)
+
+  - In the ideal gas limit the internal energy is independent of pressure (no interactions between molecules)
+
+- We may want to consider the effect of pressure and temperature
+
+- For example, we know that oxides decompose above some temperature
+
+- qualitatively that means the reaction energy for
+
+M + O_2 \rightarrow MO_2
+
+becomes endothermic for some T
+
+- Recall:
+
+H = U + pV
+G = H - TS
+
+- We need some ways to estimate these
+
+- First, let us examine how significant the effects of P and T might be on the energy of an O_2 molecule
+
+- We look at the Shomate polynomials that approximate entropy and enthalpy as a function of temperature first.
+
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::delta%20muO2%20shomate][file:~/06-640-s14/course/dft-book/dft.org::delta muO2 shomate]]
+
+** [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Bulk%20phase%20stability%20of%20oxides][Bulk phase stability of oxides]]
+- Let us apply the ideas to the formation energies and bulk stability of Cu and Ag oxide.
+
+$2Cu + 1/2 O_2 \rightarrow Cu_2O$

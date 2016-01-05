@@ -1,0 +1,224 @@
+* [[file:~/dft-book/dft.org::*Vibrational%20frequencies][Vibrational frequencies]]
+
+- We can use DFT to estimate vibrational frequencies of a bond
+
+- We will consider a simple model of atoms as masses connected by harmonic (Hookean) springs
+
+- Let us consider a simple molecule like CO
+
+  - There is one spring (bond)
+
+
+- The vibrational frequency is $\nu = \frac{1}{2\pi}\sqrt{k/\mu}$
+
+
+  -  $\frac{1}{\mu} = \frac{1}{m_C} + \frac{1}{m_O}$
+  -  $k$ is the spring constant.
+
+- We will compute the value of $k$ from DFT calculations as follows:
+
+  - $k = \frac{\partial^2E}{\partial x^2}$ at the equilibrium bond length.
+
+- That is the curvature of $E$ vs. bond length
+
+- We have already done the calculations for that here: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Manual%20determination%20of%20a%20bond%20length][Manual determination of a bond length]]
+
+- We determine $k$ by fitting an equation to that data, and evaluating the second derivative at the minimum.
+
+** Sidebar on units
+- By default mod:ase uses atomic units (eV, amu, angstrom, femtosecond, ...)
+  - All units are implied
+  - *NO* unit algebra is enforced
+
+- mod:ase.units provides some conversion factors that are helpful
+
+- to convert a quantity to some other kind of unit, you /divide/ by that unit.
+
+#+BEGIN_SRC python
+from ase.units import *
+from ase.data import atomic_masses
+C_mass = atomic_masses[6]
+
+print 'C_mass = {0} amu or {1} kg'.format(C_mass,
+                                          C_mass / kg)
+#+END_SRC
+
+#+RESULTS:
+: C_mass = 12.011 amu or 1.99447483422e-26 kg
+
+#+BEGIN_SRC python
+from ase.units import *
+
+force = 0.05 # eV/Angstrom
+print 'f = {0} N'.format(force / (kg * m / s**2))
+#+END_SRC
+
+#+RESULTS:
+: f = 8.01088665e-11 N
+
+- As you can see, atomic units provide a more natural scale of numbers than SI units.
+
+** Back to vibrations
+
+1. We get the data (energy vs. bond length)
+2. perform the fit
+3. find the minimum
+4. and evaluate the second derivative at the minimum to get $k$ (units: eV/angstrom**2)
+
+Then, we do some unit conversions to get the vibrational frequency they way we want it.
+
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Manual%20calculation%20of%20vibrational%20frequency][Manual calculation of vibrational frequency]]
+
+Typical units include:
+1. Hz (1/s)
+2. wavenumbers (cm^{-1})  $\nu / c$
+3. meV
+
+- Vibrations affect the energy of a molecule
+- Even at absolute zero, the molecule is vibrating
+- The vibrations store potential and kinetic energy
+- This is commonly called zero-point energy (ZPE)
+
+- $E_{ZPE} = \frac{1}{2} h \nu$ for a single mode, and $h$ is Planck's constant (4.135667516e-15 eV/s).
+
+#+BEGIN_SRC python :results output :exports both
+
+c = 3e10 # speed of light cm/s
+h = 4.135667516e-15 # eV/s
+
+nu = 2143.6076625*c # 1/s
+
+E_zpe = 0.5*h*nu
+
+print 'E_ZPE = {0:1.3f} eV'.format(E_zpe)
+#+END_SRC
+
+#+RESULTS:
+: E_ZPE = 0.133 eV
+
+- That is not totally negligible
+
+** More than one vibrational degree of freedom
+
+- A molecule has 3N - 6 degrees of vibrational freedom
+   - unless it is linear, then it has 3N - 5 degrees of freedom
+
+- Force constants have direction
+  e.g. f_x, f_y, f_z
+
+- Consider a molecule of N atoms, with $x_\alpha, y_\alpha,$
+and $z_\alpha$ being the the coordinates of the $\alpha^{th}$ atom
+
+- To find the force constants connecting the atoms, one must displace each atom in the x, y, z directions and estimate the curvature in those directions
+
+- If one assumes each spring is harmonic, the frequencies are found by
+
+  - finding the eigenvalues and eigenvectors of the matrix of $f_{ij}$ elements.
+
+  - The eigenvectors are the so-called ``normal coordinates''.
+
+  - These correspond to the motions of the atoms with respect to each other in mass-weighted cartesian coordinates.
+
+- It is too tedious to do this by hand
+
+- VASP has automated this process for you just have to specify additional keywords
+
+- incar:IBRION
+   - IBRION=5, all atoms that are not constrained are displaced
+   - IBRION=6, only symmetry inequivalent displacements are
+     considered, which makes the calculations slightly cheaper
+
+   - see also http://cms.mpi.univie.ac.at/vasp/vasp/IBRION_7_IBRION_8.html for a perturbation approach to estimating force constants
+
+- Force constants are /estimated/ from finite differences
+  - incar:NFREE specifies the number of displacements (default = 2)
+  - default is a centered difference formula
+
+- You can also specify the size of the displacement with incar:POTIM
+  - (the default is 0.015 \AA)
+
+- Note: you usually start these calculations from an optimized geometry. Why?
+
+:SOLUTION:
+because the spring constants are defined at a minimum /usually/.
+:END:
+
+Let us see it in action: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::water-vib][dft.org::water-vib]]
+
+Visualizing modes: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::h2o-vib-vis][dft.org::h2o-vib-vis]]
+
+Read this on your own: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Zero-point%20energy%20for%20multiple%20modes][Zero-point energy for multiple modes]]
+
+Finally:  [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Simulated%20infrared%20spectra][Simulated infrared spectra]]
+* [[file:~//dft-book/dft.org::*Simulated%20infrared%20spectra][Simulated infrared spectra]]
+
+- Last time we reviewed calculating vibrational frequencies
+
+- There are 3N - 5 /or/ 3N - 6 vibrational modes in unconstrained molecules
+
+- Infrared (IR) spectroscopy and Raman spectroscopy are used to measure vibrational frequencies
+
+- Not all of these modes are visible in spectroscopy
+
+- Each spectroscopy has /selection rules/
+
+- A vibrational mode is visible in IR if the dipole moment of the molecule changes with the vibration
+  - Symmetric molecules like N2 are IR invisible
+
+  - Some modes of molecules like CO2 are invisible
+    - symmetric stretch   O <- C -> O is invisible  - no dipole moment
+    - asymmetric stretch  O -> C -> O is visible    - changing dipole moment
+
+- Refresh your self on the [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Dipole%20moments][Dipole moments]]
+
+  - A dipole moment is the magnitude of the vector connecting the center of electrical charge to nuclear charge#+BEGIN_SRC python :results output :exports both
+
+- For molecules, it is important to have a continuous electron density like this: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::co-centered][co-centered]]
+
+#+BEGIN_SRC python :results output :exports both
+from jasp import *
+from ase.units import Debye
+
+with jasp('molecules/co-centered') as calc:
+    dipole_vector = calc.get_dipole_moment()
+    dipole_moment = ((dipole_vector**2).sum())**0.5/Debye
+    print 'The dipole moment is {0:1.2f} Debye'.format(dipole_moment)
+#+END_SRC
+
+#+RESULTS:
+: The dipole moment is 0.10 Debye
+
+- The intensity of an IR absorbance is related to the derivative of the dipole moment with respect to displacement along the vibrational mode
+
+- We need additional information in our calculation to do this. [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::vib-ir][See the new keywords]].
+
+- this approach is based on the work [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::ir-shell-script][here]].
+  - We will attempt to see what is happening in the shell script
+
+- The shell script above has been translated to a convenient python function in mod:jasp.
+#+BEGIN_SRC python :results output
+from jasp import *
+with jasp('molecules/h2o_vib_dfpt') as calc:
+    print 'mode  Relative intensity'
+    for i, intensity in enumerate(calc.get_infrared_intensities()):
+        print '{0:02d}     {1:1.3f}'.format(i, intensity)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+mode  Relative intensity
+00     0.227
+01     0.006
+02     0.312
+03     1.000
+04     0.006
+05     0.000
+06     0.005
+07     0.000
+08     0.345
+#+end_example
+
+- All vibrational frequencies are off in DFT calculations, and they tend to be too high
+- There are well known scaling factors that range from 0.9 to 0.99 in the literature
+
+- Being able to estimate intensity helps interpret which modes correspond to experimental observables

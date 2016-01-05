@@ -1,0 +1,304 @@
+* Optimization of more complex structures
+
+** 2 degrees of freedom
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Optimizing%20the%20hcp%20lattice%20constant][Optimizing the hcp lattice constant]]
+
+- We can scan one dimension at fixed values of the other dimension [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::ru-e-ca][file:~/06-640-s14/course/dft-book/dft.org::ru-e-ca]]
+  - We look for the global minimum energy
+
+- Contour plot [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::ru-countourf][file:~/06-640-s14/course/dft-book/dft.org::ru-countourf]]
+
+- This is as complex an optimization as you would want to do by hand
+
+- Even with this we /constrain/ the solutions to maintain the hcp structure
+
+- It is difficult to tell if there is a more stable structure
+
+* Automated structure determination
+- With molecules we use an algorithm to reduce forces approximately zero
+
+- In solids we need to reduce the stress to approximately zero
+
+#+BEGIN_SRC python :results output :exports both
+from jasp import *
+from ase import Atom, Atoms
+
+LC = [2.75, 2.8, 2.85, 2.9, 2.95, 3.0]
+
+print '{0:<8s}{1}'.format('a', 'xx,   yy,    zz,    yz,    xz,    xy')
+for a in LC:
+    atoms = Atoms([Atom('Cu', [0,0,0])],
+                  cell=0.5 * a * np.array([[ 1.0,  1.0, -1.0],
+                                           [-1.0,  1.0,  1.0],
+                                           [ 1.0, -1.0,  1.0]]))
+
+    with jasp('Cu-bcc-{0}'.format(a),
+              xc='PBE',
+              encut=350,
+              kpts=(8,8,8),
+              atoms=atoms) as calc:
+        try:
+            print '{0:<8.3f}{1}'.format(a, atoms.get_stress())
+        except (VaspSubmitted, VaspQueued):
+            pass
+#+END_SRC
+
+#+RESULTS:
+: a       xx,   yy,    zz,    yz,    xz,    xy
+: 2.750   [ 284.635  284.635  284.635    0.       0.       0.   ]
+: 2.800   [ 155.771  155.771  155.771    0.       0.       0.   ]
+: 2.850   [ 56.397  56.397  56.397   0.      0.      0.   ]
+: 2.900   [-20.126 -20.126 -20.126   0.      0.      0.   ]
+: 2.950   [-80.548 -80.548 -80.548   0.      0.      0.   ]
+: 3.000   [-127.646 -127.646 -127.646    0.       0.       0.   ]
+
+- Stress is a tensor that describes how the energy changes with deformation of the cell
+
+- The stress tensor is symmetric
+
+\left |
+\begin{array}{ccc}
+s_{xx} & s_{xy} & s_{xz} \
+s_{xy} & s_{yy} & s_{yz} \
+s_{xz} & s_{yz} & s_{zz}
+\end{array}
+\right |
+
+- the stress is zero at the ground state structure
+
+- In the example above, the only stresses are on the diagonal
+
+  - These stresses correspond to isotropic pressure
+
+  - The sign change in stress indicates there is a zero between 2.85 and 2.9 \AA.
+
+- Stress is defined as \(\sigma_{ij} = \frac{1}{V} \frac{\partial{}E}{\partial{}\epsilon_{ij}}\)
+- where \epsilon_{ij} is a strain of vector i with respect to coordinate j
+
+- Note the similarity to the definition of force
+ - \(F_i = -\frac{\partial{}E}{\partial{}x_i} \)
+
+- In this case, the forces on the atom are zero by symmetry, even though the stress can be non-zero
+  - stress \ne force
+
+- Let us tell VASP to optimize the unit cell for us.
+
+- We use incar:IBRION to tell VASP we need an optimization
+
+- We add incar:ISIF to tell VASP what to optimize
+
+
+| ISIF | calculate | calculate       | relax | change     | change      |
+|      | force     | stress tensor   | ions  | cell shape | cell volume |
+|------+-----------+-----------------+-------+------------+-------------|
+|    0 | yes       | no              | yes   | no         | no          |
+|    1 | yes       | trace only $^*$ | yes   | no         | no          |
+|    2 | yes       | yes             | yes   | no         | no          |
+|    3 | yes       | yes             | yes   | yes        | yes         |
+|    4 | yes       | yes             | yes   | yes        | no          |
+|    5 | yes       | yes             | no    | yes        | no          |
+|    6 | yes       | yes             | no    | yes        | yes         |
+|    7 | yes       | yes             | no    | no         | yes         |
+
+
+- the default is 2 (ions only)
+
+- In this example, we know there are no internal degrees of freedom, and we do not want to change the cell shape
+  - Choose ISIF=7
+
+#+BEGIN_SRC python :results output :exports both
+from jasp import *
+from ase import Atom, Atoms
+
+
+a = 2.0
+atoms = Atoms([Atom('Cu', [0,0,0])],
+              cell=0.5 * a * np.array([[ 1.0,  1.0, -1.0],
+                                       [-1.0,  1.0,  1.0],
+                                       [ 1.0, -1.0,  1.0]]))
+
+with jasp('Cu-bcc-isif-7',
+          xc='PBE',
+          encut=350,
+          kpts=(8,8,8),
+          ibrion=1,
+          isif=7,
+          nsw=25,
+          atoms=atoms) as calc:
+        try:
+            calc.set_nbands(f=2)
+            calc.calculate()
+            print calc
+        except (VaspSubmitted, VaspQueued):
+            pass
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/06-640-s14/course/exercises/Cu-bcc-isif-7
+  converged: True
+  Energy = -3.704867 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 1.435  1.435 -1.435] 2.486
+  a1 [-1.435  1.435  1.435] 2.486
+  a2 [ 1.435 -1.435  1.435] 2.486
+  a,b,c,alpha,beta,gamma (deg): 2.486 2.486 2.486 109.5 109.5 109.5
+  Unit cell volume = 11.828 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+             2.396  2.396  2.396  0.000  0.000  0.000
+ Atom#  sym       position [x,y,z]         tag  rmsForce constraints
+   0    Cu  [0.000      0.000      0.000]   0   0.00      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 8
+           nsw: 25
+        ibrion: 1
+          isif: 7
+         encut: 350.0
+        magmom: None
+          prec: Normal
+          kpts: (8, 8, 8)
+    reciprocal: False
+        setups: {}
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+Cu: potpaw_PBE/Cu/POTCAR (git-hash: a44c591415026f53deb16a99ca3f06b1e69be10b)
+#+end_example
+
+- Note the small stresses
+  - What was our convergence criteria?
+
+- What lattice constant did we compute?
+  - We need some geometry.
+  - This was a primitive bcc cell
+  - V = a^3 det(M) where M is the set of basis vectors for the primitive cell
+
+#+BEGIN_SRC python
+from jasp import *
+import numpy as np
+
+with jasp('Cu-bcc-isif-7') as calc:
+    atoms = calc.get_atoms()
+    V = atoms.get_volume()
+
+M = 0.5 * np.array([[1, 1, -1],
+                    [-1, 1, 1],
+                    [1, -1, 1]], dtype=np.float)
+
+a = (V / np.linalg.det(M))**(1.0 / 3.0)
+
+print 'Lattice constant for bcc Cu = {0} angstroms'.format(a)
+#+END_SRC
+
+#+RESULTS:
+: Lattice constant for bcc Cu = 2.87067570541 angstroms
+
+- Remember what constraints we put on here
+  - frozen ions (ok since there is only one ion)
+  - frozen shape (we want to make sure we keep the bcc structure)
+
+We can relax that with ISIF=3, which relaxes everything.
+
+#+BEGIN_SRC python :results output :exports both
+from jasp import *
+from ase import Atom, Atoms
+
+
+a = 2.0
+atoms = Atoms([Atom('Cu', [0,0,0])],
+              cell=0.5 * a * np.array([[ 1.0,  1.0, -1.0],
+                                       [-1.0,  1.0,  1.0],
+                                       [ 1.0, -1.0,  1.0]]))
+
+with jasp('Cu-bcc-isif-3',
+          xc='PBE',
+          encut=350,
+          kpts=(8,8,8),
+          ibrion=1,
+          isif=3,
+          nsw=25,
+          atoms=atoms) as calc:
+        try:
+            calc.set_nbands(f=3)
+            calc.calculate()
+            print calc
+        except (VaspSubmitted, VaspQueued):
+            pass
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/06-640-s14/course/exercises/Cu-bcc-isif-3
+  converged: True
+  Energy = -3.704202 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 1.435  1.435 -1.435] 2.486
+  a1 [-1.435  1.435  1.435] 2.486
+  a2 [ 1.435 -1.435  1.435] 2.486
+  a,b,c,alpha,beta,gamma (deg): 2.486 2.486 2.486 109.5 109.5 109.5
+  Unit cell volume = 11.829 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+             0.089  0.089  0.089  0.000  0.000  0.000
+ Atom#  sym       position [x,y,z]         tag  rmsForce constraints
+   0    Cu  [0.000      0.000      0.000]   0   0.00      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 9
+           nsw: 25
+        ibrion: 1
+          isif: 3
+         encut: 350.0
+        magmom: None
+          prec: Normal
+          kpts: (8, 8, 8)
+    reciprocal: False
+        setups: {}
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+Cu: potpaw_PBE/Cu/POTCAR (git-hash: a44c591415026f53deb16a99ca3f06b1e69be10b)
+#+end_example
+
+- No change in structure. That indicates we are in a local minimum
+
+* A more complicated example - TiO_2
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Complex%20structures%20with%20internal%20degrees%20of%20freedom][Complex structures with internal degrees of freedom]]
+
+This is usually a multistep process
+
+1. Find the volume (at constant shape, with relaxed ions) that minimizes the total energy ([[incar:ISIF][ISIF]]=2).
+   - The goal here is to just get an idea of where the right volume is.
+   - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::step-1][file:~/06-640-s14/course/dft-book/dft.org::step-1]]
+   - You could directly use isif=7, but you do not get any information about how "well-behaved" the calculations are
+
+2. Using the results from step 1 as a starting point, perform a set of calculations at constant volume around the minimum from step 1, but the shape and internal atom positions are allowed to change ([[incar:ISIF][ISIF]]=4).
+   - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::step-2][file:~/06-640-s14/course/dft-book/dft.org::step-2]]
+
+
+3. Finally, do a final calculation near the minimum energy allowing the volume to also change. ([[incar:ISIF][ISIF]]=3).
+  - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::step-3][file:~/06-640-s14/course/dft-book/dft.org::step-3]]
+
+
+- This is not foolproof for all structures
+  - graphite does not behave well
+  - The forces/stress out of the graphite plane are /very different/ than in the plane
+  - isotropic expansion is not a good way to find optimal volume
+
+- As with molecular geometry you need a good guess

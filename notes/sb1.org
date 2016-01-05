@@ -1,0 +1,11 @@
+#+STARTUP: overview 
+
+Use an org-mode shortcut to create a source block.
+
+* Hint
+type <s at the beginning of a line and press Tab
+
+<p will expand to a python block
+<el will expand to an emacs-lisp block
+
+

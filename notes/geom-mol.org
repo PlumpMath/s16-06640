@@ -1,0 +1,226 @@
+* Geometry optimization in molecules
+  :PROPERTIES:
+  :ID:       6295445E-8A45-466B-B804-B2B75B4E123C
+  :END:
+
+[[id:af5957a7-116e-42f0-b617-0bf2059fd1e5][Geometry optimization]]
+
+- DFT finds the electron density that minimizes the total energy for a set of fixed atom positions
+
+- The forces are calculated on the atoms from the Hellman-Feynman theorem
+  - Luckily this happens practically for free
+  - Force = $\frac{dE}{dR}$
+
+- When we examine molecule properties we /usually/ want the /ground-state/ properties
+  - That means the properties in the lowest energy configuration of atoms
+  - Since we seek properties at a minimum in energy that means $\frac{dE}{dR} \approx 0$
+
+- Making forces go to zero will lower the total energy
+
+- We have to find the set of atomic coordinates that minimizes the total energy
+
+- We can calculate discrete energies at specific bond lengths, and then find the minimum energy
+
+- Let us review some polynomial fitting.
+
+#+BEGIN_SRC python
+import matplotlib.pyplot as plt
+
+x = [1.05, 1.1, 1.15, 1.2, 1.25]
+y = [-14.215189, -14.719882, -14.838448, -14.687906, -14.351675]
+
+plt.plot(x, y, 'bo ')
+plt.show()
+#+END_SRC
+
+Now, let us fit a polynomial to this data.
+
+#+BEGIN_SRC python
+import matplotlib.pyplot as plt
+import numpy as np
+plt.xkcd()
+
+x = [1.05, 1.1, 1.15, 1.2, 1.25]
+y = [-14.215189, -14.719882, -14.838448, -14.687906, -14.351675]
+
+pp = np.polyfit(x, y, 3) # cubic polynomial
+xfit = np.linspace(min(x), max(x))
+yfit = np.polyval(pp, xfit)
+
+plt.plot(x, y, 'bo ', xfit, yfit, 'r-')
+plt.show()
+#+END_SRC
+
+#+RESULTS:
+
+We can now consider the minimum of the fit in a few ways.
+
+#+BEGIN_SRC python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = [1.05, 1.1, 1.15, 1.2, 1.25]
+y = [-14.215189, -14.719882, -14.838448, -14.687906, -14.351675]
+
+pp = np.polyfit(x, y, 3) # cubic polynomial
+xfit = np.linspace(min(x), max(x))
+yfit = np.polyval(pp, xfit)
+
+print min(yfit)
+
+i = np.argmin(yfit)
+print xfit[i], yfit[i]  # crude approximation
+#+END_SRC
+
+A more sophisticated way is to find the minimum "analytically". We have the polynomial coefficents of the fit. It is simple to get the derivative, and then the roots of the derivative. The roots are where the first derivate = 0, which is either a minimum or maximum.
+
+#+BEGIN_SRC python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = [1.05, 1.1, 1.15, 1.2, 1.25]
+y = [-14.215189, -14.719882, -14.838448, -14.687906, -14.351675]
+
+pp = np.polyfit(x, y, 3) # cubic polynomial
+
+dp = np.polyder(pp)
+print pp
+print dp
+
+# we expect two roots from the quadratic eqn. These are where the
+# first derivative is equal to zero.
+roots = np.roots(dp)
+print roots
+#+END_SRC
+
+
+
+
+Now, there are two roots, as expected from a quadratic polynomial. We want the root that is a minimum, i.e. where the second derivative is positive.
+
+#+BEGIN_SRC python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = [1.05, 1.1, 1.15, 1.2, 1.25]
+y = [-14.215189, -14.719882, -14.838448, -14.687906, -14.351675]
+
+pp = np.polyfit(x, y, 3) # cubic polynomial
+
+dp = np.polyder(pp)
+print pp
+print dp
+
+# we expect two roots from the quadratic eqn. These are where the
+# first derivative is equal to zero.
+roots = np.roots(dp)
+print roots
+
+dpp = np.polyder(pp, 2)  # second derivative
+print dpp
+
+# now evaluate the second derivative at the roots of the first derivative
+secd = np.polyval(dpp, roots)
+print secd
+
+minV = roots[secd > 0]
+minE = np.polyval(pp, minV)
+
+print 'The minimum energy is {0} eV at V = {1} Ang^3'.format(minE,minV)
+#+END_SRC
+
+
+
+Now, let us check out the calculations: [[file:~/dft-book/dft.org::*Manual%20determination%20of%20a%20bond%20length][Manual determination of a bond length]]
+
+- If you have more than one dimension, this manual approach is too tedious to be practical.
+
+- VASP can do automatic geometry optimization: [[file:~/dft-book/dft.org::*Automatic%20geometry%20optimization%20with%20VASP][Automatic geometry optimization with VASP]]
+
+- We have to tell =jasp= about several more keywords:
+
+  - IBRION :: used to specify the algorithm
+  - EDIFFG :: specifies the stopping criteria
+  - NSW    :: specifies the maximum number of steps to take
+
+** IBRION
+Here are the most common choices for IBRION.
+| IBRION value | algorithm                                      |
+|--------------+------------------------------------------------|
+|            1 | quasi-Newton    (use if initial guess is good) |
+|            2 | conjugate gradient                             |
+
+http://cms.mpi.univie.ac.at/vasp/guide/node110.html for other options
+
+1 usually works for me.
+
+** EDIFFG
+The default behavior is for the the calculation to stop when the change in the /total (free) energy/ is smaller than EDIFFG between two ionic steps. The default value of EDIFFG is 10 * EDIFF
+
+EDIFF :: The relaxation of the electronic degrees of freedom will be stopped if the total (free) energy change and the band structure energy change ('change of eigenvalues') between two steps are both smaller than EDIFF.
+
+The default value of EDIFF is 1e-4
+
+Alternatively, you can specify a /force/ criteria. Then, EDIFFG is negative, e.g.
+
+ediffg=-0.05
+
+specifies a force criteria of 0.05 eV/Angstrom. This is a pretty typical level of convergence
+
+
+
+** NSW
+NSW defines the number of ionic steps.
+
+The default is 0
+
+This keyword prevents calculations that are not converging from running forever.
+
+The calculation stops at NSW, whether it is converged or not.
+
+The calculation stops before NSW if the convergence criteria is met
+
+Depending on your system, it may take 5-50 steps to relax.
+
+If it takes more than 50, that is an indication something is wrong
+  - The algorithm is oscillating
+  - You made a terrible guess of geometry and massive reconstruction is happening
+
+#+BEGIN_SRC python :results output :exports both
+from ase import Atoms, Atom
+from jasp import *
+
+atoms = Atoms([Atom('H', [0.5960812,  -0.7677068,   0.0000000]),
+               Atom('O', [0.0000000,   0.0000000,   0.0000000]),
+               Atom('H', [0.5960812,   0.7677068,   0.0000000])],
+               cell=(8, 8, 8))
+
+with jasp('h2o_relax',
+          xc='PBE',
+          encut=300,
+          ibrion=2,
+          nsw=10,
+          ediffg=1e-4, # standard criteria energy convergence
+          atoms=atoms) as calc:
+    print calc  # before relaxation
+    print atoms.get_forces()
+    print
+    print calc  # after relaxation
+#+END_SRC
+
+
+
+Let us check how many iterations actually ran:
+
+#+BEGIN_SRC sh
+grep Iteration h2o_relax/OUTCAR
+#+END_SRC
+
+Things we have to keep in mind:
+1. Convergence of forces with respect to cutoff energy
+2. Unit cell size effects
+3. Stopping criteria (energy or forces)
+
+- Now let us calculate some properties of the relaxed molecule:
+
+1. determine the bond lengths and bond angle.

@@ -1,0 +1,754 @@
+* Why use a database?
+
+- Data storage
+
+VASP calculations are large and difficult to store on the cloud.
+
+A database will allow you to compactly store 
+
+This will keep your data safe encase something happens to the local copy (e.g. if Gilgamesh crashes again)
+
+Places to store backups from Gilgamesh:
+- Github (cloud service)
+- Bitbucket (cloud service)
+- Another local machine (i.e. use 'scp' command)
+
+# Notice the 'sh' after BEGIN_SRC instead of the usual 'python'
+# This is shell script, like the commands you'd run in your terminal
+#+BEGIN_SRC sh
+# This code will move the 'test.org' file from Gilgamesh to my local machine
+
+scp jboes@gilgamesh.cheme.cmu.edu:~/test.org C:/Users/jboes/Desktop/
+#+END_SRC
+
+- Ease of access
+
+Ever tried looping through Jasp 50+ times to analyze your results? It takes awhile...
+
+This is because JASP is parsing through large OUTCAR files to get calculation information each time you run it
+
+NORMALLY, You only need a fraction of the information in the OUTCAR file. So, why not simply store that fraction in some location easily accessed.
+
+
+- Data sharing
+
+It's not easy to move large VASP calculations around, (Try copying a large calculation file some time).
+
+But it is easy to move select information around.
+
+* Databasing tools
+
+- JSON vs. SQL
+
+Most large database softwares are written in SQL (Structured Query Language); the bread and butter of database writing.
+
+SQL is a very powerful databasing tool which is most effective for managing 1000+ entries in a database across multiple users.
+
+For smaller databases, SQL can be tedious to implement, especially without previous experience. 
+
+JSON databasing is not as powerful for large database, but is more user friendly and human readable.
+
+The ASE database software supports both file types, but we will only be discussing JSON formatting, because that is what I am familiar with
+
+- Dictionary formatting
+
+Python is capable of storing information in 'dictionary' format.
+
+Dictionaries store information in key-value pairs indicated by {'key': 'value'}. See the code block below for an example
+
+#+BEGIN_SRC python
+# lists are created using [] brackets
+my_list = ['first', 'second']
+
+# The special brackest {} indicate to python that this is a dictionary
+my_dict = {'Label 1': 1,
+           'Label 2': 2}
+
+# lists are indexed by the order the object shows up in the list
+print('An object in a list is called using:')
+print(my_list[0])
+print('')
+
+# dictionaries are indexed using the keys you assign
+print('An object in a dictionary is called using:')
+print(my_dict['Label 1'])
+print('')
+
+# We can also turn dictionaries into lists by calling their keys() or values()
+print my_dict.keys()
+print my_dict.values()
+# Or both, using items()
+print my_dict.items()
+#+END_SRC
+
+#+RESULTS:
+: An object in a list is called using:
+: first
+: 
+: An object in a dictionary is called using:
+: 1
+: 
+: ['Label 1', 'Label 2']
+: [1, 2]
+: [('Label 1', 1), ('Label 2', 2)]
+
+Try creating your own python dictionary which stores all of the information in the table below:
+
+#+TBLNAME: tbldata
+| Student # | First Name | Last Name  | Favorite # |
+|-----------+------------+------------+------------|
+|         1 | Abhishek   | Bagusetty  |         45 |
+|         2 | Siddharth  | Deshpande  |         10 |
+|         3 | Bojun      | Feng       |         38 |
+|         4 | John       | Michael    |         62 |
+|         5 | Venkatesh  | Naik       |          5 |
+|         6 | Vikram     | Pande      |         39 |
+|         7 | Samji      | Samira     |         20 |
+|         8 | Oleg       | Sapunkov   |         99 |
+|         9 | Hari       | Thirumalai |         67 |
+|        10 | Zhaofeng   | Chen       |         71 |
+|        11 | Nathan     | Khosla     |          0 |
+|        12 | Irem       | Sen        |         11 |
+
+
+#+BEGIN_SRC python
+# An example of how to construct a dictionary in a dictionary (nested dictionaries)
+d = {}
+
+metals = ['Au', 'Pd', 'Cu']
+energy = ['tot', 'pot']
+nrg = [[1, 2], [3, 4], [5, 6]]
+
+for i, m in enumerate(metals):
+    d[m] = {}
+    for j, e in enumerate(energy):
+        d[m][e] = nrg[i][j]
+
+print d
+#+END_SRC
+
+#+RESULTS:
+: {'Au': {'pot': 2, 'tot': 1}, 'Cu': {'pot': 6, 'tot': 5}, 'Pd': {'pot': 4, 'tot': 3}}
+
+
+#+BEGIN_SRC python :var data=tbldata
+import matplotlib.pyplot as plt
+import numpy as np
+
+data = np.array(data)
+
+N = data.T[0].astype(int)
+print N
+F = data.T[1]
+L = data.T[2]
+FN = data.T[3].astype(int)
+
+data = {}
+for i, n in enumerate(N):
+    data[n] = {}
+    data[n]['firstname'] = F[i]
+    data[n]['lastname'] = L[i]
+    data[n]['favorite#'] = FN[i]
+#+END_SRC
+
+#+RESULTS:
+: [ 1  2  3  4  5  6  7  8  9 10 11 12]
+: {1: {'lastname': 'Bagusetty', 'favorite#': 45, 'firstname': 'Abhishek'}, 2: {'lastname': 'Deshpande', 'favorite#': 10, 'firstname': 'Siddharth'}, 3: {'lastname': 'Feng', 'favorite#': 38, 'firstname': 'Bojun'}, 4: {'lastname': 'Michael', 'favorite#': 62, 'firstname': 'John'}, 5: {'lastname': 'Naik', 'favorite#': 5, 'firstname': 'Venkatesh'}, 6: {'lastname': 'Pande', 'favorite#': 39, 'firstname': 'Vikram'}, 7: {'lastname': 'Samira', 'favorite#': 20, 'firstname': 'Samji'}, 8: {'lastname': 'Sapunkov', 'favorite#': 99, 'firstname': 'Oleg'}, 9: {'lastname': 'Thirumalai', 'favorite#': 67, 'firstname': 'Hari'}, 10: {'lastname': 'Chen', 'favorite#': 71, 'firstname': 'Zhaofeng'}, 11: {'lastname': 'Khosla', 'favorite#': 0, 'firstname': 'Nathan'}, 12: {'lastname': 'Sen', 'favorite#': 11, 'firstname': 'Irem'}}
+
+Consider these:
+- Does your dictionary contain all of the name information as the table above? If not, what is missing?
+- If you shared your dictionary with a friend, would they understand what information was being stored? How could you explain it using documentation?
+- How easy is it to search for information from your dictionary? 
+- Would you design it differently if there were 100 students in the class?
+
+These are all questions to consider when designing a database
+
+JSON database are constructed out of these relatively simple to read dictionary formats
+
+Once you've finished making your dictionary, store it to a JSON file using the following code block:
+
+#+BEGIN_SRC python :var data=tbldata
+import matplotlib.pyplot as plt
+import numpy as np
+import json
+
+data = np.array(data)
+
+N = data.T[0].astype(int)
+print N
+F = data.T[1]
+L = data.T[2]
+FN = data.T[3].astype(int)
+
+data = {}
+for i, n in enumerate(N):
+    data[n] = {}
+    data[n]['firstname'] = F[i]
+    data[n]['lastname'] = L[i]
+    data[n]['favorite#'] = FN[i]
+
+# replace the empty {} with your dictionary strucutre
+my_dict = data
+
+with open('mydatabase.json', 'w') as f:
+    json.dump(my_dict, f)
+#+END_SRC
+
+#+RESULTS:
+: [ 1  2  3  4  5  6  7  8  9 10 11 12]
+
+Once you've created the JSON file, read it using  the next code block:
+
+#+BEGIN_SRC python
+import json
+
+with open('mydatabase.json') as f:
+    my_dict = json.load(f)
+
+print my_dict
+#+END_SRC
+
+#+RESULTS:
+: {u'11': {u'lastname': u'Khosla', u'firstname': u'Nathan', u'favorite#': 0}, u'10': {u'lastname': u'Chen', u'firstname': u'Zhaofeng', u'favorite#': 71}, u'12': {u'lastname': u'Sen', u'firstname': u'Irem', u'favorite#': 11}, u'1': {u'lastname': u'Bagusetty', u'firstname': u'Abhishek', u'favorite#': 45}, u'3': {u'lastname': u'Feng', u'firstname': u'Bojun', u'favorite#': 38}, u'2': {u'lastname': u'Deshpande', u'firstname': u'Siddharth', u'favorite#': 10}, u'5': {u'lastname': u'Naik', u'firstname': u'Venkatesh', u'favorite#': 5}, u'4': {u'lastname': u'Michael', u'firstname': u'John', u'favorite#': 62}, u'7': {u'lastname': u'Samira', u'firstname': u'Samji', u'favorite#': 20}, u'6': {u'lastname': u'Pande', u'firstname': u'Vikram', u'favorite#': 39}, u'9': {u'lastname': u'Thirumalai', u'firstname': u'Hari', u'favorite#': 67}, u'8': {u'lastname': u'Sapunkov', u'firstname': u'Oleg', u'favorite#': 99}}
+
+Once you're happy with the result please email your JSON file to me (jboes@andrew.cmu.edu) for participation credit
+
+* ASE database
+
+ASE provides functionality for creating a JSON database which can easily interact with the other ASE tools you are already using
+
+** EOS data generation
+First, lets generate some data to be stored. Below is code to produce an equation of state for FCC Ag and Pd
+
+You will need to run this code block at least twice
+
+#+BEGIN_SRC python :results raw
+from ase.lattice.cubic import FaceCenteredCubic as fcc
+from jasp import *
+import numpy as np
+JASPRC['queue.walltime'] = '24:00:00'
+
+metals = ['Pd', 'Ag']
+vfrac = [0.9, 0.92, 0.94, 0.96, 0.98,
+         1.02, 1.04, 1.06, 1.08, 1.1]
+
+for m in metals:
+    ready = True
+
+    atoms = fcc(m,
+                directions=[[0, 1, 1],
+                            [1, 0, 1],
+                            [1, 1, 0]])
+
+    # We begin with a full relaxation as a starting point
+    with jasp('DFT/convergence=2/gga=PBE/bulk={0}/EOS=True/vfrac=1.0'.format(m),
+              xc='PBE',
+              kpts=(8, 8, 8),
+              encut=350,
+              ediff=1e-7,  # A low ediff will converge closer to the minimum energy
+              ibrion=2,
+              isif=3,  # full relaxation to deterime a good starting point
+              nsw=30,
+              atoms=atoms) as calc:
+        try:
+            atoms = calc.get_atoms()
+            v0 = atoms.get_volume()
+            a = (4 * v0) ** (1 / 3.)
+        except(VaspQueued, VaspSubmitted):
+            ready = False
+
+    # Do not proceed to volume fraction calculations until the full relaxation is complete
+    if ready:
+
+        for f in vfrac:
+
+            atoms = fcc(m,
+                        directions=[[0, 1, 1],
+                                    [1, 0, 1],
+                                    [1, 1, 0]],
+                        latticeconstant=a*f)
+
+            with jasp('DFT/convergence=2/gga=PBE/bulk={0}/EOS=True/vfrac={1}'.format(m, f),
+                      xc='PBE',
+                      kpts=(8, 8, 8),
+                      encut=350,
+                      ibrion=2,
+                      isif=2,
+                      nsw=30,
+                      atoms=atoms) as calc:
+                try:
+                    atoms = calc.get_atoms()
+                    calc.calculate()
+                    print('Ready')
+                except(VaspQueued, VaspSubmitted):
+                    pass
+#+END_SRC
+
+#+RESULTS:
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+Ready
+
+** Database generation
+You may have noticed the unusual naming scheme for the calculation directories above
+
+The '=' were included intentionally here to allow for simple parsing of directory files to be added to key-value pairs which we can use to search for calculations later
+
+These key-value pairs work exactly the same way they do in the basic dictionary you created above
+
+For now, we will use a function I've generated to construct the JSON database for the calculations we just ran:
+
+#+BEGIN_SRC python
+def makedb(calc, dbname='data.json', overwrite=False, **kwargs):
+    '''Make a modular database in calculator directory.
+    This function generates useful key-value-pairs based
+    on the directory path the calculation is stored in.
+
+    i.e. .DFT/bulk=Ag/lattice=4.06/ will create two 
+    key-value-pairs: bulk=Ag and lattice=4.06
+
+    more information on ASE database can be found here:
+    https://wiki.fysik.dtu.dk/ase/ase/db/db.html'''
+
+    # Do not run if database already exists
+    if os.path.exists(dbname) and overwrite is False:
+        return
+
+    keys = {}
+
+    # Collect only path names with '=' in them
+    path = [x for x in os.getcwd().split('/') if '=' in x]
+
+    # Get keys_value_pairs from directory name
+    for key_value in path:
+        key = key_value.split('=')[0]
+        value = key_value.split('=')[1]
+
+        # Try to recognize characters and convert to
+        # specific data types for easy access later.
+        if '.' in value:
+            value = float(value)
+        elif value.isdigit():
+            value = int(value)
+        elif '[' in value and ']' in value:
+            value = list(value)
+        else:
+            value = str(value)
+
+        # Add directory keys
+        keys[key] = value
+
+    # Get the atoms object from the calculator
+    atoms = calc.get_atoms()
+
+    # Add DFT parameters to key-value-pairs
+    keys['xc'] = str(calc.input_params['xc'])
+    kpts = calc.input_params['kpts']
+    keys['kpt1'] = int(kpts[0])
+    keys['kpt2'] = int(kpts[1])
+    keys['kpt3'] = int(kpts[2])
+    keys['kppra'] = int(kpts[0] * kpts[1] * kpts[2])
+    keys.update(dict(filter(lambda item: item[1] is not None,
+                            calc.float_params.items())))
+    keys.update(dict(filter(lambda item: item[1] is not None,
+                            calc.exp_params.items())))
+    keys.update(dict(filter(lambda item: item[1] is not None,
+                            calc.string_params.items())))
+    keys.update(dict(filter(lambda item: item[1] is not None,
+                            calc.bool_params.items())))
+
+    try:
+        keys.update(dict([('fermi', calc.get_fermi_level())]))
+    except(AttributeError):
+        pass
+
+    # Add volume and total energy to key-value-pairs
+    keys.update(dict([('volume', atoms.get_volume())]))
+    keys.update(dict([('total_energy', atoms.get_potential_energy())]))
+
+    if calc.spinpol:
+        keys.update(dict([('final_magmom', atoms.get_magnetic_moment())]))
+    else:
+        keys['final_magmom'] = 0.0
+
+    # Add calculation time to key-value-pairs
+    keys['calc_time'] = get_elapsed_time(calc)
+
+    # convert all numpy arrays to lists
+    for key in keys:
+        try:
+            keys[key] = keys[key].tolist()
+        except:
+            pass
+
+    # Generate the JSON file
+    if os.path.exists(dbname):
+        os.unlink(dbname)
+        db = connect(dbname)
+        db.write(atoms=atoms, key_value_pairs=keys)
+    else:
+        db = connect(dbname)
+        db.write(atoms=atoms, key_value_pairs=keys)
+
+# Now we store all calculations into JSON format.
+# This doubles as a convenient method for backing up data on Github.
+from jasp.utils import get_jasp_dirs
+from jasp import *
+from ase.db import connect
+
+dirs = get_jasp_dirs('DFT')
+
+for d in dirs:
+    with jasp(d) as calc:
+        makedb(calc)
+
+# Finally, we collect all of the modular JSON files into one
+# for ease of manipulation
+
+db = connect('masterdata.json')
+
+for d in dirs:
+
+    print(d)  # List the direcotires added to the database
+
+    # Next we aquire the calculation information in dictionary format
+    calculation_data = connect(d + '/data.json')._get_dict(id=1)
+
+     # Finally, we append the dictionary to the master database
+    db.write(calculation_data, key_value_pairs=calculation_data['key_value_pairs'])
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=0.9
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=0.92
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=0.94
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=0.96
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=0.98
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=1.02
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=1.04
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=1.06
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=1.08
+DFT/convergence=2/gga=PBE/bulk=Pd/EOS=True/vfrac=1.1
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=0.9
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=0.92
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=0.94
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=0.96
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=0.98
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=1.02
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=1.04
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=1.06
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=1.08
+DFT/convergence=2/gga=PBE/bulk=Ag/EOS=True/vfrac=1.1
+#+end_example
+
+#+BEGIN_SRC sh
+rm masterdata.json
+#+END_SRC
+
+#+RESULTS:
+
+** Database manipulation
+Now, lets play around with our new ASE database and see whats possible
+
+Here we show the parameters needed to reproduce this calculation on other platforms
+#+BEGIN_SRC python
+from ase.db import connect
+
+# Connect to the ASE database
+db = connect('masterdata.json')
+
+# Designate the key-value-pairs associated with the calculation
+data = db.get(['bulk=Ag', 'EOS', 'vfrac=0.9'])
+
+print('INCAR parameters:')
+print('=================')
+for k, v in data.calculator_parameters['incar'].items():
+    print('{0}={1}'.format(k, v))
+print('=================')
+
+print('\nPOTCAR details:')
+print('===============')
+for k in data.calculator_parameters['potcar']:
+    print('{0}'.format(k))
+print('===============')
+
+print('\nINPUT details:')
+print('==============')
+for k, v in data.calculator_parameters['input'].items():
+    print('{0}={1}'.format(k, v))
+print('==============')
+
+print('\nAtoms object:')
+print('=============')
+for k, v in data.calculator_parameters['atoms'].items():
+    print('{0}={1}'.format(k, v))
+print('=============')
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+INCAR parameters:
+=================
+doc=INCAR parameters
+encut=350.0
+isif=2
+ibrion=2
+nbands=9
+nsw=30
+=================
+
+POTCAR details:
+===============
+[u'Ag', u'/potpaw_PBE/Ag/POTCAR', u'c704e285d7f56b2ca75b47455b6c92286eed0dab']
+===============
+
+INPUT details:
+==============
+kpts=[8 8 8]
+reciprocal=False
+xc=PBE
+kpts_nintersections=None
+setups=None
+txt=-
+gamma=False
+==============
+
+Atoms object:
+=============
+cell=[[ 2.60286006  0.          0.        ]
+ [ 1.30143003  2.25414294  0.        ]
+ [ 1.30143003  0.75138098  2.12522634]]
+symbols=[u'Ag']
+tags=[0]
+pbc=[ True  True  True]
+positions=[[ 0.  0.  0.]]
+=============
+#+end_example
+
+ASE database truly excels for ASE users who can easily reconstruct atoms objects from data 
+
+#+BEGIN_SRC python
+from ase.db import connect
+from ase.visualize import view
+
+# Connect to the ASE database
+db = connect('masterdata.json')
+
+# Designate the key-value-pairs associated with the calculation
+atoms = db.get_atoms(['bulk=Ag', 'EOS', 'vfrac=0.9'])
+
+view(atoms)
+#+END_SRC
+
+#+RESULTS:
+
+Or we can use it to quickly access large amounts of data for analysis
+
+#+BEGIN_SRC python :results raw
+from ase.db import connect
+from ase.utils.eos import EquationOfState
+
+# Connect to the ASE database
+db = connect('masterdata.json')
+
+
+print('#+caption: Lattice constants ($\AA$) for fcc Pd and Ag')
+print('#+tblname: latc')
+print('| Metal | lattice constant ($\AA$) |')
+print('|-')
+
+for m in ['Pd', 'Ag']:
+    NRG, VOL = [], []
+
+    # we use select to aquire multiple calculations
+    data = db.select(['bulk={0}'.format(m), 'EOS', 'vfrac'])
+
+    for d in data:
+        NRG.append(d.total_energy)
+        VOL.append(d.volume)
+
+    eos = EquationOfState(VOL, NRG)
+    v0, e0, B = eos.fit()
+    a0 = (4 * v0) ** (1 / 3.)
+    print('| {0} | {1:1.4f} |'.format(m, a0))
+    eos.plot('EOS-{0}.png'.format(m))
+#+END_SRC
+
+#+RESULTS:
+#+caption: Lattice constants ($\AA$) for fcc Pd and Ag
+#+tblname: latc
+| Metal | lattice constant ($\AA$) |
+|-------+--------------------------|
+| Pd    |                   3.9411 |
+| Ag    |                   4.1450 |
+
+
+
+#+caption: Equation of state for fcc Pd
+[[./EOS-Pd.png]]
+
+#+caption: Equation of state for fcc Ag
+[[./EOS-Ag.png]]
+
+** Other notes on database
+Full details on ASE database and its uses can be found at the following website: https://wiki.fysik.dtu.dk/ase/ase/db/db.html
+
+Each calculation has an ID # which is unique to the JSON file
+
+#+BEGIN_SRC python
+from ase.db import connect
+
+# Connect to the ASE database and select all entries
+db = connect('masterdata.json').select([])
+
+for d in db:
+    print('id: {0}, calculation: {1} vfrac={2}'.format(d.id, d.key_value_pairs.bulk, d.key_value_pairs.vfrac))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+id: 1, calculation: Pd vfrac=0.9
+id: 2, calculation: Pd vfrac=0.92
+id: 3, calculation: Pd vfrac=0.94
+id: 4, calculation: Pd vfrac=0.96
+id: 5, calculation: Pd vfrac=0.98
+id: 6, calculation: Pd vfrac=1.02
+id: 7, calculation: Pd vfrac=1.04
+id: 8, calculation: Pd vfrac=1.06
+id: 9, calculation: Pd vfrac=1.08
+id: 10, calculation: Pd vfrac=1.1
+id: 11, calculation: Ag vfrac=0.9
+id: 12, calculation: Ag vfrac=0.92
+id: 13, calculation: Ag vfrac=0.94
+id: 14, calculation: Ag vfrac=0.96
+id: 15, calculation: Ag vfrac=0.98
+id: 16, calculation: Ag vfrac=1.02
+id: 17, calculation: Ag vfrac=1.04
+id: 18, calculation: Ag vfrac=1.06
+id: 19, calculation: Ag vfrac=1.08
+id: 20, calculation: Ag vfrac=1.1
+#+end_example
+
+The function I provided above will try to intelligently add key-value-pairs to your dictionary to make it easily searchable
+
+Here's an example of all the key-value-pairs for a single calculation
+
+#+BEGIN_SRC python
+from ase.db import connect
+
+db = connect('masterdata.json')
+
+data = db.get(['bulk=Ag', 'EOS', 'vfrac=0.9'])
+
+key_values = data.key_value_pairs
+
+for k, v in key_values.iteritems():
+    print('{0}: {1}'.format(k, v))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+kpt1: 8
+kpt3: 8
+kpt2: 8
+xc: PBE
+encut: 350.0
+EOS: True
+gga: PBE
+convergence: 2
+volume: 12.4691675603
+bulk: Ag
+fermi: 13.8723
+kppra: 512
+vfrac: 0.9
+calc_time: 5.509
+final_magmom: 0.0
+total_energy: -1.70512496
+#+end_example
+
+Any of these keys can be searched by using some rather sophisticated methods.
+
+Here are some examples of how you can search for key-value-pairs from the website
+
+| Cu                | contains copper                                    |
+| H<3               | less than 3 hydrogen atoms                         |
+| Cu,H<3            | contains copper and has less than 3 hydrogen atoms |
+| v3                | has ‘v3’ key                                       |
+| abc=bla-bla       | has key ‘abc’ with value ‘bla-bla’                 |
+| v3,abc=bla-bla    | both of the above                                  |
+| calculator=nwchem | calculations done with NWChem                      |
+| 2.2<bandgap<3.0   | ‘bandgap’ key has value between 2.2 and 3.0        |
+| natoms>=10        | 10 or more atoms                                   |
+| formula=H2O       | Exactly two hydrogens and one oxygen               |
+| id=2345           | specific id                                        |
+| age<1h            | not older than 1 hour                              |
+| age>1y            | older than 1 year                                  |
+
+You can also add your own key-value-pairs to existing entries in an ASE database using the update function
+
+#+BEGIN_SRC python
+from ase.db import connect
+
+db = connect('masterdata.json')
+
+data = db.get(['bulk=Ag', 'EOS', 'vfrac=0.9'])
+
+# notice that we update the database 'db', not the data itself
+db.update(data.id, username='jboes')
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC python
+from ase.db import connect
+
+db = connect('masterdata.json')
+
+data = db.get(['bulk=Ag', 'EOS', 'vfrac=0.9'])
+
+key_values = data.key_value_pairs
+
+for k, v in key_values.iteritems():
+    print('{0}: {1}'.format(k, v))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+kpt1: 8
+username: jboes
+kpt3: 8
+kpt2: 8
+xc: PBE
+encut: 350.0
+EOS: True
+gga: PBE
+convergence: 2
+volume: 12.4691675603
+bulk: Ag
+fermi: 13.8723
+total_energy: -1.70512496
+vfrac: 0.9
+calc_time: 5.509
+final_magmom: 0.0
+kppra: 512
+#+end_example
+

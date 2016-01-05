@@ -1,0 +1,220 @@
+#+TITLE: Lecture 11
+
+* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*k-point%20convergence][k-point convergence]]
+
+[[~/dft-book/images/Ag-kpt-convergence.png]]
+
+- Note the large energy scale on the y-axis
+- It is easy to be misled on the level of convergence here
+- $6 \times 6 \times 6$ k-point grid to achieve a convergence level of at least 50 meV
+
+- Smaller real space unit cells need /larger/ k-point grids
+
+- a 1 \times 1 \times 1 fcc unit cell may need up  to 20 \times 20 \times 20 kpoint grids for convergence
+
+- a 2 \times 2 \times 2 fcc unit cell may need up  to 10 \times 10 \times 10 kpoint grids for convergence
+
+- Doubling a unit cell dimension reduces the k-points in that dimension by 1/2
+
+** k-points per reciprocal atom
+$12 \times 12 \times 12$ k-point grid for a primitive fcc unit cell would be src_python{return 12**3} =1728=  k-points per reciprocal atom
+
+- A $2 \times 2 \times 2$ fcc unit cell has eight atoms in it, or 0.125 reciprocal atoms
+
+- so a $6 \times 6 \times 6$ k-point grid has src_python{return 6**3} =216= k-points in it, or src_python{return 216/0.125} =1728.0=  k-points per reciprocal atom, the same as we discussed before.
+
+* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Effect%20of%20%5B%5Bincar:SIGMA%5D%5BSIGMA%5D%5D][Effect of SIGMA]]
+- At absolute zero, a band is either occupied or empty
+
+- discrete occupation results in discontinuous changes in energy with changes in occupation, which makes it difficult to converge
+
+- solution is to artificially broaden the band occupancies, as if they were occupied at a higher temperature
+
+1. The smearing methods were designed for metals. For molecules, semiconductors and insulators you should use a very small SIGMA (e.g. 0.01).
+2. Standard values for metallic systems is SIGMA=0.1, but the best SIGMA may be [[http://cms.mpi.univie.ac.at/vasp/guide/node159.html][material specific]].
+|                   | Sigma (eV) |
+|-------------------+------------|
+| Aluminium         |        1.0 |
+| Lithium           |        0.4 |
+| Tellurium         |        0.8 |
+| Copper, Palladium |        0.4 |
+| Vanadium          |        0.2 |
+| Rhodium           |        0.2 |
+| Potassium         |        0.3 |
+
+#+caption: effect of sigma on occupancies of Al slab
+[[~/dft-book/images/occ-sigma.png]]
+
+- based on this result, you need 10-15 extra bands to ensure the highest energy band is unoccupied
+
+- That depends on the value of incar:SIGMA
+
+- incar:ISMEAR controls the smearing algorithm
+
+    ISMEAR=N (N>0): method of Methfessel-Paxton order N.
+
+    Mind: For the Methfessel-Paxton scheme the partial occupancies can be negative.
+
+    ISMEAR=0: Gaussian smearing.
+
+    ISMEAR=−4: tetrahedron method (use a Γ-centered k-mesh).
+    ISMEAR=−5: tetrahedron method with Blöchl corrections (use a Γ-centered k-mesh).
+
+Avoid using ISMEAR>0 for semiconductors and insulators, since this often leads to incorrect results (the occupancies of some states might be larger or smaller than 1). For insulators use ISMEAR=0 or ISMEAR=-5. [fn:1]
+
+
+* Bulk structure determination
+What we typically mean by determining bulk structures includes the following:
+
+- What is the most stable crystal structure for a material?
+- What is the lattice constant of fcc Cu?
+- What are the lattice parameters and internal atom parameters for TiO_{2}?
+
+** Simple Lattice constant
+- 1D energy minimization, e.g. fcc structure
+  - only one degree of freedom  $V = 1/4 a^3$
+
+[[~/dft-book/images/Cu-fcc.png]]
+
+- We could fit a polynomial to this and find the minimum like we did for a molecular bond
+
+- It is more common to fit an equation of state:  mod:ase.utils.eos
+  - This gives us the minimum volume, minimum energy and the bulk modulus
+  - And makes a nice plot for us
+  [[file:~/dft-book/dft.org::run-eos]]
+
+
+- Conversion factors:
+
+1 eV/Angstrom3 = 160.2176487 GPa
+
+
+- For fun: a more beautiful plot
+  - Proper superscripts
+  - tight layout
+  - less crowded title
+
+#+BEGIN_SRC python :var data=../dft-book/dft.org:cu-fcc-energies
+import numpy as np
+import matplotlib.pyplot as plt
+
+from ase.utils.eos import EquationOfState
+from ase.units import GPa
+
+data = np.array(data)
+
+a = data[:, 0]
+V = (a**3) / 4
+
+E = data[:, 1]
+eos = EquationOfState(V, E)
+v0, e0, B0 = eos.fit()
+
+f = eos.plot(show=False)
+f.tight_layout()
+plt.xlabel(u'volume ($\AA^3$)')
+plt.ylabel(u'energy (eV)')
+plt.title(u'E: %.3f eV, V: %.3f $\AA^3$, B: %.3f GPa' %
+              (e0, v0, B0 / GPa))
+
+plt.text(eos.v0,max(eos.e),'EOS: %s' % eos.eos_string)
+plt.show()
+#+END_SRC
+
+#+RESULTS:
+
+** Comparing crystal structures
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::bulk-fcc-bcc-Cu][file:~/06-640-s14/course/dft-book/dft.org::bulk-fcc-bcc-Cu]]
+
+You can see in the figure that fcc is a little more stable (lower in energy) than bcc
+
+
+
+** NBANDS
+You need enough bands so that the highest energy bands are unoccupied
+
+- Example of not enough bands
+#+BEGIN_SRC python :results output
+from jasp import *
+from ase import Atom, Atoms
+
+atoms = Atoms([Atom('Cu',  [0.000,      0.000,      0.000])],
+              cell=  [[ 1.818,  0.000,  1.818],
+                      [ 1.818,  1.818,  0.000],
+                      [ 0.000,  1.818,  1.818]])
+
+with jasp('cu-setnbands',
+          xc='PBE',
+          encut=350,
+          kpts=(13,13,13),
+          sigma=0.4,
+          nbands=6,
+          atoms=atoms) as calc:
+    print atoms.get_potential_energy()
+
+#+END_SRC
+
+#+RESULTS:
+: Errors found:
+: 2061: |      Your highest band is occupied at some k-points! Unless you are         |
+:
+:
+: -3.723563
+
+This is what appears in the [[./cu-setnbands/OUTCAR::2061]]
+
+#+begin_example
+ -----------------------------------------------------------------------------
+|                                                                             |
+|  ADVICE TO THIS USER RUNNING 'VASP/VAMP'   (HEAR YOUR MASTER'S VOICE ...):  |
+|                                                                             |
+|      Your highest band is occupied at some k-points! Unless you are         |
+|      performing a calculation for an insulator or semiconductor, without    |
+|      unoccupied bands, you have included TOO FEW BANDS!! Please increase    |
+|      the parameter NBANDS in file 'INCAR' to ensure that the highest band   |
+|      is unoccupied at all k-points. It is always recommended to             |
+|      include a few unoccupied bands to accelerate the convergence of        |
+|      molecular dynamics runs (even for insulators or semiconductors).       |
+|      Because the presence of unoccupied bands improves wavefunction         |
+|      prediction, and helps to suppress 'band-crossings.'                    |
+|      Following all k-points will be listed (with the Fermi weights of       |
+|      the highest band given in paranthesis) ... :                           |
+|                                                                             |
+|                          6       (-0.01472)                                 |
+|                          8       (-0.01413)                                 |
+|                         13       (-0.01733)                                 |
+|                         14       (-0.01838)                                 |
+|                                                                             |
+|      The total occupancy of band no.    49 is  -0.00932 electrons ...       |
+|                                                                             |
+ -----------------------------------------------------------------------------
+#+end_example
+
+The default behavior for setting nbands in VASP is:
+
+| non-spin polarized | NELECT/2 + NIONS/2    |
+| spin-polarized     | 0.6*NELECT + NMAGIONS |
+
+
+- You need to know the number of valence electrons
+- The valence electrons are stored in the second line of the element POTCAR
+- Different POTCARs for the same element may have different electrons
+#+BEGIN_SRC sh
+head -n 2 $VASP_PP_PATH/POTPAW_PBE/Ag/POTCAR
+head -n 2 $VASP_PP_PATH/POTPAW_PBE/Ag_pv/POTCAR
+#+END_SRC
+
+#+RESULTS:
+:  PAW_PBE Ag 06Sep2000
+:  11.0000000000000000
+:   PAW_PBE Ag_pv 09Dec2005
+:  17.0000000000000000
+
+- Helpful functions for setting NBANDS
+ -  func:jasp.get_valence_electrons
+ -  func:jasp.set_nbands
+
+
+* Footnotes
+
+[fn:1] http://cms.mpi.univie.ac.at/wiki/index.php/ISMEAR

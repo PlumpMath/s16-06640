@@ -1,0 +1,336 @@
+#+TITLE: 06-640 Molecular Simulation Syllabus
+#+NAME: John Kitchin
+#+STARTUP: showall
+#+TODO: TODO COLLECTED GRADED
+#+TODO: TODO DONE
+
+
+* Course details
+  :PROPERTIES:
+  :VISIBILITY: folded
+  :END:
+
+Molecular Simulations (06-640) – Spring 2016
+
+Instructor: Prof. John Kitchin, DH A207F, 412-268-7803, jkitchin@andrew.cmu.edu
+
+Office hours by appointment.
+
+Class times and location: Tue. and Thur. Wean 5415 1:30-2:50pm
+
+
+We will also use [[~/dft-book/dft.org][these notes]] extensively. You can see HTML and pdf versions of the notes at http://kitchingroup.cheme.cmu.edu/dft-book (these versions are not as current as the org-mode version).
+
+Optional Textbook: [[http://www.amazon.com/Density-Functional-Theory-Practical-Introduction/dp/0470373172][Density Functional Theory: A Practical Introduction]], David Sholl and Jan Steckel.
+
+I will provide you with an account on our computing cluster for performing assignments in class. The account will be valid for 1 semester. You will receive directions by email on using this account. This is probably the only way for most people to complete assignments in this course, unless they have access to a computing cluster with all the required software.
+
+** Class description
+A wide range of molecular simulations are used widely today to calculate the properties of materials. This course will focus on the use of density functional theory, a nearly first-principles molecular simulation method, to calculate the properties of molecular and solid-state material systems. We will focus on the most basic property, the total energy of the system, and how that can be used to derive other properties. We will also introduce tools for facilitating computational simulations including the use of editors, version control software, data analysis and visualization. You will learn how to use Emacs + org-mode to document your scientific research.
+
+** Learning objectives
+
+ By the end of this class you should be able to
+
+*** Understand the basic principles of density functional theory and how it can be used to predict the properties of materials
+*** Setup and run DFT calculations on molecular, bulk and surface systems
+*** Use numerical methods to analyze molecular simulation data
+*** Visualize 1D, 2D and 3D simulation data
+*** Critically assess articles from the scientific literature that utilize molecular simulation techniques
+*** Use emacs+org-mode to document your work
+
+** Class requirements
+You will be required to do programming in python. That language is similar to Matlab, and we will be learning by examples in class. You will also be required to use a Linux computing environment, and tools that include emacs and git. The basics of these tools will be covered in class, but you may have to learn more about them on your own to gain proficiency.
+
+You will need to bring your laptop to class. Your laptop should have an ssh client, and an X-server installed on it. If you run Linux or have a Macintosh, this probably automatically available. If you have a Windows PC, I recommend SSH Tectia (available at http://www.cmu.edu/computing/software/all/tectia/download.html), and the XMing server (http://www.straightrunning.com/XmingNotes/) You need the public domain release).
+
+** Grading
+
+#+caption: Categories and weights for graded assignments
+#+tblname: categories
+| Category      | weight |
+|---------------+--------|
+| homework      |    0.2 |
+| participation |    0.1 |
+| lit-review-1  |    0.1 |
+| lit-review-2  |    0.1 |
+| mini-1        |    0.2 |
+| final-project |    0.3 |
+
+Here is a brief description of what you will do in this course:
+
+- Homeworks will be assigned problems for you to work. They will typically require python programming and running DFT calculations. These will typically occur once or twice a week.
+
+- participation will include in class exercises and quizzes.
+
+- I will assign a paper for you to review for lit-review-1.
+
+- You will choose a paper to review for lit-review-2
+
+- I will assign a project for mini-1. This will take several days to complete.
+
+- You will choose your own independent project for the final-project. The final-project will be presented to the class at the end of the semester.
+
+More details will follow for each assignment.
+
+*** Grading criteria
+There will be a straight scale (no curve) so you will always know exactly what your grade is at all times. Each problem will be graded considering the approach used, the correctness of the answer, the neatness and quality of presentation, etc....
+
+"A" work has the following characteristics: The correct approach is used and the problem is set up correctly. The work is not over-simplified and it is easy to see it is done correctly. Any assumptions made were stated and justified. The answers are correct or only the most trivial errors are present, and were identified by the student. All of the correct units were used. The presentation is complete, clear, logical, neat and in order. Error analysis was performed if appropriate. Any figures used have properly labeled axes with units, and a legend if there is more than one curve. Essentially everything that should have been done was done and done correctly. This is the kind of work an employer wants their employees to do, and the kind of work you will be promoted for doing. You should be proud of this work.
+
+"B" work is deficient in one or more of the properties of "A" work. It might be basically right, or even correct, but essential details are missing such as units, or the presentation is sloppy. You will get by with this kind of work, but you should not expect to be praised for it.
+
+"C" quality work is deficient in more than two of the properties of "A" work. You would probably not get fired for this kind of work, but you may be notified you need to improve and you should not expect any kind of promotion. This is the bare minimum of expected performance.
+
+"D" work is not considered acceptable performance. Repeat offenses could lead to the loss of your job, or reassignment to radioactive sewage treatment.
+
+"R" work is totally unacceptable performance. You will be fired. Maybe indicted, and put in jail for endangering humanity.
+
+plus/minus modifiers will be used to provide finer grained grades.
+
+Each problem will have a point value associated with it. The letter grade you get serves as a multiplier on that point value. The multipliers are:
+
+| Lettergrade | multiplier |
+|-------------+------------|
+| A++         |          1 |
+| A+          |       0.95 |
+| A           |        0.9 |
+| A-          |       0.85 |
+| A/B         |        0.8 |
+| B+          |       0.75 |
+| B           |        0.7 |
+| B-          |       0.65 |
+| B/C         |        0.6 |
+| C+          |       0.55 |
+| C           |        0.5 |
+| C-          |       0.45 |
+| C/D         |        0.4 |
+| D+          |       0.35 |
+| D           |        0.3 |
+| D-          |       0.25 |
+| D/R         |        0.2 |
+| R+          |       0.15 |
+| R           |        0.1 |
+| R-          |       0.05 |
+| R- -        |        0.0 |
+
+At the end of the semester I will calculate what fraction of the possible points you have earned, and your grade will be based on this distribution:
+
+| 80% \ge grade        | A |
+| 60% \ge grade \lt 80 | B |
+| 40% \ge grade \lt 60 | C |
+| 20% \ge grade \lt 40 | D |
+| grade \lt 20%        | R |
+
+** Course policies
+*** Academic Honesty
+In this class we will pursue the highest levels of excellence. I expect you to uphold the highest standards of personal, ethical and moral conduct in this class.
+
+1. Cheating will not be tolerated. You are expected to do your own work. You should not copy anyone's work. See http://www.cmu.edu/academic-integrity/cheating/index.html for more details.
+
+2. Plagiarism will not be tolerated.
+  "According to the University Policy on Academic Integrity, plagiarism "is defined as the use of work or concepts contributed by other individuals without proper attribution or citation."  http://www.cmu.edu/academic-integrity/plagiarism/index.html
+You should endeavor to give credit where credit is due.
+
+3. No other forms of academic dishonesty will be tolerated.
+
+Violations of these principles will be handled according to University policies.
+http://www.cmu.edu/academic-integrity/index.html
+
+*** Late assignment policy
+Excellence is not late.  Excellence does not ask for extensions, exceptions, etc... Deadlines are posted in advance, and excellence completes them on time. This is not a class where you can put assignments off to the last minute. Some simulations take time, and sometimes you have to wait for the queue to run your jobs. You should take that into account. Excellence occasionally meets with real life, and even excellence occasionally has extenuating circumstances that hold it back. If you think you have extenuating circumstances that affect your pursuit of excellence, please see me as soon as possible.
+
+Late assignments will automatically lose 50% of their points.
+
+*** Mobile phone policy
+You will use your computers every day in class. I do not want to see or hear your cell phones. Class time is a valuable time to pay attention and ask questions. Please do not distract yourself, your classmates, or me with your phone.
+
+*** Accommodations for Individuals with Disabilities
+If you wish to request an accommodation due to a documented disability, please inform me and contact Disability Resources as soon as possible. The request can be initiated at http://www.cmu.edu/hr/eos/disability/students.
+
+<<<<<<< HEAD
+
+* Class schedule [0/32]
+
+Here is an approximate class schedule. The days with NO CLASS are not likely to change. These days may be augmented with video lectures, or devoted to project work. The topics on a particular day may change.
+
+- [ ] [2016-01-12 Tue] [[./notes/intro.org]]
+- [ ] [2016-01-14 Thu] [[./notes/intro-dft.org]]   [[./notes/intro-ase.org]]
+- [ ] [2016-01-19 Tue] [[./notes/single-computations.org]]
+- [ ] [2016-01-21 Thu] [[./notes/geom-mol.org]]
+- [ ] [2016-01-26 Tue] [[./notes/vib-mol.org]]
+- [ ] [2016-01-28 Thu] [[./notes/reac-energies.org]] [[./notes/dft-comp.org]]
+- [ ] [2016-02-02 Tue] [[./notes/reac-barriers.org]]
+- [ ] [2016-02-04 Thu] [[elisp:(find-file (expand-file-name "examples" starter-kit-dir))]]
+- [ ] [2016-02-09 Tue] [[./notes/recitation-1.org]]
+- [ ] [2016-02-11 Thu] [[./notes/bulk-intro.org]]
+- [ ] [2016-02-16 Tue] [[./notes/bulk-struct.org]] [[./notes/adv-bulk-struc.org]]
+- [ ] [2016-02-18 Thu] [[./notes/bulk-rxn.org]]
+- [ ] [2016-02-23 Tue] [[./notes/bulk-dos.org]]
+- [ ] [2016-02-25 Thu]
+- [ ] [2016-03-02 Wed]
+- [ ] [2016-03-04 Fri] [[./notes/intro-surf.org]]
+- [ ] [2016-03-08 Tue] NO CLASS Spring Break
+- [ ] [2016-03-10 Thu] NO CLASS Spring Break
+- [ ] [2016-03-15 Tue]
+- [ ] [2016-03-17 Thu]
+- [ ] [2016-03-22 Tue] [[./notes/database.org]]
+- [ ] [2016-03-24 Thu]
+- [ ] [2016-03-29 Tue] [[./notes/coverage_dependence.ppt]] (C-u C-u enter) [[./notes/alloy-adsorption.org]]
+- [ ] [2016-03-31 Thu] adsorbate vibrations, diffusion barriers
+- [ ] [2016-04-05 Tue] atomistic thermodynamics
+- [ ] [2016-04-07 Thu]  [[./notes/DFT+U-lecture.pdf]]
+- [ ] [2016-04-12 Tue]
+- [ ] [2016-04-14 Thu] NO CLASS Carnival
+- [ ] [2016-04-19 Tue] Databases
+- [ ] [2016-04-21 Thu] [[./notes/emacs-magic.org]]
+- [ ] [2016-04-26 Tue] Final presentations
+- [ ] [2015-04-30 Thu] Final presentations
+
+* Assignments
+  :PROPERTIES:
+  :CUSTOM_ID: assignments
+  :END:
+
+
+** GRADED assignment:get-to-know      :assignment:
+   CLOSED: [2015-01-17 Sat 10:30] DEADLINE: <2015-01-15 Thu>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   1
+   :CUSTOM_ID: get-to-know
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** GRADED assignment:water	      :assignment:
+   CLOSED: [2015-01-17 Sat 11:23] DEADLINE: <2015-01-16 Fri>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   2
+   :CUSTOM_ID: water
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+solution:water
+
+** GRADED assignment:benzene	      :assignment:
+   CLOSED: [2015-01-20 Tue 20:38] DEADLINE: <2015-01-20 Tue 12pm>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   2
+   :CUSTOM_ID: benzene
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+solution:benzene
+
+** GRADED assignment:ethane	      :assignment:
+   CLOSED: [2015-01-25 Sun 20:11] DEADLINE: <2015-01-23 Fri>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   2
+   :CUSTOM_ID: ethane
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+
+** GRADED assignment:ethane-geom      :assignment:
+   CLOSED: [2015-01-30 Fri 21:19] DEADLINE: <2015-01-26 Mon>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   2
+   :CUSTOM_ID: ethane-geom
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+solution:ethane-geom
+
+** GRADED assignment:ethylene-acetylene :assignment:
+   CLOSED: [2015-02-01 Sun 17:27] DEADLINE: <2015-01-28 Wed>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   3
+   :CUSTOM_ID: ethylene-acetylene
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+solution:ethylene-acetylene
+
+** GRADED assignment:c2-vib	      :assignment:
+   CLOSED: [2015-02-03 Tue 12:31] DEADLINE: <2015-01-30 Fri>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   3
+   :CUSTOM_ID: c2-vib
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+solution:c2-vib
+
+** GRADED assignment:lit-review-1     :assignment:
+   CLOSED: [2015-03-02 Mon 13:29] DEADLINE: <2015-02-13 Fri>
+   :PROPERTIES:
+   :CATEGORY: lit-review-1
+   :POINTS:   5
+   :CUSTOM_ID: lit-review-1
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** GRADED assignment:rxn-1	      :assignment:
+   CLOSED: [2015-02-15 Sun 09:37] DEADLINE: <2015-02-06 Fri>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   3
+   :CUSTOM_ID: rxn-1
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** GRADED assignment:lit-review-2     :assignment:
+   CLOSED: [2015-03-29 Sun 20:56] DEADLINE: <2015-03-18 Wed>
+   :PROPERTIES:
+   :CATEGORY: lit-review-2
+   :POINTS:   5
+   :CUSTOM_ID: lit-review-2
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** GRADED assignment:mini-1	      :assignment:
+   CLOSED: [2015-04-13 Mon 20:18] DEADLINE: <2015-04-06 Mon>
+   :PROPERTIES:
+   :CATEGORY: mini-1
+   :POINTS:   10
+   :CUSTOM_ID: mini-1
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** GRADED assignment:final-project    :assignment:
+   CLOSED: [2015-05-02 Sat 19:21] DEADLINE: <2015-05-01 Fri>
+   :PROPERTIES:
+   :CATEGORY: final-project
+   :POINTS:   10
+   :CUSTOM_ID: final-project
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** GRADED assignment:methane-adsorp				 :assignment:
+   CLOSED: [2015-04-09 Thu 02:32] DEADLINE: <2015-04-06 Mon>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS: 3
+   :CUSTOM_ID: methane-adsorp
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** GRADED assignment:database-use				 :assignment:
+   CLOSED: [2015-04-12 Sun 15:40] DEADLINE: <2015-04-10 Fri>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   2
+   :CUSTOM_ID: database-use
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+* Useful class links
+- http://kitchingroup.cheme.cmu.edu/pycse A thorough resource on using Python for science and engineering
+- https://github.com/jkitchin/dft-book The github site for the notes
+- https://github.com/jkitchin/jasp The github site for jasp

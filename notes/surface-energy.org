@@ -1,0 +1,45 @@
+* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Surface%20energy][Surface energy]]
+
+We think of surface formation from bulk schematically like this:
+
+[[/home-research/jkitchin/06-640-s14/course/dft-book/images/surface-construction.png]]
+
+Then, we define the surface energy as if it is a reaction:
+
+$\sigma = \frac{1}{2}(E_{slab} - \frac{N_{slab}}{N_{bulk}} E_{bulk})$
+
+We may also normalize by the area or by number of surface atoms.
+
+- It takes some care to do this to avoid non-cancelling errors in slab and bulk energies due to incommensurate k-points
+
+- Sometimes there are quantum size effects from the thin slabs
+
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::oscillating-surface-energy][file:~/06-640-s14/course/dft-book/dft.org::oscillating-surface-energy]]
+
+
+** Advanced topics in surface energy
+
+The surface energies can be used to estimate the shapes of nanoparticles using a Wulff construction. See citealp:doi.10.1021/jp200950a for an example of computing Mo_{2}C surface energies and particle shapes, and cite:Inoglu2009188 for an example of the influence of adsorbates on surface energies and particle shapes of Cu.
+
+For a classic paper on trends in surface energies see cite:Vitos1998186
+
+* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Dipole%20correction][Dipole correction]]
+
+- Asymmetric slabs have dipole moments [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::asymmetric-slab][file:~/06-640-s14/course/dft-book/dft.org::asymmetric-slab]]
+
+- periodic dipoles can lead to an electric field that affects the electron density, and consequently the energy
+
+- a dipole correction scheme was invented to correct this
+
+- An electric field is placed in the vacuum to exactly balance this effect
+
+- we use incar:IDIPOL to turn it on
+  - you specify what direction to have the field in
+
+#+caption: IDIPOL settings
+| 1 | x                 |
+| 2 | y                 |
+| 3 | z                 |
+| 4 | x,y,z (molecules) |
+
+** [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Comparing%20no%20dipole%20correction%20with%20a%20dipole%20correction][Comparing no dipole correction with a dipole correction]]

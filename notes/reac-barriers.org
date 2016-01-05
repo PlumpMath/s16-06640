@@ -1,0 +1,76 @@
+* Followup notes
+1. Check your homework grades
+
+2. Total energies between functionals do not mean anything useful
+
+file:../../../../Desktop/emacs.png
+
+[[../../../../Desktop/emacs.png]]  C-c C-x C-v  M-x org-toggle-inline-images  Jmax->org-mode->toggle images
+
+
+** 3. Generating bibtex files
+Do not type in entries except as a last resort! Tedious, error-prone, tedious...
+
+*** M-x doi-utils-add-bibtex-entry-from-doi
+Enter doi at prompt, then the bibtex file, press enter
+
+10.1063/1.1809574
+
+subtle points: If you highlight a doi and run the command it is inserted for you
+If you just copied a doi to the clipboard and run the command, it is inserted for you
+
+*** M-x doi-utils-add-entry-from-crossref-query
+Enter a query, then bibtex file, press enter, and then select a hit.
+
+You can highlight words, which will act as the query
+
+R. A. Olsen and G. J. Kroes and G. Henkelman and  A. Arnaldsson and H. Jonsson, "Comparison of methods for finding saddle points  without knowledge of the final states", The Journal of Chemical Physics, 121:9776-9792 (2004)
+
+** Inserting citations
+Do not type cite links in by hand. Tedious, error-prone, tedious...
+
+first, add
+
+
+
+C-c ] to select entries. choose entry, press enter. cite:sokalski-2012-optim-ta
+
+cite:sokalski-2012-optim-ta,gao-2015-surfac
+
+
+
+C-spc to select more than one entry, then enter to add them all at once.
+pydoc:ase.io.write
+
+
+#+BEGIN_SRC python
+from ase.structure import molecule
+
+atoms = molecule('C2H2')
+print atoms
+
+from ase.io import write
+write('geom.xyz', atoms)
+#+END_SRC
+
+#+RESULTS:
+: Atoms(symbols='C2H2', positions=..., cell=[1.0, 1.0, 1.0], pbc=[False, False, False])
+
+
+#+BEGIN_SRC sh
+cat geom.xyz
+#+END_SRC
+
+#+RESULTS:
+: 4
+: Lattice="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0" Properties=species:S:1:pos:R:3 pbc="F F F"
+: C      0.00000000       0.00000000       0.60808000
+: C      0.00000000       0.00000000      -0.60808000
+: H      0.00000000       0.00000000      -1.67399000
+: H      0.00000000       0.00000000       1.67399000
+
+** References
+bibliography:references.bib
+
+* [[~/dft-book/dft.org::*Molecular reaction barriers]]
+Nudged elastic band discussions

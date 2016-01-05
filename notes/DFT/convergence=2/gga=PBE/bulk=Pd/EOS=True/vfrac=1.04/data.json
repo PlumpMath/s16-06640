@@ -1,0 +1,15 @@
+{"1": {
+ "calculator": "vasp",
+ "calculator_parameters": {"incar": {"isif": 2, "ibrion": 2, "nbands": 9, "doc": "INCAR parameters", "encut": 350.0, "nsw": 30}, "doc": "JSON representation of a VASP calculation.\n\nenergy is in eV\nforces are in eV/\\AA\nstress is in GPa (sxx, syy, szz,  syz, sxz, sxy)\nmagnetic moments are in Bohr-magneton\nThe density of states is reported with E_f at 0 eV.\nVolume is reported in \\AA^3\nCoordinates and cell parameters are reported in \\AA\n\nIf atom-projected dos are included they are in the form:\n{ados:{energy:data, {atom index: {orbital : dos}}}\n", "potcar": [["Pd", "/potpaw_PBE/Pd/POTCAR", "04426435b178dfad58ed91b470847d50ff70b858"]], "input": {"kpts": [8, 8, 8], "kpts_nintersections": null, "reciprocal": false, "setups": null, "xc": "PBE", "txt": "-", "gamma": false}, "atoms": {"cell": [[2.8606711939682965, 0.0, 0.0], [1.4303355969841482, 2.477413925850906, 0.0], [1.430335596984148, 0.825804641950302, 2.33572824903355]], "symbols": ["Pd"], "tags": [0], "pbc": [true, true, true], "positions": [[0.0, 0.0, 0.0]]}, "data": {"stress": [0.07170183839762606, 0.07170183839762606, 0.07170183839762606, -0.0, -0.0, -0.0], "doc": "Data from the output of the calculation", "volume": 16.553461784703998, "total_energy": -5.17091423, "forces": [[0.0, 0.0, 0.0]], "fermi_level": 7.9742}, "metadata": {"date.created": 1427221409.085094, "uuid": "de8c6088-d252-11e4-be1a-003048f5e49e", "date.created.ascii": "Tue Mar 24 14:23:29 2015", "user.username": null, "atoms.resort": [0], "user.email": null, "user.fullname": null, "Pd.potential.git_hash": "04426435b178dfad58ed91b470847d50ff70b858", "Pd.potential.path": "/potpaw_PBE/Pd/POTCAR", "atoms.tags": [0]}},
+ "cell": [[2.8606711939682965, 0.0, 0.0], [1.4303355969841482, 2.477413925850906, 0.0], [1.430335596984148, 0.825804641950302, 2.33572824903355]],
+ "ctime": 15.227419922275525,
+ "key_value_pairs": {"kpt1": 8, "kpt3": 8, "kpt2": 8, "xc": "PBE", "encut": 350.0, "EOS": "True", "gga": "PBE", "convergence": 2, "volume": 16.553461784703998, "bulk": "Pd", "fermi": 7.9742, "total_energy": -5.17091423, "vfrac": 1.04, "calc_time": 7.493, "final_magmom": 0.0, "kppra": 512},
+ "mtime": 15.227419922275525,
+ "numbers": [46],
+ "pbc": [true, true, true],
+ "positions": [[0.0, 0.0, 0.0]],
+ "tags": [0],
+ "unique_id": "77afe698ffd7b67d728785f16a2cb45f",
+ "user": "jboes"},
+"ids": [1],
+"nextid": 2}

@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage{multirow}
+\begin{document}
+
+A primitive table using only essential components:
+
+% The letters in the second block indicate the alignment of each column
+% c = centered, l = left, r = right
+% one letter for each column
+\begin{tabular}{ccc}
+
+  % We enter text into a column by, and then indicate to LaTeX where the
+  % proper alignment is using '&', the same way we did using equations
+  A  &  B  &  C \\
+
+  \hline % Add a horizontal line at the bottom of this column
+
+  1  &  2  &  3  \\ 
+
+\end{tabular}
+
+\bigskip
+
+
+
+% First we define the formatting we need.
+% Four c's indicate that we want 4 centered columns
+% Each column will be separated with a solid | since we've added that as well
+
+A basic table using the multicolumn function:
+
+\begin{tabular}{|c|c|c|c|}
+
+  \hline
+    
+  % The multicolumn tool allows you to join columns
+  % First bracket = number of columns to join
+  % Second bracket = column style (c for centered)
+  % Third column = column entry
+  A   &  \multicolumn{3}{c|}{B-2}  \\
+    
+  \hline
+    
+  \_  &  1  &  2  &  3  \\ 
+    
+  \hline  
+   
+\end{tabular}
+
+\bigskip
+
+
+A more advanced table removing the boundaries in the upper left:
+
+\begin{tabular}{|*{4}{c|}}  % Functionally equivalent to the syntax above
+
+  \cline{2-4}
+    
+  \multicolumn{1}{c|}{} & Item1 & Item2 & Item3 \\ \hline
+    
+  Group1 & 0.8   & 0.1   & 0.1   \\ \hline
+    
+  Group2 & 0.1   & 0.8   & 0.1   \\ \hline
+    
+  Group3 & 0.1   & 0.1   & 0.8   \\ \hline
+    
+  Group4 & 0.34  & 0.33  & 0.33  \\ \hline
+    
+\end{tabular}
+
+
+\bigskip
+
+
+
+
+% These tables can quickly become preposterously large, for what feels like very little return.
+% Proceed with caution!
+
+An elite table using both the multicolumn and multirow functions:
+
+\begin{tabular}{cc|c|c|c|c|l}
+  
+  \cline{3-6}
+  
+  & & \multicolumn{4}{ c| }{Primes} \\ \cline{3-6}
+  
+  & & 2 & 3 & 5 & 7 \\ \cline{1-6}
+  
+  \multicolumn{1}{ |c  }{\multirow{2}{*}{Powers} } &
+  
+  \multicolumn{1}{ |c| }{504} & 3 & 2 & 0 & 1 &     \\ \cline{2-6}
+  
+  \multicolumn{1}{ |c  }{}                        &
+  
+  \multicolumn{1}{ |c| }{540} & 2 & 3 & 1 & 0 &     \\ \cline{1-6}
+  
+  \multicolumn{1}{ |c  }{\multirow{2}{*}{Powers} } &
+  
+  \multicolumn{1}{ |c| }{gcd} & 2 & 2 & 0 & 0 & min \\ \cline{2-6}
+  
+  \multicolumn{1}{ |c  }{}                        &
+  
+  \multicolumn{1}{ |c| }{lcm} & 3 & 3 & 1 & 1 & max \\ \cline{1-6}
+  
+\end{tabular}
+
+\bigskip
+
+\begin{equation}
+A = B * \hat{Cat}
+\end{equation}
+
+\end{document}
+

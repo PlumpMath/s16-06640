@@ -1,0 +1,12 @@
+#+TITLE: Emacs magic
+
+- email
+- RSS
+- hotspots
+- org-show
+
+
+some new idea.
+
+
+ Campbell etal 2013: Enthal, CR 113:4106

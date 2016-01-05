@@ -1,0 +1,26 @@
+ vasp.5.3.5 31Mar14 (build Jan 09 2015 16:57:47) complex                        
+  
+ POSCAR found :  1 types and       1 ions
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR found :  1 types and       1 ions
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ WARNING: small aliasing (wrap around) errors must be expected
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.264816540402E+02    0.26482E+02   -0.42562E+03  1112   0.752E+02
+DAV:   2    -0.476498813427E+01   -0.31247E+02   -0.30498E+02  1162   0.164E+02
+DAV:   3    -0.498353598886E+01   -0.21855E+00   -0.21825E+00  1318   0.156E+01
+DAV:   4    -0.498436792165E+01   -0.83193E-03   -0.83189E-03  1271   0.854E-01
+DAV:   5    -0.498437542429E+01   -0.75026E-05   -0.75014E-05  1316   0.676E-02    0.135E+01
+DAV:   6    -0.472345629901E+01    0.26092E+00   -0.77715E-01  1123   0.889E+00    0.698E+00
+DAV:   7    -0.469071014802E+01    0.32746E-01   -0.49512E-02  1460   0.206E+00    0.268E+00
+DAV:   8    -0.468512450803E+01    0.55856E-02   -0.29228E-03  1220   0.602E-01    0.148E-01
+DAV:   9    -0.468511333144E+01    0.11177E-04   -0.99258E-06   701   0.358E-02
+   1 F= -.46851133E+01 E0= -.46840113E+01  d E =-.468511E+01
+ curvature:   0.00 expect dE= 0.000E+00 dE for cont linesearch  0.000E+00
+ trial: gam= 0.00000 g(F)=  0.385E-61 g(S)=  0.000E+00 ort = 0.000E+00 (trialstep = 0.100E+01)
+ search vector abs. value=  0.100E-09
+ reached required accuracy - stopping structural energy minimisation
+ writing wavefunctions

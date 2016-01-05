@@ -1,0 +1,302 @@
+#+STARTUP: overview
+* Some org-mode markup
+
+Mostly we will see plain text.
+
+or /italics/  or *bold* or  _underlined_ or =verbatim=
+
+Go ahead and type some here:
+
+Sometimes math: $e^{i \pi} - 1 = 0$
+
+Math is in LaTeX (http://en.wikibooks.org/wiki/LaTeX/Mathematics).
+
+If you would prefer to see a rendered equation, type C-c C-x C-l
+
+or  [[elisp:(org-preview-latex-fragment)]]. Note this creates an [[./ltxpng]] directory
+
+Type C-c C-c [[elisp:org-ctrl-c-ctrl-c]] to remove the images and go back to LaTeX.
+
+Not all LaTeX is supported. If you try something "fancy" you will have add some configuration to either the file or org-mode.
+
+* Source code blocks in org-mode
+
+A source block looks like this:
+
+#+BEGIN_SRC language
+
+#+END_SRC
+
+In the space below, type that in.
+
+
+
+
+Note the colors change
+
+You can also use a shortcut template. Put your cursor after <s below and press Tab. It will expand out into the source block. This only works when <s is at the beginning of a line.
+
+<s
+
+
+Put your cursor after <p and press Tab. It will expand out into the source block for python. [fn:1]
+
+<p
+
+You can add a footnote too. Type C-c C-x f  and enter the footnote text. [fn:3]
+
+
+You can "run" a code block by putting the cursor in it, and typing C-c C-c. Try it out here.
+
+#+BEGIN_SRC python
+print 'hello world'
+#+END_SRC
+
+
+
+You should have seen a #+RESULTS: section appear with the output of the program. Go ahead and modify the block to print your name, and rerun the block. The output will be replaced. That was a small python program.
+
+* Basic numerical stuff in python
+We use numpy to do many numerical things in python
+
+We will always import numpy like this:
+#+BEGIN_SRC python
+import numpy as np
+#+END_SRC
+
+All functions are then available in the "np" namespace, and you access them with a "dot" notation. numpy is a module. Here is a way to learn more about numpy: pydoc:numpy.
+
+Or, try M-x pydoc
+
+then type numpy.  [fn:2]
+
+Python functions take arguments. Sometimes they are optional. You have to learn what they are. You do that by paying attention, reading alot, asking what does that do? And then finding out. Emacs makes that simple. Google is your friend.
+
+pydoc:numpy.linspace
+
+The linspace function takes mandatory start and stop arguments, and an optional number of points (default is 50), and some other optional arguments.
+
+#+BEGIN_SRC python
+import numpy as np
+
+x = np.linspace(0, 5, 10)
+print x
+#+END_SRC
+
+
+Many numpy functions are "vectorized" and operate on numpy arrays.
+
+#+BEGIN_SRC python
+import numpy as np
+
+x = np.linspace(0, 5, 10)
+print np.exp(x)
+#+END_SRC
+
+You can make arrays out of lists in Python.
+
+#+BEGIN_SRC python
+import numpy as np
+
+a = [1, 2, 3, 4]  # This is a list. Note the square brackets
+print 2 * a
+print 2 * np.array(a)
+#+END_SRC
+
+When doing math, use arrays.
+
+array math is element-wise
+
+#+BEGIN_SRC python
+import numpy as np
+
+a = np.array([1, 2, 3, 4])
+b = np.array([2, 3, 4, 5])
+
+print a * b
+#+END_SRC
+
+* Plotting
+We use matplotlib for plotting in python. We will always import the plotting functions like this:
+
+#+BEGIN_SRC python
+import matplotlib.pyplot as plt
+#+END_SRC
+
+#+BEGIN_SRC python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 2 * np.pi)
+plt.plot(x, np.sin(x))
+plt.show()  # you need this to see the plot
+#+END_SRC
+
+We can plot more than one function. Then we need a legend. We can also save the figure so we can see it later.
+
+#+BEGIN_SRC python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 2 * np.pi)
+plt.plot(x, np.sin(x))
+
+y2 = x**2   # elementwise squaring
+
+plt.plot(x, y2, 'ro')
+
+plt.xlabel('x data')
+plt.ylabel('y data')
+
+plt.legend(['sin(x)', '$x^2$'], loc='best')  # best is not the default !
+plt.savefig('my-special-plot.png')
+plt.show()                         # put show after the savefig
+#+END_SRC
+
+#+RESULTS:
+
+
+You can put your image in your org file using link syntax:
+
+#+BEGIN_EXAMPLE
+[[./my-special-plot.png]]
+#+END_EXAMPLE
+
+Note that the double brackets "disappear". They are visible in plain text mode
+[[elisp:(text-mode)]]   If you click that link type M-x org-mode to get back.
+
+
+[[./my-special-plot.png]]
+
+Initially the image will not show up. You can click on the link to open it.
+
+[[elisp:(org-toggle-inline-images)]]
+
+or C-c C-x C-v
+
+Check out [[elisp:(describe-function 'org-toggle-inline-images)]]
+
+or Type C-h f
+then enter org-toggle-inline-images
+
+Press tab a few times while entering the function name to see some completion and options.
+
+The next time you open this org-file, the images will automatically be visible.
+
+* Printing strings
+
+We already printed a string. We can save strings in variables, and then print them. Try running this:
+
+#+BEGIN_SRC python
+a = 'Hello world'
+print a
+#+END_SRC
+
+Most things in python are /objects/, which have functions on them. Here is an example:
+
+#+BEGIN_SRC python
+a = 'Hello world'
+print a.upper()
+print a.lower()
+#+END_SRC
+
+Curious about what else you can do with strings? Click on this: pydoc:string
+
+or, type M-x pydoc and enter string.
+
+We can add strings
+#+BEGIN_SRC python
+a = 'Hello'
+b = 'John'
+print a + ' ' + b
+#+END_SRC
+
+Some things are automatically cast as strings when you print them.
+
+#+BEGIN_SRC python
+print 'The answer is ', 1/3
+#+END_SRC
+
+
+Surprised by that answer? *NEVER* forget integer math. Let us try again.
+#+BEGIN_SRC python
+print 'The answer is ', 1.0/3
+#+END_SRC
+
+As long as one number is a float, the answer is converted to a float
+
+#+BEGIN_SRC python
+print 1 / 3
+print 1 / 3.0
+print 1. / 3.
+print 1.0 / 3
+print float(1) / 3
+print float(1) // float(3)  #discards the remainder
+print float(4) // float(3)  #discards the remainder
+#+END_SRC
+
+
+** Formatting strings
+We do not always want to see many decimal places.
+
+We may want to replace part of a string by a variable.
+
+We use string formatting to control output the way we want to.
+
+{n:format} will be replaced by the nth argument in the specified format.
+
+The format string is optional.
+#+BEGIN_SRC python
+a = 1.0
+b = 3.0
+c = a / b
+print 'The answer to {1}/{2} is {0}'.format(c, a, b)
+#+END_SRC
+
+The order in the string is not important.
+
+Let's format the answer as a 3 decimal place float. The format string is '.3f'
+
+f is for float
+.3 is for three decimal places
+
+#+BEGIN_SRC python
+a = 1.0
+b = 3.0
+c = a / b
+print 'The answer to {1}/{2} is {0:.3f}'.format(c, a, b)
+#+END_SRC
+
+You can format mixed numbers and strings too:
+
+#+BEGIN_SRC python
+print '{0} was born on {1} {2}, {3}'.format('John', 'May', 7, 1974)
+#+END_SRC
+
+There are many more complex options:   http://docs.python.org/2/library/stdtypes.html#string-formatting
+
+#+BEGIN_SRC python
+print '{name} was born on {month:5s} {day:02d}, {year}'.format(name='John', day=7, year=1974, month='May')
+#+END_SRC
+
+* Export this document
+Just for fun, let us convert this document to a form that nomacsers can read.
+
+Type C-c C-e
+
+review the menu.
+
+press l (lowercase L), then o
+
+Wait a bit, and you should see a pdf file open.
+
+
+
+
+* Footnotes
+
+[fn:1] This is a custom template I added because I use it so much. The point is you can add features like that to emacs. Experimentalists get to build new instruments. We do too.
+
+[fn:2] This is not a vanilla feature. I wrote a simple function to do it. Type C-h f pydoc to get help on the pydoc function.
+
+[fn:3] it is tricky navigating back to where you were. Move the cursor to the beginning of the line in the footnote label and press C-c C-c. Or click on the footnote label.

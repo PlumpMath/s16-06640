@@ -1,0 +1,96 @@
+#+TITLE: Lecture 15 - Introduction to surfaces
+
+- We model surfaces as /slabs/
+
+- That is like a bulk unit cell, but with some vacuum space in one dimension, and continuity in the other directions.
+
+[[~/dft-book/images/Al-slab.png]]
+
+- There are always *2* surfaces
+  - They are not always identical
+
+- Surfaces are classified by Miller indices (http://en.wikipedia.org/wiki/Miller_index)
+
+- The simple, flat surfaces are fcc(111), fcc(110), fcc(100), bcc(110), bcc(100), hcp(0001)
+
+- There are built in functions for fcc111, bcc110, bcc111, hcp001 and diamond111.
+
+pydoc:ase.lattice.surface
+
+#+BEGIN_SRC python
+from ase.lattice.surface import fcc111
+from ase.visualize import view
+
+atoms = fcc111('Al', size=(2,2,3), vacuum=10.0)
+
+view(atoms)
+#+END_SRC
+
+- this leads to new parameters to test for convergence
+  - Number of layers
+  - Amount of vacuum space
+  - Size of the unit cell
+
+* Vicinal surfaces
+- These are "high" Miller index surfaces
+- They have steps and kinks
+
+pydoc:ase.lattice.surface.surface
+
+#+BEGIN_SRC python
+from ase.lattice.surface import surface
+from ase.visualize import view
+
+# Au(211) with 9 layers
+atoms = surface('Au', indices=(2, 1, 1), layers=9, vacuum=5)
+atoms.center()
+
+view(atoms)
+#+END_SRC
+
+#+RESULTS:
+
+- Here the idea of a layer needs explaining
+  - It is related to the d-spacing
+
+- These unit cells can get large very quickly
+
+#+BEGIN_SRC python
+from ase.lattice.surface import surface
+from ase.visualize import view
+
+# Au(211) with 9 layers
+atoms = surface('Au', indices=(6, 4, 3), layers=19, vacuum=5)
+atoms.center()
+
+view(atoms)
+#+END_SRC
+
+#+RESULTS:
+
+
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Surface%20calculation%20parameters][Surface calculation parameters]]
+
+- Slabs are not like the bulk in electronic structure
+- In the plane of the slab, they are similar to bulk
+  - atoms overlap, and there are bands with significant dispersion
+
+- Normal to the slab, however, there is no band dispersion
+  - the bands are flat [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::surface-bands][file:~/06-640-s14/course/dft-book/dft.org::surface-bands]]
+
+- That means we use M \times N \times 1 k-point grids where there is 1 k-point in the direction normal to the slab (usually the $z$ direction)
+
+* Simple surface calculations
+
+- Surfaces break translational symmetry
+- Surface atoms are undercoordinated compared to bulk atoms and in an unsymmetric way
+- This leads to forces on surfaces constructed from bulk termination by vacuum
+- We can use geometry optimization to reduce the forces
+- This leads to /surface relaxation/ if the atoms do not fundamentally change positions
+
+- See [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Surface%20relaxation][Surface relaxation]]
+
+- Sometimes there are more stable arrangements of atoms at the surface than the bulk termination
+- This is called [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Surface%20reconstruction][Surface reconstruction]]
+  - We can estimate the probability of this by thinking of the energy change for this reaction
+  - bulk-terminated surface \rightarrow reconstructed surface

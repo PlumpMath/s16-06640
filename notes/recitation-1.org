@@ -1,0 +1,279 @@
+* Review of publishing using Emacs
+Notes from last class:
+[[~/jmax/examples/technical-documents-in-org.org]]
+
+LaTeX is the basis of all document publication that Emacs performs. As such, it is important to have a base understanding of LaTeX syntax.
+
+Here is some basic LaTeX syntax:
+
+** '\\' - Line break
+Line breaks are most commonly used in equations with multiple lines.
+
+Equations with line breaks:
+
+C-c c-x-l
+
+\begin{align}
+&OVac\_FormE(cID) \rightarrow OVac\_FormE(mID, mag, num\_atoms, \nonumber \\
+&orientation, correction, calc\_quantity,\nonumber \\
+&calculator, figure) \label{eq:multiline}
+\end{align}
+
+Equation without:
+
+\begin{align}
+OVac\_FormE(cID) \rightarrow OVac\_FormE(mID, mag, num\_atoms,
+orientation, correction, calc\_quantity,
+calculator, figure) \label{eq:multiline}
+\end{align}
+
+NOTE: The '&' symbol indicates where you would like to align the equation. for example:
+
+\begin{align}
+Equation & = blah \\
+& = blah blah \\
+& = blah blah blah \\
+\end{align}
+
+** '\' - Forced spacing in equations
+Sometimes you would like to add space into your equations. This can be done using a single slash:
+
+\begin{align}
+Equation & = blah \\
+& = blah \ blah \\
+= blah & \ blah \ blah \\
+\end{align}
+
+** More advanced tables
+The equation alignment works in a similar fashion to LaTeX table generation.
+
+But first, make sure you have latex-preview-pane installed:
+
+1. type M-x list-packages
+2. search for 'latex-preview-pane'
+3. click on the link and then the install button
+4. job well done, pat yourself on the back
+
+Here are some examples of more complex table operations you can add to your org file:
+
+[[./table-examples.tex]]
+
+More examples for LaTeX tables in all of there glorious complexity can be found here:
+http://en.wikibooks.org/wiki/LaTeX/Tables
+
+Online tool for making latex tables from various data files:
+http://www.tablesgenerator.com/latex_tables
+
+
+* Review of VASP tags and their purpose
+It's important to keep in mind that the purpose of VASP is to implement the Kohn-Sham equations in order to solve for properties of interested for various atomic configurations.
+
+All of the tags we implement are a means to that end.
+
+** XC and GGA
+Hopefully, this one is pretty self explanatory. 
+
+The exchange correlation functional is every part of the Kohn-Sham equation that we don't know the exact solution for. So, it needs to be approximated.
+
+We do this by setting the XC tag to either 'LDA' (Local-Density Approximation), or 'PBE' (Perdew, Burke, and Ernzerhof).
+
+#+BEGIN_SRC python :results silent
+from jasp import *
+from ase.structure import molecule
+
+atoms = molecule('H2')
+atoms.set_cell([6, 6, 6])
+atoms.center()
+
+with jasp('./molecules/func-pbe',
+          xc='PBE',
+          atoms=atoms) as calc:
+    try:
+    
+    calc.initialize(atoms)
+    calc.write_potcar()
+#+END_SRC
+
+Here is the resulting POTCAR file which is written for our atoms object:
+[[./molecules/func-pbe/POTCAR]]
+
+-----
+
+The GGA tag stands for generalized gradient approximation. This is a class of functionals which include gradients (As opposed to LDA which is constant).
+
+Here are a list of all the functionals you may use in the future:
+http://cms.mpi.univie.ac.at/vasp/vasp/GGA_tag.html
+
+91	Perdew -Wang 91
+PE	Perdew-Burke-Ernzerhof
+RP	revised Perdew-Burke-Ernzerhof
+AM	AM05 (Ref. [49,50], VASP tests see Ref. [51])
+PS	Perdew-Burke-Ernzerhof revised for solids (PBEsol, see Ref. [52])
+
+When implementing the GGA tag, it is recommended that you set xc equal to 'LDA' as follows:
+
+#+BEGIN_SRC python :results silent
+from jasp import *
+from ase.structure import molecule
+
+atoms = molecule('H2')
+atoms.set_cell([6, 6, 6])
+atoms.center()
+
+with jasp('./molecules/func-ps',
+          xc='LDA',
+          gga='PS',
+          atoms=atoms) as calc:
+    
+    calc.initialize(atoms)
+    calc.write_potcar()
+#+END_SRC
+
+Here is the resulting POTCAR file which is written for our atoms object:
+[[./molecules/func-ps/POTCAR]]
+
+The POTCAR contains all of the information needed to calculate the Kohn-Sham equations for the atoms in your atoms object for a specific functional.
+
+The XC tag tells VASP were to get the POTCAR information from. The producers of VASP have specifically tailored these files to calculate energies for each atom type quickly and effectively.
+
+These files are what separate VASP from other codes which perform molecular simulation studies.
+
+** VASP 'behind the scenes'
+Notice in the previous example, I've used JASP to only produce one of the initialization files needed for a VASP calculations.
+
+Keep in mind that JASP is only a 'wrapper' for VASP!
+
+i.e. JASP is a fancy interface, designed to make VASP easier to use
+
+e.g. without JASP and ASE (Atomic Simulation Environment), we would need to make these input files manually!
+
+We can use JASP for all of the Initialization files needed to run a VASP calculation.
+
+The following code block shows the calculation initialization commands being run every time you start a new calculation:
+
+#+BEGIN_SRC python :results silent
+from jasp import *
+from ase.structure import molecule
+
+atoms = molecule('CH4')
+atoms.set_cell([6, 6, 6])
+atoms.center()
+
+with jasp('./molecules/func-initial',
+          xc='PBE',
+          gga='PS',
+          ibrion=-1,
+          atoms=atoms) as calc:
+
+    calc.initialize(atoms)  #1
+    write_vasp('POSCAR',
+               calc.atoms_sorted,
+               symbol_count=calc.symbol_count)  #2
+    calc.write_incar(atoms)  #3
+    calc.write_potcar()  #4
+    calc.write_kpoints()  #5
+    calc.write_sort_file()  #6
+#+END_SRC
+
+*** #1 - initializing the atoms object
+Running this function defines a large number of variables based on the atoms object
+
+These variables will be utilized by JASP and ASE later to create the other initialization files
+
+JASP also creates a METADATA file here, to record meta-information about the calculation:
+[[./molecules/func-initial/METADATA]]
+
+*** #2 - writing the POSCAR
+This code generates a POSCAR file using ASEs atom sorting tool
+
+POSCAR is fancy coder abbreviation for POSition Component Application Recourse, which is fancy speak for 'information about atom positions'
+
+The ASE atoms sorter is used to collapse like atoms together so the POTCAR can be written into one succinct  file.
+
+Without this sorting feature, each atom would need its OWN POTCAR. 50 atom unit cell? 50 identical POTCAR files.
+
+Here's what the POSCAR file looks like:
+[[./molecules/func-initial/POSCAR]]
+
+*** #3 - writing the INCAR
+This code writes the INCAR file needed to start a VASP calculation
+
+Like POSCAR, this file is another abbreviation for INput Component Application Recourse, i.e. calculation inputs
+
+This file contains all of the input parameters specific to your calculation, and will likely look very familiar to you:
+[[./molecules/func-initial/INCAR]]
+
+*** #4 - writing the POTCAR
+Writes the POTential Component Application Recourse file.
+
+As described above, this file contains the nuts and bolts of what makes VASP unique
+
+There is information about how to solve the Kohn-Sham equation specific to the functional being used
+
+There is also an entry for each type of atom in your atoms object!
+
+Try searching for 'PAW_PBE' in this file to see what I mean:
+[[./molecules/func-initial/POTCAR]]
+
+The POSCAR and POTCAR files must be generated together, since ASE uses special sorting methods to represent all of the atoms in the POSCAR in /one/ POTCAR file.
+
+*** #5 - writing the KPOINTS
+/k/-points are used to sample the Brillouin zone (http://en.wikipedia.org/wiki/Brillouin_zone) of a lattice to discretely measure characteristics of a continuous lattice
+
+You may not have know this existed yet, because we don't need more than one /k/-point for molecule simulation!
+
+Notice that the KPOINTS file generate has 1 /k/-point by default
+[[./molecules/func-initial/KPOINTS]]
+
+This file is essential for ANY VASP calculation. Don't believe me? Go back and look in one of your old calculation folders.
+
+We will discuss /k/-points more when we get into bulk systems next class
+
+*** #6 - writing the ASE sorting order
+The ASE sorting utility is useful for collapsing the POTCAR into one file
+
+The ASE sorting file helps ASE keep track of potential differences between indices of atoms in your hand made atoms objects, and the order that ASE prefers for simplifying the POTCAR file.
+
+In this case, there is no difference, perhaps since the atoms object was generated using ASE:
+[[./molecules/func-initial/ase-sort.dat]]
+
+
+* How to set up a master bibliography file
+
+Inside your jmax directory there is a folder called user
+
+All emacs-lisp code lines in this folder are automatically loaded every time you open emacs
+
+Inside this file, you can create a custom folder to load special modules that you enjoy in emacs:
+
+Here's an example of mine:
+[[~jboes/boes-python/jmax/user/jboes.el]]
+
+Here is a code block you can run to generate a master bibliography setup in your home directory:
+#+BEGIN_SRC python
+import os
+
+home = os.path.expanduser('~')
+
+bibvar = ''';; Setup bibliography variables
+(setq reftex-default-bibliography '("~/bibliography/references.bib"))
+
+(setq org-ref-bibliography-notes "~/bibliography/notes.org"
+      org-ref-default-bibliography '("~/bibliography/references.bib")
+      org-ref-pdf-directory "~/bibliography/bibtex-pdfs/")
+'''
+
+if not os.path.exists(os.path.join(home, 'bibliography')):
+    os.mkdir(os.path.join(home, 'bibliography'))
+    os.mkdir(os.path.join(home, 'bibliography/bibtex-pdfs'))
+
+    with open(os.path.join(home, 'jmax/user/user.el'), 'w') as f:
+        f.write(bibvar)
+
+    with open(os.path.join(home, 'bibliography/references.bib'), 'w') as f:
+        f.write('% Add your citations into this file. TIP: use M-x doi-utils-add-bibtex-entry-from-doi')
+else:
+    print('You already have a bibliography folder, you may already have a master bibliography file')
+#+END_SRC
+
+Now you can call citations from your master .bib file into

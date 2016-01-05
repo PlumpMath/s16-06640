@@ -1,0 +1,68 @@
+* Comparisons of DFT with experiments for molecules
+
+cite:curtiss:1063
+
+- 148 molecules with known enthalpies of formation at 298 K (G2 neutral set)
+
+  - 29 radicals
+  - 35 nonhydrogen systems
+  - 93 new molecules
+
+  - the B3LYP method has a maximum deviation of 20.1 kcal/mol
+
+
+
+cite:Sun200337
+
+- 5 different functionals with USPP in VASP
+
+- diatomics, N2, O2, F2 and CO, and carbon based organic systems, ethane, ethylene, acetylene, 1,3-butadiene, 1,3,5-hexatriene, benzene, biphenyl, naphtalene graphene, polyethylene and all-trans-polyacetylene
+
+- The four functionals based on the generalized gradient approximation gave very good agreement on bond lengths and angles as compared with each other, with localized Gaussian basis set calculations and with experimental values
+
+- Reasonable results were also obtained for vibrational frequencies of selected normal modes of benzene and for torsional potentials of 1,3-butadiene and biphenyl
+
+- local density approximation tends to underestimate bond lengths
+
+- The performance of VASP for these properties is very similar to Gaussian type implementations of density functional theory
+
+
+cite:PhysRevB.75.115131
+
+- Wu-Cohen (WC) functional (GGA)
+  - derived from the homogeneous electron gas
+  - mathematical relations obeyed by the exact functional
+
+- PBE remains superior for the energetics of covalent and noncovalent bonds.
+ - for covalent bonds, where PBE is a functional of rather poor quality
+
+- WC improves over local-density approximation (LDA) and PBE for the surface formation energy of 3d elements
+
+- LDA is the best for heavier elements
+
+- the lattice constant of solids as determined by the WC functional is in between the LDA and PBE results and on average closer to experiment
+
+- for each group of compounds which functional performs best and provide trends
+
+- in the case of lattice constants whose values are determined by weak interactions (e.g., the interlayer distance in graphite), the LDA functional is more accurate than the generalized gradient approximation functionals
+
+
+
+cite:paier:234102
+
+- local and semilocal functionals show significant errors, for instance, in the energetics of small molecules and in the description of band gaps.
+
+- A plane-wave-based algorithm was implemented in VASP (Vienna ab-initio simulation package) to allow for the calculation of the exact exchange.
+
+- calculations for the 55 molecules of the G2-1 quantum chemical test set were performed applying the PBE and PBE0 functionals.
+
+- Excellent agreement for both atomization energies and geometries compared with the results obtained by GAUSSIAN 03 calculations using large basis sets (augmented correlation consistent polarized valence quadruple zeta for the geometry optimization and augmented correlation-consistent polarized valence quintuple zeta for the energy calculations) was found.
+
+- The mean absolute error for atomization energies between VASP and the experiment is 8.6 and 3.7kcal/mol, as calculated with the PBE and PBE0 functionals, respectively.
+
+- The mean deviations between VASP and GAUSSIAN are 0.46 and 0.49kcal/mol for the PBE and PBE0 functionals, respectively.
+
+
+* References
+
+bibliography:~/dft-book/dft.bib

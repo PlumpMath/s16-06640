@@ -1,0 +1,89 @@
+* Project 2 notes
+1. We are doing a progression of projects
+ - Project 1 was well-defined by me
+ - Project 2 is defined by a paper
+ - Final project is defined by you
+
+I do not want a literature review like the first one you did. For project two, there should be a brief (1/2 page) summary of the key results, and another summary of how the paper did the calculations (1/2 page).
+
+You do not need to repeat everything in the paper. You do need to convince me that you can spot the most important results, and reproduce those.
+
+It should take less than a week to run all the calculations. The rest of the time should be spent on the analysis and writeup.
+
+Presentations will be short.
+1 slide on Introduction
+1 slide on what you are calculating and how
+1 slide with comparison of paper figures and your figures
+1 slide to conclude
+
+You should not have more than 6 slides, as you have only 9 minutes.
+
+All presentations are due at the same time. Presentation order will be determined randomly. Jake will load all the presentations (powerpoint, pdf or emacs+org-mode) onto a laptop.
+
+* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Adsorption%20energies][Adsorption energies]]
+
+- The adsorption energy is the change in energy between a molecule in the gas phase, and the molecule on a surface
+
+- Physisorption
+  - Relatively weak interaction with surface
+  - Molecule is only slightly perturbed in structure
+
+- Chemisorption
+  - Relatively strong interaction with surface
+  - Molecule strongly perturbed in structure
+  - Molecule may dissociate
+
+slab + gas-phase molecule \rightarrow slab_adsorbate + products
+
+- We have to make many decisions in calculating adsorption energies
+
+  - What surface?
+  - What site? (fcc, hcp, bridge, top, step, ...)
+  - How big should the unit cell be? Does it matter?
+  - what other adsorbates are present?
+  - How should we constrain the atoms?
+  - How thick should the slab be?
+
+- To explore these questions let us calculate the dissociative adsorption energy of O_2 on Pt(111) in different sites
+
+  - Pt(111) + 1/2 O_2 \rightarrow Pt-O(111)
+  - we consider the fcc, hcp, and bridge sites
+  - we will use a 2 \times 2 unit cell with three layers
+  - We will freeze the metal atoms
+
+\( \Delta H_{ads} (eV/O) = E_{slab+O} - E_{slab} - 0.5*E_{O_2} \)
+
+- We setup each calculation in its own section.
+- We only run the calculation in these sections. We will compute adsorption energies later.
+
+- [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*clean%20slab%20calculation][clean slab calculation]]
+- [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*fcc%20site][fcc site]]
+- [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*O%20atom%20on%20the%20bridge%20site][O atom on the bridge site]]
+- [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*hcp%20site][hcp site]]
+
+- Once these are done we can get the adsorption energies
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Analysis%20of%20adsorption%20energies][Analysis of adsorption energies]]
+
+- We learn that the fcc site is more favorable than the hcp site
+- The bridge site is not stable
+
+- We can still calculate the bridge site if we use constraints
+  - We have to constrain the O atom so it only moves in the z-direction
+  - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Adsorption%20on%20bridge%20site%20with%20constraints][Adsorption on bridge site with constraints]]
+
+- Limitations of these calculations
+  - frozen slab
+  - thin slab
+  - We did not consider convergence
+  - fixed coverage
+
+- Let us consider effect of coverage: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Coverage%20dependence][Coverage dependence]]
+- We look at the adsorption energy at 1 ML
+
+[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Adsorption%20energy%20at%201ML][Adsorption energy at 1ML]]
+
+* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Adsorbate%20vibrations][Adsorbate vibrations]]
+- We use IBRION=5 in conjunction with constraints to get the vibrational modes that we want.
+
+- Vibrations also tell us about the stability of a site
+  [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Vibrations%20of%20the%20bridge%20site][Vibrations of the bridge site]]
