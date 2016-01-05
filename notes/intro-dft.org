@@ -128,7 +128,7 @@ print f(3)
 #+END_SRC
 
 * Introduction to DFT
-Read this for all the details [[file:~/dft-book/dft.org::*Introduction%20to%20DFT][Introduction to DFT]]
+Read this for all the details [[../dft-book/dft.org::*Introduction%20to%20DFT][Introduction to DFT]]
 
 - A functional takes a function and returns a number
 
@@ -191,13 +191,13 @@ $E_{xc}[n(\mathbf{r})]$ is the exchange-correlation energy functional
 1998 Nobel Prize in Chemistry went to Walter Kohn and John Pople.
 
 ** Exchange correlation functionals
-[[file:~/dft-book/dft.org::*Exchange%20correlation%20functionals][Exchange correlation functionals]]
+[[file:../dft-book/dft.org::*Exchange%20correlation%20functionals][Exchange correlation functionals]]
 LDA - approximate electron density as a uniform electron gas. We know Exc for that limit.
 
 GGA - Consider gradients - like a first-order Taylor expansion terminated after the first derivative
 
 ** Basis functions
-[[file:~/dft-book/dft.org::*Basis%20sets][Basis sets]]
+[[file:../dft-book/dft.org::*Basis%20sets][Basis sets]]
 In practice, we expand the Kohn-Sham orbitals in a basis
 
 1. Gaussian functions
@@ -223,7 +223,7 @@ There is a tradeoff in accuracy and computational time
 We /always/ have to consider convergence of the property we are calculating.
 
 ** Pseudopotentials
-[[file:~/dft-book/dft.org::*Pseudopotentials][Pseudopotentials]]
+[[file:../dft-book/dft.org::*Pseudopotentials][Pseudopotentials]]
 
 It is too expensive even with DFT to consider all the electrons
 
@@ -235,7 +235,7 @@ There are codes that treat all the electrons:  Wien2K
 
 The PAW formalism in VASP is almost as good most of the time. It uses frozen core electrons.
 
-** [[file:~/dft-book/dft.org::*Spin%20polarization%20and%20magnetism][Spin polarization and magnetism]]
+** [[file:../dft-book/dft.org::*Spin%20polarization%20and%20magnetism][Spin polarization and magnetism]]
 
 We have to make some decisions about spin polarization
 
