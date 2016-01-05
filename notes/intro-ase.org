@@ -165,7 +165,6 @@ Hg 200.590
 The Atom object itself has limited computational value. It lacks structure (e.g. molecular or solid state).
 
 It is the building block for atomic structures we will run calculations on.
-# you chose None
 
 ** Atoms class
 https://wiki.fysik.dtu.dk/ase/ase/atoms.html#module-atoms
@@ -184,7 +183,7 @@ https://wiki.fysik.dtu.dk/ase/ase/atoms.html#module-atoms
 
 There are several ways to make a new Atoms object from scratch.
 
-I only like this method of explicit list of atoms. [[file:~/dft-book/dft.org::*From%20scratch][From scratch]]
+I primarily like this method of explicit list of atoms. [[file:../dft-book/dft.org::*From%20scratch][From scratch]]
 
 #+BEGIN_SRC python
 from ase import Atoms, Atom
@@ -222,11 +221,11 @@ print atoms.get_volume()
 : MW =  28.0104
 : 1000.0
 
-You can also read some data files in to create Atoms objects ([[file:~/dft-book/dft.org::*Reading%20other%20data%20formats%20into%20a%20calculation][Reading other data formats into a calculation]])
+You can also read some data files in to create Atoms objects ([[file:../dft-book/dft.org::*Reading%20other%20data%20formats%20into%20a%20calculation][Reading other data formats into a calculation]])
 
 Below we read in an xyz file that looks like this:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_SRC text :tangle isobutane.xyz
 14
 
 C       0.000000000000000      0.000000000000000      0.376949000000000
@@ -244,7 +243,7 @@ H      -1.293839000000000     -0.746998000000000     -1.190847000000000
 H      -1.276055000000000     -1.759198000000000      0.261297000000000
 H      -2.161537000000000     -0.225498000000000      0.261297000000000
 
-#+END_EXAMPLE
+#+END_SRC
 
 We also view the atoms. Note:
 1. Use the right mouse button to rotate
@@ -260,7 +259,7 @@ We also view the atoms. Note:
 from ase.io import read
 from ase.visualize import view
 
-atoms = read('/Users/jkitchin/dft-book/molecules/isobutane.xyz')
+atoms = read('./isobutane.xyz')
 atoms.center(vacuum=5)
 print atoms
 
@@ -346,13 +345,13 @@ bothatoms.center(5)
 view(bothatoms)
 #+END_SRC
 
-** [[file:~/dft-book/dft.org::*Simple%20properties][Simple properties]]
+** [[file:../dft-book/dft.org::*Simple%20properties][Simple properties]]
 
 See the notes for
-- [[file:~/dft-book/dft.org::*Getting%20cartesian%20positions][Getting cartesian positions]]
-- [[file:~/dft-book/dft.org::*Molecular%20weight%20and%20molecular%20formula][Molecular weight and molecular formula]]
-- [[file:~/dft-book/dft.org::*Center%20of%20mass][Center of mass]]
-- [[file:~/dft-book/dft.org::*Moments%20of%20inertia][Moments of inertia]]
-- [[file:~/dft-book/dft.org::*Computing%20bond%20lengths%20and%20angles][Computing bond lengths and angles]]
+- [[file:../dft-book/dft.org::*Getting%20cartesian%20positions][Getting cartesian positions]]
+- [[file:../dft-book/dft.org::*Molecular%20weight%20and%20molecular%20formula][Molecular weight and molecular formula]]
+- [[file:../dft-book/dft.org::*Center%20of%20mass][Center of mass]]
+- [[file:../dft-book/dft.org::*Moments%20of%20inertia][Moments of inertia]]
+- [[file:../dft-book/dft.org::*Computing%20bond%20lengths%20and%20angles][Computing bond lengths and angles]]
 
 None of the properties require DFT calculations. Almost everything else will require a DFT calculation. Next week, we will examine those.
