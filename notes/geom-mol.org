@@ -3,7 +3,7 @@
   :ID:       6295445E-8A45-466B-B804-B2B75B4E123C
   :END:
 
-[[id:af5957a7-116e-42f0-b617-0bf2059fd1e5][Geometry optimization]]
+[[../dft-book/dft.org::*Geometry%20optimization][Geometry optimization]]
 
 - DFT finds the electron density that minimizes the total energy for a set of fixed atom positions
 
@@ -131,11 +131,11 @@ print 'The minimum energy is {0} eV at V = {1} Ang^3'.format(minE,minV)
 
 
 
-Now, let us check out the calculations: [[file:~/dft-book/dft.org::*Manual%20determination%20of%20a%20bond%20length][Manual determination of a bond length]]
+Now, let us check out the calculations: [[file:../dft-book/dft.org::*Manual%20determination%20of%20a%20bond%20length][Manual determination of a bond length]]
 
 - If you have more than one dimension, this manual approach is too tedious to be practical.
 
-- VASP can do automatic geometry optimization: [[file:~/dft-book/dft.org::*Automatic%20geometry%20optimization%20with%20VASP][Automatic geometry optimization with VASP]]
+- VASP can do automatic geometry optimization: [[file:../dft-book/dft.org::*Automatic%20geometry%20optimization%20with%20VASP][Automatic geometry optimization with VASP]]
 
 - We have to tell =jasp= about several more keywords:
 
