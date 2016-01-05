@@ -1,4 +1,4 @@
-* [[file:~/dft-book/dft.org::*Simple%20properties%20that%20require%20single%20computations][Simple properties that require single computations]]
+* [[file:../dft-book/dft.org::*Simple%20properties%20that%20require%20single%20computations][Simple properties that require single computations]]
 - Today we run our first calculation
 
 - We need DFT to calculate
@@ -164,14 +164,14 @@ these forces are pushing the atoms together. If we shorten the bond, we should g
 
 ** Calculation parameters that affect the calculation
 
-[[file:~/dft-book/dft.org::*Convergence%20with%20unit%20cell%20size][Convergence with unit cell size]]
+[[file:../dft-book/dft.org::*Convergence%20with%20unit%20cell%20size][Convergence with unit cell size]]
 The total energy changes a lot with unit cell size.  We have to make sure to use the right cell. The right cell depends on what you are trying to calculate! Here we want the total energy in the ideal gas limit.
 
-[[file:~/dft-book/dft.org::*Convergence%20of%20ENCUT][Convergence of ENCUT]]
-This is a critical parameter to get right. You must set ENCUT high enough to be converged, and you must be able to demonstrate that. There are [[file:~/dft-book/dft.org::*Recommended%20values%20for%20ENCUT%20and%20valence%20electrons%20for%20different%20POTCAR%20files][Recommended values for ENCUT and valence electrons for different POTCAR files]]. Small atoms like C, O, N have high cutoff energies. Large atoms like metals have low cutoff energies.
+[[file:../dft-book/dft.org::*Convergence%20of%20ENCUT][Convergence of ENCUT]]
+This is a critical parameter to get right. You must set ENCUT high enough to be converged, and you must be able to demonstrate that. There are [[file:../dft-book/dft.org::*Recommended%20values%20for%20ENCUT%20and%20valence%20electrons%20for%20different%20POTCAR%20files][Recommended values for ENCUT and valence electrons for different POTCAR files]]. Small atoms like C, O, N have high cutoff energies. Large atoms like metals have low cutoff energies.
 
 The computational cost goes up with ENCUT.
 
 ** Other properties
-[[file:~/dft-book/dft.org::*The%20density%20of%20states%20(DOS)][The density of states (DOS)]]
-[[file:~/dft-book/dft.org::*Atom-projected%20density%20of%20states%20on%20molecules][Atom-projected density of states on molecules]]
+[[file:../dft-book/dft.org::*The%20density%20of%20states%20(DOS)][The density of states (DOS)]]
+[[file:../dft-book/dft.org::*Atom-projected%20density%20of%20states%20on%20molecules][Atom-projected density of states on molecules]]
