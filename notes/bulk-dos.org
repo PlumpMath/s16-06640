@@ -1,4 +1,4 @@
-* [[file:~/dft-book/dft.org::*Bulk%20density%20of%20states][Bulk density of states]]
+* [[file:../dft-book/dft.org::*Bulk%20density%20of%20states][Bulk density of states]]
 
 The density of states refers to the number of electronic states in a particular energy range.
 
@@ -123,7 +123,7 @@ See the results here:
 You need to consider convergence: [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::dos-k-convergence][file:~/06-640-s14/course/dft-book/dft.org::dos-k-convergence]]
 
 * Atom-projected DOS
-[[file:~/dft-book/dft.org::*Atom%20projected%20density%20of%20states][Atom projected density of states]]
+[[file:../dft-book/dft.org::*Atom%20projected%20density%20of%20states][Atom projected density of states]]
 
 - planewaves are delocalized
 
@@ -160,6 +160,6 @@ spherical harmonic orbitals
 - first moment is the average energy of distribution
 - The second moment is the mean squared width of the distribution
 
-See example: [[file:~/dft-book/dft.org::%20ados-pd-example][file:~/dft-book/dft.org:: ados-pd-example]]
+See example: [[file:../dft-book/dft.org::%20ados-pd-example][file:../dft-book/dft.org:: ados-pd-example]]
 
-See also the effect of RWIGS on the results: [[file:~/dft-book/dft.org::*Effect%20of%20RWIGS%20on%20ADOS][Effect of RWIGS on ADOS]]
+See also the effect of RWIGS on the results: [[file:../dft-book/dft.org::*Effect%20of%20RWIGS%20on%20ADOS][Effect of RWIGS on ADOS]]

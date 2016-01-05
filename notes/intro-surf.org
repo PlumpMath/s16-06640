@@ -4,6 +4,7 @@
 
 - That is like a bulk unit cell, but with some vacuum space in one dimension, and continuity in the other directions.
 
+#+attr_org: :width 200
 [[~/dft-book/images/Al-slab.png]]
 
 - There are always *2* surfaces
@@ -69,14 +70,14 @@ view(atoms)
 #+RESULTS:
 
 
-[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Surface%20calculation%20parameters][Surface calculation parameters]]
+[[file:../dft-book/dft.org::*Surface%20calculation%20parameters][Surface calculation parameters]]
 
 - Slabs are not like the bulk in electronic structure
 - In the plane of the slab, they are similar to bulk
   - atoms overlap, and there are bands with significant dispersion
 
 - Normal to the slab, however, there is no band dispersion
-  - the bands are flat [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::surface-bands][file:~/06-640-s14/course/dft-book/dft.org::surface-bands]]
+  - the bands are flat [[file:../dft-book/dft.org::surface-bands][file:~/06-640-s14/course/dft-book/dft.org::surface-bands]]
 
 - That means we use M \times N \times 1 k-point grids where there is 1 k-point in the direction normal to the slab (usually the $z$ direction)
 
@@ -88,9 +89,9 @@ view(atoms)
 - We can use geometry optimization to reduce the forces
 - This leads to /surface relaxation/ if the atoms do not fundamentally change positions
 
-- See [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Surface%20relaxation][Surface relaxation]]
+- See [[file:../dft-book/dft.org::*Surface%20relaxation][Surface relaxation]]
 
 - Sometimes there are more stable arrangements of atoms at the surface than the bulk termination
-- This is called [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Surface%20reconstruction][Surface reconstruction]]
+- This is called [[file:../dft-book/dft.org::*Surface%20reconstruction][Surface reconstruction]]
   - We can estimate the probability of this by thinking of the energy change for this reaction
   - bulk-terminated surface \rightarrow reconstructed surface

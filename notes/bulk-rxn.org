@@ -1,4 +1,4 @@
-* [[file:~/dft-book/dft.org::*Effect%20of%20pressure%20on%20phase%20stability][Effect of pressure on phase stability]]
+* [[file:../dft-book/dft.org::*Effect%20of%20pressure%20on%20phase%20stability][Effect of pressure on phase stability]]
 
 $P = -\left(\frac{\partial E}{\partial V}\right)_T$
 
@@ -10,7 +10,7 @@ $P = -\left(\frac{\partial E}{\partial V}\right)_T$
 - The common tangent gives us the transition pressure
   - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::common-tangent][file:~/06-640-s14/course/dft-book/dft.org::common-tangent]]
 
-* [[file:~/dft-book/dft.org::*Cohesive%20energy][Cohesive energy]]
+* [[file:../dft-book/dft.org::*Cohesive%20energy][Cohesive energy]]
 
 - Energy to separate neutral atoms in their ground electronic state from the solid at 0K at 1 atm.
 
@@ -20,7 +20,7 @@ $P = -\left(\frac{\partial E}{\partial V}\right)_T$
 
 - Or for thermodynamic cycles
 
-* [[file:~/dft-book/dft.org::*Alloy%20formation%20energies][Alloy formation energies]]
+* [[file:../dft-book/dft.org::*Alloy%20formation%20energies][Alloy formation energies]]
 1. Is the formation of an alloy at a particular composition and structure energetically favorable?
 
 2. Given two alloy structures at the same composition, which one is more stable?
@@ -47,4 +47,4 @@ Let us consider alloy structures of Cu and Pd
 - One more Cu_{3}Pd structure [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::alloy-cu3pd-2][file:~/06-640-s14/course/dft-book/dft.org::alloy-cu3pd-2]]
 
 * Other solid reaction energies
-[[file:~/dft-book/dft.org::*Metal%20oxide%20oxidation%20energies][Metal oxide oxidation energies]]
+[[file:../dft-book/dft.org::*Metal%20oxide%20oxidation%20energies][Metal oxide oxidation energies]]

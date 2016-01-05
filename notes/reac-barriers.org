@@ -3,10 +3,6 @@
 
 2. Total energies between functionals do not mean anything useful
 
-file:../../../../Desktop/emacs.png
-
-[[../../../../Desktop/emacs.png]]  C-c C-x C-v  M-x org-toggle-inline-images  Jmax->org-mode->toggle images
-
 
 ** 3. Generating bibtex files
 Do not type in entries except as a last resort! Tedious, error-prone, tedious...
@@ -72,5 +68,5 @@ cat geom.xyz
 ** References
 bibliography:references.bib
 
-* [[~/dft-book/dft.org::*Molecular reaction barriers]]
+* [[../dft-book/dft.org::*Molecular reaction barriers]]
 Nudged elastic band discussions

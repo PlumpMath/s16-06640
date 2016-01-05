@@ -1,6 +1,6 @@
 #+TITLE: Lecture 11
 
-* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*k-point%20convergence][k-point convergence]]
+* [[file:../dft-book/dft.org::*k-point%20convergence][k-point convergence]]
 
 [[~/dft-book/images/Ag-kpt-convergence.png]]
 
@@ -23,7 +23,7 @@ $12 \times 12 \times 12$ k-point grid for a primitive fcc unit cell would be src
 
 - so a $6 \times 6 \times 6$ k-point grid has src_python{return 6**3} =216= k-points in it, or src_python{return 216/0.125} =1728.0=  k-points per reciprocal atom, the same as we discussed before.
 
-* [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Effect%20of%20%5B%5Bincar:SIGMA%5D%5BSIGMA%5D%5D][Effect of SIGMA]]
+* [[file:../dft-book/dft.org::*Effect%20of%20%5B%5Bincar:SIGMA%5D%5BSIGMA%5D%5D][Effect of SIGMA]]
 - At absolute zero, a band is either occupied or empty
 
 - discrete occupation results in discontinuous changes in energy with changes in occupation, which makes it difficult to converge
@@ -124,7 +124,7 @@ plt.show()
 #+RESULTS:
 
 ** Comparing crystal structures
-[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::bulk-fcc-bcc-Cu][file:~/06-640-s14/course/dft-book/dft.org::bulk-fcc-bcc-Cu]]
+[[file:../dft-book/dft.org::bulk-fcc-bcc-Cu][file:~/06-640-s14/course/dft-book/dft.org::bulk-fcc-bcc-Cu]]
 
 You can see in the figure that fcc is a little more stable (lower in energy) than bcc
 

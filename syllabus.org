@@ -16,10 +16,10 @@ Instructor: Prof. John Kitchin, DH A207F, 412-268-7803, jkitchin@andrew.cmu.edu
 
 Office hours by appointment.
 
-Class times and location: Tue. and Thur. Wean 5415 1:30-2:50pm
+Class times and location: Tue. and Thur. Wean 4623 9:00-10:30am
 
 
-We will also use [[~/dft-book/dft.org][these notes]] extensively. You can see HTML and pdf versions of the notes at http://kitchingroup.cheme.cmu.edu/dft-book (these versions are not as current as the org-mode version).
+We will also use [[./dft-book/dft.org][these notes]] extensively. You can see HTML and pdf versions of the notes at http://kitchingroup.cheme.cmu.edu/dft-book (these versions are not as current as the org-mode version).
 
 Optional Textbook: [[http://www.amazon.com/Density-Functional-Theory-Practical-Introduction/dp/0470373172][Density Functional Theory: A Practical Introduction]], David Sholl and Jan Steckel.
 
@@ -192,143 +192,6 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
   :CUSTOM_ID: assignments
   :END:
 
-
-** GRADED assignment:get-to-know      :assignment:
-   CLOSED: [2015-01-17 Sat 10:30] DEADLINE: <2015-01-15 Thu>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   1
-   :CUSTOM_ID: get-to-know
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-** GRADED assignment:water	      :assignment:
-   CLOSED: [2015-01-17 Sat 11:23] DEADLINE: <2015-01-16 Fri>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   2
-   :CUSTOM_ID: water
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-solution:water
-
-** GRADED assignment:benzene	      :assignment:
-   CLOSED: [2015-01-20 Tue 20:38] DEADLINE: <2015-01-20 Tue 12pm>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   2
-   :CUSTOM_ID: benzene
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-solution:benzene
-
-** GRADED assignment:ethane	      :assignment:
-   CLOSED: [2015-01-25 Sun 20:11] DEADLINE: <2015-01-23 Fri>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   2
-   :CUSTOM_ID: ethane
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-
-** GRADED assignment:ethane-geom      :assignment:
-   CLOSED: [2015-01-30 Fri 21:19] DEADLINE: <2015-01-26 Mon>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   2
-   :CUSTOM_ID: ethane-geom
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-solution:ethane-geom
-
-** GRADED assignment:ethylene-acetylene :assignment:
-   CLOSED: [2015-02-01 Sun 17:27] DEADLINE: <2015-01-28 Wed>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   3
-   :CUSTOM_ID: ethylene-acetylene
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-solution:ethylene-acetylene
-
-** GRADED assignment:c2-vib	      :assignment:
-   CLOSED: [2015-02-03 Tue 12:31] DEADLINE: <2015-01-30 Fri>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   3
-   :CUSTOM_ID: c2-vib
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-solution:c2-vib
-
-** GRADED assignment:lit-review-1     :assignment:
-   CLOSED: [2015-03-02 Mon 13:29] DEADLINE: <2015-02-13 Fri>
-   :PROPERTIES:
-   :CATEGORY: lit-review-1
-   :POINTS:   5
-   :CUSTOM_ID: lit-review-1
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-** GRADED assignment:rxn-1	      :assignment:
-   CLOSED: [2015-02-15 Sun 09:37] DEADLINE: <2015-02-06 Fri>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   3
-   :CUSTOM_ID: rxn-1
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-** GRADED assignment:lit-review-2     :assignment:
-   CLOSED: [2015-03-29 Sun 20:56] DEADLINE: <2015-03-18 Wed>
-   :PROPERTIES:
-   :CATEGORY: lit-review-2
-   :POINTS:   5
-   :CUSTOM_ID: lit-review-2
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-** GRADED assignment:mini-1	      :assignment:
-   CLOSED: [2015-04-13 Mon 20:18] DEADLINE: <2015-04-06 Mon>
-   :PROPERTIES:
-   :CATEGORY: mini-1
-   :POINTS:   10
-   :CUSTOM_ID: mini-1
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-** GRADED assignment:final-project    :assignment:
-   CLOSED: [2015-05-02 Sat 19:21] DEADLINE: <2015-05-01 Fri>
-   :PROPERTIES:
-   :CATEGORY: final-project
-   :POINTS:   10
-   :CUSTOM_ID: final-project
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-** GRADED assignment:methane-adsorp				 :assignment:
-   CLOSED: [2015-04-09 Thu 02:32] DEADLINE: <2015-04-06 Mon>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS: 3
-   :CUSTOM_ID: methane-adsorp
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
-** GRADED assignment:database-use				 :assignment:
-   CLOSED: [2015-04-12 Sun 15:40] DEADLINE: <2015-04-10 Fri>
-   :PROPERTIES:
-   :CATEGORY: homework
-   :POINTS:   2
-   :CUSTOM_ID: database-use
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
 
 * Useful class links
 - http://kitchingroup.cheme.cmu.edu/pycse A thorough resource on using Python for science and engineering

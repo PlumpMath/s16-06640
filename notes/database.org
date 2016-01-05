@@ -4,9 +4,9 @@
 
 VASP calculations are large and difficult to store on the cloud.
 
-A database will allow you to compactly store 
+A database will allow you to compactly store
 
-This will keep your data safe encase something happens to the local copy (e.g. if Gilgamesh crashes again)
+This will keep your data safe in case something happens to the local copy (e.g. if Gilgamesh crashes again)
 
 Places to store backups from Gilgamesh:
 - Github (cloud service)
@@ -44,7 +44,7 @@ Most large database softwares are written in SQL (Structured Query Language); th
 
 SQL is a very powerful databasing tool which is most effective for managing 1000+ entries in a database across multiple users.
 
-For smaller databases, SQL can be tedious to implement, especially without previous experience. 
+For smaller databases, SQL can be tedious to implement, especially without previous experience.
 
 JSON databasing is not as powerful for large database, but is more user friendly and human readable.
 
@@ -84,10 +84,10 @@ print my_dict.items()
 #+RESULTS:
 : An object in a list is called using:
 : first
-: 
+:
 : An object in a dictionary is called using:
 : 1
-: 
+:
 : ['Label 1', 'Label 2']
 : [1, 2]
 : [('Label 1', 1), ('Label 2', 2)]
@@ -158,7 +158,7 @@ for i, n in enumerate(N):
 Consider these:
 - Does your dictionary contain all of the name information as the table above? If not, what is missing?
 - If you shared your dictionary with a friend, would they understand what information was being stored? How could you explain it using documentation?
-- How easy is it to search for information from your dictionary? 
+- How easy is it to search for information from your dictionary?
 - Would you design it differently if there were 100 students in the class?
 
 These are all questions to consider when designing a database
@@ -322,7 +322,7 @@ def makedb(calc, dbname='data.json', overwrite=False, **kwargs):
     This function generates useful key-value-pairs based
     on the directory path the calculation is stored in.
 
-    i.e. .DFT/bulk=Ag/lattice=4.06/ will create two 
+    i.e. .DFT/bulk=Ag/lattice=4.06/ will create two
     key-value-pairs: bulk=Ag and lattice=4.06
 
     more information on ASE database can be found here:
@@ -544,7 +544,7 @@ positions=[[ 0.  0.  0.]]
 =============
 #+end_example
 
-ASE database truly excels for ASE users who can easily reconstruct atoms objects from data 
+ASE database truly excels for ASE users who can easily reconstruct atoms objects from data
 
 #+BEGIN_SRC python
 from ase.db import connect
@@ -751,4 +751,3 @@ calc_time: 5.509
 final_magmom: 0.0
 kppra: 512
 #+end_example
-
