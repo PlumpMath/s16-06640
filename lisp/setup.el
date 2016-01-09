@@ -5,5 +5,6 @@
 		   ("multiple-choice" . (("\"participation\"" . 1.0)))
 		   ("participation" . (("\"participation\"" . 1.0)))))
 
-
+;; start dft-mode
+(dft-book-mode)
 (message "course setup.el loaded")
