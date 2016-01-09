@@ -6,5 +6,6 @@
 		   ("participation" . (("\"participation\"" . 1.0)))))
 
 ;; start dft-mode
+(load-file "../dft-book/dft.el")
 (dft-book-mode)
 (message "course setup.el loaded")
