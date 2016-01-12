@@ -169,8 +169,8 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
 - [ ] [2016-02-18 Thu] [[./notes/bulk-rxn.org]]
 - [ ] [2016-02-23 Tue] [[./notes/bulk-dos.org]]
 - [ ] [2016-02-25 Thu]
-- [ ] [2016-03-02 Wed]
-- [ ] [2016-03-04 Fri] [[./notes/intro-surf.org]]
+- [ ] [2016-03-01 Tue]
+- [ ] [2016-03-03 Thu] [[./notes/intro-surf.org]]
 - [ ] [2016-03-08 Tue] NO CLASS Spring Break
 - [ ] [2016-03-10 Thu] NO CLASS Spring Break
 - [ ] [2016-03-15 Tue] NO CLASS Spring ACS meeting
