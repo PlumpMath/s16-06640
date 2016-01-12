@@ -16,7 +16,7 @@ Instructor: Prof. John Kitchin, DH A207F, 412-268-7803, jkitchin@andrew.cmu.edu
 
 Office hours by appointment.
 
-Class times and location: Tue. and Thur. Wean 4623 9:00-10:30am
+Class times and location: Tue. and Thur. Wean 4623 9:00-10:20am
 
 The course "website" will be in Emacs. Until I have setup the cluster for you, you can see it at https://github.com/jkitchin/s16-06640.
 
