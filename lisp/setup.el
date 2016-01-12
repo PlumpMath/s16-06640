@@ -7,6 +7,6 @@
 		   ("participation" . (("\"participation\"" . 1.0)))))
 
 ;; start dft-mode
-(load-file (expand-file-name  "dft-book/dft.el" (vc-git-root ".")))
+(load-file (expand-file-name  "dft-book/dft.el" ta-course-dir))
 (dft-book-mode)
 (message "course setup.el loaded")
