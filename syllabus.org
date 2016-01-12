@@ -18,8 +18,9 @@ Office hours by appointment.
 
 Class times and location: Tue. and Thur. Wean 4623 9:00-10:30am
 
+The course "website" will be in Emacs. Until I have setup the cluster for you, you can see it at https://github.com/jkitchin/s16-06640.
 
-We will also use [[./dft-book/dft.org][these notes]] extensively. You can see HTML and pdf versions of the notes at http://kitchingroup.cheme.cmu.edu/dft-book (these versions are not as current as the org-mode version).
+There is no textbook. We will also use [[./dft-book/dft.org][these notes]] extensively. You can see HTML and pdf versions of the notes at http://kitchingroup.cheme.cmu.edu/dft-book (these versions are not as current as the org-mode version).
 
 Optional Textbook: [[http://www.amazon.com/Density-Functional-Theory-Practical-Introduction/dp/0470373172][Density Functional Theory: A Practical Introduction]], David Sholl and Jan Steckel.
 
