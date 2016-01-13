@@ -8,9 +8,11 @@
 
 ;; update submodules
 (with-current-directory (cond
-			 ((boundp 'tq-course-directory)
+			 ((and (boundp 'tq-course-directory)
+			       tq-course-directory)
 			  tq-course-directory)
-			 ((boundp 'ta-course-dir)
+			 ((and (boundp 'ta-course-dir)
+			       ta-course-dir)
 			  ta-course-dir))
 			(mygit "git submodule init")
 			(mygit "git submodule update"))
