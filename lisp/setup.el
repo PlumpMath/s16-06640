@@ -9,9 +9,9 @@
 ;; start dft-mode
 (load-file (expand-file-name  "dft-book/dft.el"
 			      (cond
-			       ((boundp tq-course-directory)
+			       ((boundp 'tq-course-directory)
 				tq-course-directory)
-			       ((boundp ta-course-dir)
+			       ((boundp 'ta-course-dir)
 				ta-course-dir))))
 (dft-book-mode)
 (message "course setup.el loaded")
