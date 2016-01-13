@@ -15,8 +15,6 @@ If you would prefer to see a rendered equation, type C-c C-x C-l
 
 or  [[elisp:(org-preview-latex-fragment)]]. Note this creates an [[./ltxpng]] directory
 
-Type C-c C-c [[elisp:org-ctrl-c-ctrl-c]] to remove the images and go back to LaTeX.
-
 Not all LaTeX is supported. If you try something "fancy" you will have add some configuration to either the file or org-mode.
 
 * Source code blocks in org-mode
@@ -83,6 +81,10 @@ x = np.linspace(0, 5, 10)
 print x
 #+END_SRC
 
+#+RESULTS:
+: [ 0.          0.55555556  1.11111111  1.66666667  2.22222222  2.77777778
+:   3.33333333  3.88888889  4.44444444  5.        ]
+
 
 Many numpy functions are "vectorized" and operate on numpy arrays.
 
@@ -93,6 +95,10 @@ x = np.linspace(0, 5, 10)
 print np.exp(x)
 #+END_SRC
 
+#+RESULTS:
+: [   1.            1.742909      3.03773178    5.29449005    9.22781435
+:    16.08324067   28.03162489   48.85657127   85.15255772  148.4131591 ]
+
 You can make arrays out of lists in Python.
 
 #+BEGIN_SRC python
@@ -100,8 +106,14 @@ import numpy as np
 
 a = [1, 2, 3, 4]  # This is a list. Note the square brackets
 print 2 * a
+print [2*x for x in a]
 print 2 * np.array(a)
 #+END_SRC
+
+#+RESULTS:
+: [1, 2, 3, 4, 1, 2, 3, 4]
+: [2, 4, 6, 8]
+: [2 4 6 8]
 
 When doing math, use arrays.
 
@@ -114,7 +126,12 @@ a = np.array([1, 2, 3, 4])
 b = np.array([2, 3, 4, 5])
 
 print a * b
+print np.dot(a, b)
 #+END_SRC
+
+#+RESULTS:
+: [ 2  6 12 20]
+: 40
 
 * Plotting
 We use matplotlib for plotting in python. We will always import the plotting functions like this:
@@ -189,8 +206,11 @@ We already printed a string. We can save strings in variables, and then print th
 
 #+BEGIN_SRC python
 a = 'Hello world'
-print a
+print(a)
 #+END_SRC
+
+#+RESULTS:
+: Hello world
 
 Most things in python are /objects/, which have functions on them. Here is an example:
 
@@ -199,6 +219,10 @@ a = 'Hello world'
 print a.upper()
 print a.lower()
 #+END_SRC
+
+#+RESULTS:
+: HELLO WORLD
+: hello world
 
 Curious about what else you can do with strings? Click on this: pydoc:string
 
@@ -211,17 +235,26 @@ b = 'John'
 print a + ' ' + b
 #+END_SRC
 
+#+RESULTS:
+: Hello John
+
 Some things are automatically cast as strings when you print them.
 
 #+BEGIN_SRC python
-print 'The answer is ', 1/3
+print 'The answer is ', 4/3
 #+END_SRC
+
+#+RESULTS:
+: The answer is  1
 
 
 Surprised by that answer? *NEVER* forget integer math. Let us try again.
 #+BEGIN_SRC python
 print 'The answer is ', 1.0/3
 #+END_SRC
+
+#+RESULTS:
+: The answer is  0.333333333333
 
 As long as one number is a float, the answer is converted to a float
 
@@ -234,6 +267,15 @@ print float(1) / 3
 print float(1) // float(3)  #discards the remainder
 print float(4) // float(3)  #discards the remainder
 #+END_SRC
+
+#+RESULTS:
+: 0
+: 0.333333333333
+: 0.333333333333
+: 0.333333333333
+: 0.333333333333
+: 0.0
+: 1.0
 
 
 ** Formatting strings
@@ -253,6 +295,9 @@ c = a / b
 print 'The answer to {1}/{2} is {0}'.format(c, a, b)
 #+END_SRC
 
+#+RESULTS:
+: The answer to 1.0/3.0 is 0.333333333333
+
 The order in the string is not important.
 
 Let's format the answer as a 3 decimal place float. The format string is '.3f'
@@ -267,17 +312,26 @@ c = a / b
 print 'The answer to {1}/{2} is {0:.3f}'.format(c, a, b)
 #+END_SRC
 
+#+RESULTS:
+: The answer to 1.0/3.0 is 0.333
+
 You can format mixed numbers and strings too:
 
 #+BEGIN_SRC python
 print '{0} was born on {1} {2}, {3}'.format('John', 'May', 7, 1974)
 #+END_SRC
 
+#+RESULTS:
+: John was born on May 7, 1974
+
 There are many more complex options:   http://docs.python.org/2/library/stdtypes.html#string-formatting
 
 #+BEGIN_SRC python
 print '{name} was born on {month:5s} {day:02d}, {year}'.format(name='John', day=7, year=1974, month='May')
 #+END_SRC
+
+#+RESULTS:
+: John was born on May   07, 1974
 
 * Export this document
 Just for fun, let us convert this document to a form that nomacsers can read.
