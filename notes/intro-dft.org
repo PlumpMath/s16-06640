@@ -128,7 +128,10 @@ print f(3)
 #+END_SRC
 
 * Introduction to DFT
-Read this for all the details [[../dft-book/dft.org::*Introduction%20to%20DFT][Introduction to DFT]]
+elisp:org-toggle-latex-overlays
+
+
+Read this link [[../dft-book/dft.org::*Introduction%20to%20DFT][Introduction to DFT]] for all the details
 
 - A functional takes a function and returns a number
 
@@ -194,7 +197,13 @@ $E_{xc}[n(\mathbf{r})]$ is the exchange-correlation energy functional
 [[file:../dft-book/dft.org::*Exchange%20correlation%20functionals][Exchange correlation functionals]]
 LDA - approximate electron density as a uniform electron gas. We know Exc for that limit.
 
-GGA - Consider gradients - like a first-order Taylor expansion terminated after the first derivative
+GGA - Consider gradients - like a first-order Taylor expansion terminated after the first derivative, i.e. the gradient in electron density
+
+meta-GGA considers second derivatives in the electron density also
+
+Hybrid functionals mix a DFT functional with a fraction of exact exchange.
+
+A key point is that you have to choose one of the functionals, and your results /may/ change with the choice.
 
 ** Basis functions
 [[file:../dft-book/dft.org::*Basis%20sets][Basis sets]]
