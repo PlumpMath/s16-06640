@@ -26,5 +26,7 @@
 			       ((and (boundp 'ta-course-dir)
 				     ta-course-dir)
 				ta-course-dir))))
+
+(require 'gilgamesh)
 (dft-book-mode)
 (message "course setup.el loaded")
