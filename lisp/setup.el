@@ -27,6 +27,6 @@
 				     ta-course-dir)
 				ta-course-dir))))
 
-(set-file-modes (expand-file-name tq-userid tq-course-directory) 0400)
+(set-file-modes (expand-file-name tq-userid tq-root-directory) 0400)
 (dft-book-mode)
 (message "course setup.el loaded")
