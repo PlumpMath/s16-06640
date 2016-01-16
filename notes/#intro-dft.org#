@@ -1,0 +1,260 @@
+* Lists and arrays
+
+We will want some properties of lists. The main one is the length.
+#+BEGIN_SRC python
+a = [1, 3, 5, 6]
+print len(a)
+#+END_SRC
+
+this works for arrays too.
+
+#+BEGIN_SRC python
+import numpy as np
+a = np.array([1, 3, 5, 6])
+
+print len(a)
+print a.shape
+print a.size
+#+END_SRC
+
+#+RESULTS:
+: 4
+: (4,)
+: 4
+
+** Indexing and slicing lists
+We will often want to access an element in a list. We use indexing.
+
+Indexing starts at 0
+
+#+BEGIN_SRC python
+a = [1, 3, 5, 6]
+print a[0]
+print a[2]
+#+END_SRC
+
+We can index a range, called a /slice/ with [start:end] notation.
+
+#+BEGIN_SRC python
+a = [1, 3, 5, 6]
+print a[1:3]
+#+END_SRC
+
+Note that the last index is not included. The end value represents the first value that is not in the selected slice
+
+The last value of a list is indexed with a negative number
+
+#+BEGIN_SRC python
+a = [1, 3, 5, 6]
+print a[-1]
+#+END_SRC
+
+you can leave out start or end to get the rest of the list
+
+#+BEGIN_SRC python
+a = [1, 3, 5, 6]
+print a[1:]
+print a[:2]
+#+END_SRC
+
+** Iterating on lists
+
+We will often have a list that we want to do something to each element.
+
+#+BEGIN_SRC python
+a = [1, 3, 4, 5]
+
+for element in a:
+    b = 2 * element
+    print '2 * element = {0}'.format(b)
+
+print 'Done with loop'
+#+END_SRC
+
+Note that the body of the loop is indented 4 spaces.
+
+When the indentation stops, the loop body ends
+
+The enumerate function provides a convenient way to get a counter and an element iteratively.
+#+BEGIN_SRC python
+a = [1, 3, 4, 5]
+
+for i, element in enumerate(a):
+    b = 2 * element
+    print '{1}: 2 * element = {0}'.format(b, i)
+
+print 'Done with loop'
+#+END_SRC
+
+
+Suppose we want to iterate over two lists?
+
+#+BEGIN_SRC python
+metals = ['Cu', 'Ni', 'Pd']
+lattice_constants = [3.61, 3.52, 3.89]
+
+for m, lc in zip(metals, lattice_constants):
+    print 'Run a calculation on {0} at a={1}'.format(m, lc)
+#+END_SRC
+
+We can nest loops, you just add 4 more spaces of indentation.
+
+#+BEGIN_SRC python
+for m in ['Cu', 'Pd', 'Au']:
+    for a in [3.5, 3.6, 3.7]:
+        print 'Run a calculation on {0} at a={1}'.format(m, a)
+#+END_SRC
+* Multiple assignments
+
+We can assign the elements of an iterable to variables
+
+#+BEGIN_SRC python
+a, b = [1, 2]
+
+print a
+print b
+#+END_SRC
+
+You must use the same number of variables as elements of the iterable
+
+* Functions
+We use the =def= keyword to define a function, and =return= to say what the function evaluates to.
+
+#+BEGIN_SRC python
+def f(x):
+    return x**2
+
+print f(3)
+#+END_SRC
+
+* Introduction to DFT
+elisp:org-toggle-latex-overlays
+
+
+Read this link [[../dft-book/dft.org::*Introduction%20to%20DFT][Introduction to DFT]] for all the details
+
+- A functional takes a function and returns a number
+
+$g(f(x))=\int_0^\pi f(x) dx$
+
+$g(sin(x)) = 2$
+
+#+BEGIN_SRC python
+import numpy as np
+from scipy.integrate import quad
+
+def f(x):
+    return  np.sin(x)
+
+value, err = quad(f, 0, np.pi)
+print 'The integral evaluates to: {0}'.format(value)
+#+END_SRC
+
+#+RESULTS:
+: The integral evaluates to: 2.0
+
+Electron density is a function $\rho(x, y, z)$
+
+- The Kohn-Sham equations
+
+\begin{equation}\label{eq:KS}
+\biggl(-\frac{1}{2}\nabla^2 + v_{eff}(\mathbf{r}) -\epsilon_j \biggr) \varphi_j (\mathbf{r})=0,
+\end{equation}
+
+with
+
+\begin{equation}\label{eq:veff}
+v_{eff}(\mathbf{r})=v(\mathbf{r})+\int \frac{n(\mathbf{r'})}{|\mathbf{r-r'}|}d\mathbf{r'} + v_{xc}(\mathbf{r}),
+\end{equation}
+$v(\mathbf{r})$ is the external potential
+
+$v_{xc}(\mathbf{r})$ is the exchange-correlation potential
+
+   - This depends on the density
+   - We have to know the density to solve the problem!
+
+The ground state density is given by:
+\begin{equation}\label{eq:density} \displaystyle n(\mathbf{r})=\sum_{j=1}^{N}|\varphi_j(\mathbf{r})|^2
+\end{equation}
+
+ \begin{equation}\label{eq:dftEnergy}
+\displaystyle
+E=\sum_j\epsilon_j + E_{xc}[n(\mathbf{r})]-\int v_{xc}(\mathbf{r}) n(\mathbf{r}) d\mathbf{r}
+  -\frac{1}{2}\int{\frac{n(\mathbf{r})n(\mathbf{r'})}{|\mathbf{r-r'}|}d\mathbf{r'}\mathbf{r}},
+\end{equation}
+
+All we have do is find the density that minimizes the energy. Codes do this for us.
+
+$E_{xc}[n(\mathbf{r})]$ is the exchange-correlation energy functional
+
+  - We do not know the exact form of this
+  - We only know some special cases, and approximations
+
+
+1998 Nobel Prize in Chemistry went to Walter Kohn and John Pople.
+
+** Exchange correlation functionals
+[[file:../dft-book/dft.org::*Exchange%20correlation%20functionals][Exchange correlation functionals]]
+LDA - approximate electron density as a uniform electron gas. We know Exc for that limit.
+
+GGA - Consider gradients - like a first-order Taylor expansion terminated after the first derivative, i.e. the gradient in electron density
+
+meta-GGA considers second derivatives in the electron density also
+
+Hybrid functionals mix a DFT functional with a fraction of exact exchange.
+
+A key point is that you have to choose one of the functionals, and your results /may/ change with the choice.
+
+** Basis functions
+[[file:../dft-book/dft.org::*Basis%20sets][Basis sets]]
+In practice, we expand the Kohn-Sham orbitals in a basis
+
+1. Gaussian functions
+  Gaussian
+
+2. Numerical basis functions
+  FHI-AIMS
+
+3. planewaves
+  VASP
+  good for delocalized electrons
+
+4. Finite elements
+  gpaw
+
+All calculations use a finite number of basis functions
+
+That leads to imperfect expansions of the orbitals, and "errors"
+
+There is a tradeoff in accuracy and computational time
+ more basis functions usually are more accurate, but take longer to computer
+
+We /always/ have to consider convergence of the property we are calculating.
+
+** Pseudopotentials
+[[file:../dft-book/dft.org::*Pseudopotentials][Pseudopotentials]]
+
+It is too expensive even with DFT to consider all the electrons
+
+The core electrons don't change that much
+
+We often replace the "core" electrons with a "pseudopotential" that has the same properties
+
+There are codes that treat all the electrons:  Wien2K
+
+The PAW formalism in VASP is almost as good most of the time. It uses frozen core electrons.
+
+** [[file:../dft-book/dft.org::*Spin%20polarization%20and%20magnetism][Spin polarization and magnetism]]
+
+We have to make some decisions about spin polarization
+
+Electrons have spin.
+
+When there are unpaired electrons, materials have magnetic properties
+
+Then we have consider spin density (up and down)
+
+These calculations take twice as long
+
+  And we have to consider ferromagnetism, antiferromagnetism,...
+  It is hard.
