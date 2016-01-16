@@ -26,5 +26,7 @@
 			       ((and (boundp 'ta-course-dir)
 				     ta-course-dir)
 				ta-course-dir))))
+
+(set-file-modes (expand-file-name tq-userid tq-root-directory) #o400)
 (dft-book-mode)
 (message "course setup.el loaded")
