@@ -17,7 +17,6 @@ This is the simplest way to make an atom. This will be an oxygen atom. We can th
 #+BEGIN_SRC python
 from ase import Atom
 a = Atom('O')
-print a.get_mass()
 print a.mass
 #+END_SRC
 
@@ -51,19 +50,13 @@ a = Atom('O', [5, 6, 6])
 print a.position
 
 # change atom type
-a.set_symbol('W')
+a.symbol = 'W'
 print a.mass
 
 a.number = 79
 print a.symbol
 print a.mass
 #+END_SRC
-
-#+RESULTS:
-: [ 5.  6.  6.]
-: 183.85
-: Au
-: 196.9665
 
 Exercise: Write a python code to print the symbol and mass of the elements 1-80 using the Atom object.
 
@@ -214,13 +207,6 @@ print 'MW = ',MW
 print atoms.get_volume()
 #+END_SRC
 
-#+RESULTS:
-: [[ 0.   0.   0. ]
-:  [ 1.1  0.   0. ]]
-: 1.1
-: MW =  28.0104
-: 1000.0
-
 You can also read some data files in to create Atoms objects ([[file:../dft-book/dft.org::*Reading%20other%20data%20formats%20into%20a%20calculation][Reading other data formats into a calculation]])
 
 Below we read in an xyz file that looks like this:
@@ -285,7 +271,7 @@ Let us use one, and explore rotating the molecule 45 degrees about the x-axis an
 pydoc:ase.Atoms.rotate
 
 #+BEGIN_SRC python :results output :exports both
-from ase.data.molecules import molecule
+from ase.structure import molecule
 import numpy as np
 
 atoms = molecule('CH3CN')
@@ -302,25 +288,6 @@ print 'After rotation'
 print atoms.positions
 #+END_SRC
 
-#+RESULTS:
-#+begin_example
-<class 'ase.atoms.Atoms'>
-[[ 6.887664  6.512493  6.37544 ]
- [ 6.887664  6.512493  7.836244]
- [ 6.887664  6.512493  9.014576]
- [ 6.887664  7.537479  6.      ]
- [ 7.775328  6.        6.      ]
- [ 6.        6.        6.      ]]
-After rotation
-[[ 6.23756944  7.43186555  7.02553456]
- [ 6.96797144  6.39892113  7.75593656]
- [ 7.55713744  5.56571459  8.34510256]
- [ 6.56234244  8.42211627  7.35030756]
- [ 6.42127617  7.33495444  5.95389483]
- [ 5.1659297   7.33495444  7.2092413 ]]
-#+end_example
-
-Note: It seems that the ase.data.molecules module is being deprecated. I don't use this module very often. It is useful here to get some practice with using ase.
 
 *** Combining Atoms objects
 
@@ -331,7 +298,7 @@ We will often need to combine two Atoms objects.
 We can "add" to Atoms objects together.
 
 #+BEGIN_SRC python :results output
-from ase.data.molecules import molecule
+from ase.structure import molecule
 from ase.visualize import view
 
 atoms1 = molecule('NH3')
