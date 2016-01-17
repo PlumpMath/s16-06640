@@ -68,6 +68,7 @@ with jasp('simple-co', # output dir
     print calc
 #+END_SRC
 
+
 We will learn about the settings later.
 
 
@@ -96,6 +97,8 @@ with jasp('simple-co', #output dir
     print 'energy = {0} eV'.format(co.get_potential_energy())
     print co.get_forces()
 #+END_SRC
+
+#+RESULTS:
 
 
 
