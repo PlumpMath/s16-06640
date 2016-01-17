@@ -193,8 +193,8 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
   :CUSTOM_ID: assignments
   :END:
 
-** COLLECTED assignment:introduction  :assignment:
-   DEADLINE: <2016-01-15 Fri>
+** GRADED assignment:introduction     :assignment:
+   CLOSED: [2016-01-17 Sun 17:59] DEADLINE: <2016-01-15 Fri>
    :PROPERTIES:
    :CATEGORY: homework
    :POINTS:   1
