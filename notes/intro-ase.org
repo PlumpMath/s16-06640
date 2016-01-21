@@ -18,7 +18,18 @@ This is the simplest way to make an atom. This will be an oxygen atom. We can th
 from ase import Atom
 a = Atom('O')
 print a.mass
+print type(a.position)
+print a.x, a.y, a.z
+
+a.x = 4
+print a.position
 #+END_SRC
+
+#+RESULTS:
+: 15.9994
+: <type 'numpy.ndarray'>
+: 0.0 0.0 0.0
+: [ 4.  0.  0.]
 
 *************** Quiz: What is the position of the atom?
                 :PROPERTIES:
@@ -47,7 +58,7 @@ You can specify the position of an atom like this. We can also change the type o
 from ase import Atom
 a = Atom('O', [5, 6, 6])
 
-print a.position
+print a.symbol, a.mass, a.position
 
 # change atom type
 a.symbol = 'W'
@@ -56,9 +67,32 @@ print a.mass
 a.number = 79
 print a.symbol
 print a.mass
+
+a.symbol = 'X'
+a.mass = 197
+print a.mass
 #+END_SRC
 
+#+RESULTS:
+: O 15.9994 [ 5.  6.  6.]
+: 183.85
+: Au
+: 196.9665
+: 197
+
 Exercise: Write a python code to print the symbol and mass of the elements 1-80 using the Atom object.
+
+#+BEGIN_SRC python
+from ase import Atom
+a = Atom()
+
+print a.mass
+print a.set
+#+END_SRC
+
+#+RESULTS:
+: 0.0
+: <bound method Atom.set of Atom('X', [0.0, 0.0, 0.0])>
 
 :SOLUTION:
 #+BEGIN_SRC python
@@ -152,6 +186,7 @@ Pt 195.080
 Au 196.966
 Hg 200.590
 #+end_example
+
 :END:
 
 
@@ -183,7 +218,7 @@ from ase import Atoms, Atom
 
 # define an Atoms object
 atoms = Atoms([Atom('C',[0., 0.,0.]),
-               Atom('O',[1.1,0.,0.])],
+               Atom('O',[1.1, 0., 0.])],
               cell=(10, 10, 10))
 #+END_SRC
 
@@ -200,12 +235,20 @@ atoms = Atoms([Atom('C', [0., 0.,0.]),
 
 print atoms.positions
 print atoms.get_distance(0, 1)
-
+print atoms.get_masses()
 MW = atoms.get_masses().sum()
 print 'MW = ',MW
 
 print atoms.get_volume()
 #+END_SRC
+
+#+RESULTS:
+: [[ 0.   0.   0. ]
+:  [ 1.1  0.   0. ]]
+: 1.1
+: [ 12.011   15.9994]
+: MW =  28.0104
+: 1000.0
 
 You can also read some data files in to create Atoms objects ([[file:../dft-book/dft.org::*Reading%20other%20data%20formats%20into%20a%20calculation][Reading other data formats into a calculation]])
 
@@ -253,6 +296,7 @@ view(atoms)
 #+END_SRC
 
 #+RESULTS:
+: Atoms(symbols='CHCH3CH3CH3', positions=..., cell=[14.323074, 13.743893, 12.666115999999999], pbc=[False, False, False])
 
 
 
@@ -265,6 +309,7 @@ mod:ase has several databases of predefined molecules [[file:../dft-book/dft.org
 
 pydoc:ase.data.molecules
 
+pydoc:ase.structure.molecule
 
 Let us use one, and explore rotating the molecule 45 degrees about the x-axis and 45 degrees about the y-axis. We will do the rotation about the center of mass, and we will not rotate the cell.
 
@@ -287,6 +332,24 @@ atoms.rotate('y', np.pi/4, center='COM', rotate_cell=False)
 print 'After rotation'
 print atoms.positions
 #+END_SRC
+
+#+RESULTS:
+#+begin_example
+<class 'ase.atoms.Atoms'>
+[[ 6.887664  6.512493  6.37544 ]
+ [ 6.887664  6.512493  7.836244]
+ [ 6.887664  6.512493  9.014576]
+ [ 6.887664  7.537479  6.      ]
+ [ 7.775328  6.        6.      ]
+ [ 6.        6.        6.      ]]
+After rotation
+[[ 6.23756944  7.43186555  7.02553456]
+ [ 6.96797144  6.39892113  7.75593656]
+ [ 7.55713744  5.56571459  8.34510256]
+ [ 6.56234244  8.42211627  7.35030756]
+ [ 6.42127617  7.33495444  5.95389483]
+ [ 5.1659297   7.33495444  7.2092413 ]]
+#+end_example
 
 
 *** Combining Atoms objects
@@ -311,6 +374,8 @@ bothatoms.center(5)
 
 view(bothatoms)
 #+END_SRC
+
+#+RESULTS:
 
 ** [[file:../dft-book/dft.org::*Simple%20properties][Simple properties]]
 
