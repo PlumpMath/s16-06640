@@ -37,27 +37,65 @@ This block raises the ZeroDivisionError Exception
 print 1 / 0
 #+END_SRC
 
+#+RESULTS:
+
 We can catch exceptions if we want to.
 
 #+BEGIN_SRC python
+
 try:
-    print 1 / 0
-except ZeroDivisionError:
+    prnt(1 / 0)
+except (ZeroDivisionError, NameError):
     print 'You cannot divide by 0!'
 #+END_SRC
 
+#+RESULTS:
+: You cannot divide by 0!
+
 jasp uses exceptions extensively to control execution.
+
+
+** sidebar on context managers
+
+#+BEGIN_SRC python
+f = open('test.txt', 'a')
+f.write('a string\n')
+f.close()
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC sh
+cat test.txt
+#+END_SRC
+
+#+RESULTS:
+: a string
+
+#+BEGIN_SRC python
+with open('test.txt', 'a') as f:
+    f.write('another line\n')
+    print f
+print f
+#+END_SRC
+
+#+RESULTS:
+: <open file 'test.txt', mode 'a' at 0x2ad302e256f0>
+: <closed file 'test.txt', mode 'a' at 0x2ad302e256f0>
+
 
 ** Running a calculation
 Here is the setup. This example does not do anything but print a representation of the calculation.
 #+BEGIN_SRC python :results output :exports both
 from ase import Atoms, Atom
 from jasp import *
+import os
 
 co = Atoms([Atom('C', [0,   0, 0]),
             Atom('O', [1.2, 0, 0])],
             cell=(6., 6., 6.))
 
+print os.getcwd()
 with jasp('simple-co', # output dir
           xc='PBE',    # the exchange-correlation functional
           nbands=6,    # number of bands
@@ -66,7 +104,51 @@ with jasp('simple-co', # output dir
           sigma=0.01,  # very small smearing factor for a molecule
           atoms=co) as calc:
     print calc
+    print os.getcwd()
+print os.getcwd()
 #+END_SRC
+
+#+RESULTS:
+#+begin_example
+/home-research/jkitchin/techela/s16-06640/course/notes
+False
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/techela/s16-06640/course/notes/simple-co
+  converged: None
+  Energy = nan eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 6.000  0.000  0.000] 6.000
+  a1 [ 0.000  6.000  0.000] 6.000
+  a2 [ 0.000  0.000  6.000] 6.000
+  a,b,c,alpha,beta,gamma (deg):6.000 6.000 6.000 90.0 90.0 90.0
+  Unit cell volume = 216.000 Ang^3
+  Stress was not computed
+ Atom#  sym       position [x,y,z]tag  rmsForce constraints
+   0    C   [0.000      0.000      0.000]  0   nan      T T T
+   1    O   [1.200      0.000      0.000]  0   nan      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 6
+        ismear: 1
+         encut: 350
+         sigma: 0.01
+        magmom: None
+          kpts: (1, 1, 1)
+    reciprocal: False
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+None: None (git-hash: None)
+/home-research/jkitchin/techela/s16-06640/course/notes/simple-co
+/home-research/jkitchin/techela/s16-06640/course/notes
+#+end_example
 
 
 We will learn about the settings later.
@@ -99,9 +181,9 @@ with jasp('simple-co', #output dir
 #+END_SRC
 
 #+RESULTS:
-
-
-
+: energy = -14.69111507 eV
+: [[ 5.091  0.     0.   ]
+:  [-5.091  0.     0.   ]]
 
 If you run this, you should see a job:
 #+BEGIN_SRC sh
@@ -109,6 +191,7 @@ qstat | grep $USER
 #+END_SRC
 
 #+RESULTS:
+: 1322762.gilgamesh         simple-co        jkitchin        00:00:06 C long           
 
 Let us check out what happened here:
 1. You have never run this job before, so it must be created and run. =jasp= created this directory: [[./simple-co]]
@@ -148,15 +231,73 @@ Alternatively, you can "reload" a calculation like this.
 
 #+BEGIN_SRC python
 from jasp import *
+from ase.visualize import view
 with jasp('simple-co') as calc:
     atoms = calc.get_atoms()
-    print atoms.get_potential_energy()
+    atoms[1].position = [1.1, 0.1, 0.1]
+    forces = atoms.get_forces()
+    print forces
+    view(atoms)
 #+END_SRC
+
+#+RESULTS:
+: [[-4.43 -0.39 -0.39]
+:  [ 4.43  0.39  0.39]]
+
+#+BEGIN_SRC python
+import numpy as np
+
+a = np.array([4, 5, 7, 3,])
+print a.max()
+#+END_SRC
+
+#+RESULTS:
+: 7
 
 Or at the commandline:
 #+BEGIN_SRC sh
 jaspsum simple-co
 #+END_SRC
+
+#+RESULTS:
+#+begin_example
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/techela/s16-06640/course/notes/simple-co
+  converged: True
+  Energy = -14.691115 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 6.000  0.000  0.000] 6.000
+  a1 [ 0.000  6.000  0.000] 6.000
+  a2 [ 0.000  0.000  6.000] 6.000
+  a,b,c,alpha,beta,gamma (deg):6.000 6.000 6.000 90.0 90.0 90.0
+  Unit cell volume = 216.000 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+             0.041  0.011  0.011-0.000 -0.000 -0.000
+ Atom#  sym       position [x,y,z]tag  rmsForce constraints
+   0    C   [0.000      0.000      0.000]  0   5.09      T T T
+   1    O   [1.200      0.000      0.000]  0   5.09      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 6
+        ismear: 1
+         encut: 350.0
+         sigma: 0.01
+        magmom: None
+          kpts: [1, 1, 1]
+    reciprocal: False
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+C: /potpaw_PBE/C/POTCAR (git-hash: ee4d8576584f8e9f32e90853a0cbf9d4a9297330)
+O: /potpaw_PBE/O/POTCAR (git-hash: 592f34096943a6f30db8749d13efca516d75ec55)
+#+end_example
 
 Let us interpret these results.
 1. The forces are large (\pm 5 eV/angstrom)
