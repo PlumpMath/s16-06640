@@ -229,6 +229,15 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
+** TODO assignment:ethane-2	      :assignment:
+   DEADLINE: <2016-02-01 Mon>
+   :PROPERTIES:
+   :CATEGORY: homework
+   :POINTS:   2
+   :CUSTOM_ID: ethane-2
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
 * Useful class links
 - http://kitchingroup.cheme.cmu.edu/pycse A thorough resource on using Python for science and engineering
 - https://github.com/jkitchin/dft-book The github site for the notes
