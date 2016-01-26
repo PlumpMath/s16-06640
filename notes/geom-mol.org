@@ -1,4 +1,4 @@
-* Geometry optimization in molecules
+* geometry optimization in molecules
   :PROPERTIES:
   :ID:       6295445E-8A45-466B-B804-B2B75B4E123C
   :END:
@@ -33,12 +33,14 @@ plt.plot(x, y, 'bo ')
 plt.show()
 #+END_SRC
 
+#+RESULTS:
+
 Now, let us fit a polynomial to this data.
 
 #+BEGIN_SRC python
 import matplotlib.pyplot as plt
 import numpy as np
-plt.xkcd()
+#plt.xkcd()
 
 x = [1.05, 1.1, 1.15, 1.2, 1.25]
 y = [-14.215189, -14.719882, -14.838448, -14.687906, -14.351675]
@@ -63,16 +65,20 @@ x = [1.05, 1.1, 1.15, 1.2, 1.25]
 y = [-14.215189, -14.719882, -14.838448, -14.687906, -14.351675]
 
 pp = np.polyfit(x, y, 3) # cubic polynomial
-xfit = np.linspace(min(x), max(x))
+xfit = np.linspace(min(x), max(x), 100)
 yfit = np.polyval(pp, xfit)
 
-print min(yfit)
+print min(yfit), yfit.min()
 
 i = np.argmin(yfit)
 print xfit[i], yfit[i]  # crude approximation
 #+END_SRC
 
-A more sophisticated way is to find the minimum "analytically". We have the polynomial coefficents of the fit. It is simple to get the derivative, and then the roots of the derivative. The roots are where the first derivate = 0, which is either a minimum or maximum.
+#+RESULTS:
+: -14.8431910891 -14.8431910891
+: 1.14494949495 -14.8431910891
+
+A more sophisticated way is to find the minimum "analytically". We have the polynomial coefficents of the fit. It is simple to get the derivative, and then the roots of the derivative. The roots are where the first derivative = 0, which is either a minimum or maximum.
 
 #+BEGIN_SRC python
 import matplotlib.pyplot as plt
@@ -92,6 +98,11 @@ print dp
 roots = np.roots(dp)
 print roots
 #+END_SRC
+
+#+RESULTS:
+: [-133.62533333  516.749      -657.71036667  261.35247   ]
+: [ -400.876       1033.498       -657.71036667]
+: [ 1.43384501  1.14425395]
 
 
 
@@ -117,19 +128,38 @@ roots = np.roots(dp)
 print roots
 
 dpp = np.polyder(pp, 2)  # second derivative
-print dpp
+print 'dpp ',dpp
 
 # now evaluate the second derivative at the roots of the first derivative
 secd = np.polyval(dpp, roots)
-print secd
+print 'sec at roots of cubic polynomial: ',secd
 
-minV = roots[secd > 0]
-minE = np.polyval(pp, minV)
+print 'secd > 0: ',secd > 0, roots[secd > 0]
+mind = roots[secd > 0]
+minE = np.polyval(pp, mind)
 
-print 'The minimum energy is {0} eV at V = {1} Ang^3'.format(minE,minV)
+print 'The minimum energy is {0:1.3f} eV at d = {1:1.3f} Ang^3'.format(float(minE), mind[0])
 #+END_SRC
 
+#+RESULTS:
+: [-133.62533333  516.749      -657.71036667  261.35247   ]
+: [ -400.876       1033.498       -657.71036667]
+: [ 1.43384501  1.14425395]
+: dpp  [ -801.752  1033.498]
+: sec at roots of cubic polynomial:  [-116.09010385  116.09010385]
+: secd > 0:  [False  True] [ 1.14425395]
+: The minimum energy is -14.843 eV at d = 1.144 Ang^3
 
+#+BEGIN_SRC python
+import numpy as np
+
+np.set_printoptions(precision=3, suppress=True)
+
+print np.array([4.5678987, 4e-16])
+#+END_SRC
+
+#+RESULTS:
+: [  4.56789870e+00   4.00000000e-16]
 
 Now, let us check out the calculations: [[file:../dft-book/dft.org::*Manual%20determination%20of%20a%20bond%20length][Manual determination of a bond length]]
 
@@ -189,32 +219,182 @@ If it takes more than 50, that is an indication something is wrong
 #+BEGIN_SRC python :results output :exports both
 from ase import Atoms, Atom
 from jasp import *
+from ase.visualize import view
 
-atoms = Atoms([Atom('H', [0.5960812,  -0.7677068,   0.0000000]),
+atoms = Atoms([Atom('H', [0.6,  -0.9,   0.0000000]),
                Atom('O', [0.0000000,   0.0000000,   0.0000000]),
-               Atom('H', [0.5960812,   0.7677068,   0.0000000])],
+               Atom('H', [0.6,   0.9,   0.0000000])],
                cell=(8, 8, 8))
+atoms.center()
 
-with jasp('h2o_relax',
+with jasp('h2o_relax-3',
           xc='PBE',
           encut=300,
-          ibrion=2,
+          ibrion=1,
           nsw=10,
-          ediffg=1e-4, # standard criteria energy convergence
+          ediffg=-0.05, # forces
           atoms=atoms) as calc:
     print calc  # before relaxation
     print atoms.get_forces()
     print
     print calc  # after relaxation
+
+
+    xd = xdat2traj('out.traj',calc=calc)
+    try:
+        xd.convert()
+        os.system('ase-gui out.traj; rm out.traj')
+    except ValueError:
+        print('unable to show trajectory')
+
 #+END_SRC
+
+#+RESULTS:
+#+begin_example
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/techela/s16-06640/course/notes/h2o_relax-3
+  converged: True
+  Energy = -14.253918 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 8.000  0.000  0.000] 8.000
+  a1 [ 0.000  8.000  0.000] 8.000
+  a2 [ 0.000  0.000  8.000] 8.000
+  a,b,c,alpha,beta,gamma (deg):8.000 8.000 8.000 90.0 90.0 90.0
+  Unit cell volume = 512.000 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+             0.010  0.009  0.011-0.000 -0.000 -0.000
+ Atom#  sym       position [x,y,z]tag  rmsForce constraints
+   0    H   [4.299      3.233      4.000]  0   0.01      T T T
+   1    O   [3.703      4.000      4.000]  0   0.00      T T T
+   2    H   [4.299      4.767      4.000]  0   0.01      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 8
+           nsw: 10
+        ibrion: 1
+         encut: 300.0
+        ediffg: -0.05
+        magmom: None
+          kpts: [1, 1, 1]
+    reciprocal: False
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+H: /potpaw_PBE/H/POTCAR (git-hash: 51dd11a1883cb1d482388078d3764b6e1fde9e02)
+O: /potpaw_PBE/O/POTCAR (git-hash: 592f34096943a6f30db8749d13efca516d75ec55)
+[[-0.002  0.008  0.   ]
+ [ 0.004  0.     0.   ]
+ [-0.002 -0.008  0.   ]]
+
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/techela/s16-06640/course/notes/h2o_relax-3
+  converged: True
+  Energy = -14.253918 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 8.000  0.000  0.000] 8.000
+  a1 [ 0.000  8.000  0.000] 8.000
+  a2 [ 0.000  0.000  8.000] 8.000
+  a,b,c,alpha,beta,gamma (deg):8.000 8.000 8.000 90.0 90.0 90.0
+  Unit cell volume = 512.000 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+             0.010  0.009  0.011-0.000 -0.000 -0.000
+ Atom#  sym       position [x,y,z]tag  rmsForce constraints
+   0    H   [4.299      3.233      4.000]  0   0.01      T T T
+   1    O   [3.703      4.000      4.000]  0   0.00      T T T
+   2    H   [4.299      4.767      4.000]  0   0.01      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 8
+           nsw: 10
+        ibrion: 1
+         encut: 300.0
+        ediffg: -0.05
+        magmom: None
+          kpts: [1, 1, 1]
+    reciprocal: False
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+H: /potpaw_PBE/H/POTCAR (git-hash: 51dd11a1883cb1d482388078d3764b6e1fde9e02)
+O: /potpaw_PBE/O/POTCAR (git-hash: 592f34096943a6f30db8749d13efca516d75ec55)
+#+end_example
 
 
 
 Let us check how many iterations actually ran:
 
 #+BEGIN_SRC sh
-grep Iteration h2o_relax/OUTCAR
+grep Iteration h2o_relax-2/OUTCAR
 #+END_SRC
+
+#+RESULTS:
+#+begin_example
+----------------------------------------- Iteration    1(   1)  ---------------------------------------
+----------------------------------------- Iteration    1(   2)  ---------------------------------------
+----------------------------------------- Iteration    1(   3)  ---------------------------------------
+----------------------------------------- Iteration    1(   4)  ---------------------------------------
+----------------------------------------- Iteration    1(   5)  ---------------------------------------
+----------------------------------------- Iteration    1(   6)  ---------------------------------------
+----------------------------------------- Iteration    1(   7)  ---------------------------------------
+----------------------------------------- Iteration    1(   8)  ---------------------------------------
+----------------------------------------- Iteration    1(   9)  ---------------------------------------
+----------------------------------------- Iteration    1(  10)  ---------------------------------------
+----------------------------------------- Iteration    1(  11)  ---------------------------------------
+----------------------------------------- Iteration    1(  12)  ---------------------------------------
+----------------------------------------- Iteration    1(  13)  ---------------------------------------
+----------------------------------------- Iteration    1(  14)  ---------------------------------------
+----------------------------------------- Iteration    1(  15)  ---------------------------------------
+----------------------------------------- Iteration    1(  16)  ---------------------------------------
+----------------------------------------- Iteration    2(   1)  ---------------------------------------
+----------------------------------------- Iteration    2(   2)  ---------------------------------------
+----------------------------------------- Iteration    2(   3)  ---------------------------------------
+----------------------------------------- Iteration    2(   4)  ---------------------------------------
+----------------------------------------- Iteration    2(   5)  ---------------------------------------
+----------------------------------------- Iteration    2(   6)  ---------------------------------------
+----------------------------------------- Iteration    2(   7)  ---------------------------------------
+----------------------------------------- Iteration    2(   8)  ---------------------------------------
+----------------------------------------- Iteration    2(   9)  ---------------------------------------
+----------------------------------------- Iteration    2(  10)  ---------------------------------------
+----------------------------------------- Iteration    3(   1)  ---------------------------------------
+----------------------------------------- Iteration    3(   2)  ---------------------------------------
+----------------------------------------- Iteration    3(   3)  ---------------------------------------
+----------------------------------------- Iteration    3(   4)  ---------------------------------------
+----------------------------------------- Iteration    3(   5)  ---------------------------------------
+----------------------------------------- Iteration    3(   6)  ---------------------------------------
+----------------------------------------- Iteration    3(   7)  ---------------------------------------
+----------------------------------------- Iteration    3(   8)  ---------------------------------------
+----------------------------------------- Iteration    3(   9)  ---------------------------------------
+----------------------------------------- Iteration    3(  10)  ---------------------------------------
+----------------------------------------- Iteration    4(   1)  ---------------------------------------
+----------------------------------------- Iteration    4(   2)  ---------------------------------------
+----------------------------------------- Iteration    4(   3)  ---------------------------------------
+----------------------------------------- Iteration    4(   4)  ---------------------------------------
+----------------------------------------- Iteration    4(   5)  ---------------------------------------
+----------------------------------------- Iteration    5(   1)  ---------------------------------------
+----------------------------------------- Iteration    5(   2)  ---------------------------------------
+----------------------------------------- Iteration    5(   3)  ---------------------------------------
+----------------------------------------- Iteration    5(   4)  ---------------------------------------
+----------------------------------------- Iteration    5(   5)  ---------------------------------------
+----------------------------------------- Iteration    6(   1)  ---------------------------------------
+----------------------------------------- Iteration    6(   2)  ---------------------------------------
+----------------------------------------- Iteration    6(   3)  ---------------------------------------
+----------------------------------------- Iteration    7(   1)  ---------------------------------------
+----------------------------------------- Iteration    7(   2)  ---------------------------------------
+#+end_example
 
 Things we have to keep in mind:
 1. Convergence of forces with respect to cutoff energy
