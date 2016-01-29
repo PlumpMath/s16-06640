@@ -65,4 +65,4 @@ cite:paier:234102
 
 * References
 
-bibliography:~/dft-book/dft.bib
+bibliography:../dft-book/dft.bib
