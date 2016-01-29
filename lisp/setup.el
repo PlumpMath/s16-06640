@@ -29,4 +29,11 @@
 
 (set-file-modes (expand-file-name tq-userid tq-root-directory) #o400)
 (dft-book-mode)
+
+(unless (package-installed-p 'git-messenger)
+  (package-refresh-contents)
+  (package-install 'git-messenger))
+
+(require 'kitchinhub)
+(load-file "~/jmax/gilgamesh.el")
 (message "course setup.el loaded")
