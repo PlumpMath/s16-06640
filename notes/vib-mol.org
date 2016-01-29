@@ -46,11 +46,13 @@ print 'C_mass = {0} amu or {1} kg'.format(C_mass,
 #+RESULTS:
 : C_mass = 12.011 amu or 1.99447483422e-26 kg
 
+
 #+BEGIN_SRC python
 from ase.units import *
 
 force = 0.05 # eV/Angstrom
-print 'f = {0} N'.format(force / (kg * m / s**2))
+N = (kg * m / s**2)
+print 'f = {0} N'.format(force / N)
 #+END_SRC
 
 #+RESULTS:
@@ -68,6 +70,41 @@ print 'f = {0} N'.format(force / (kg * m / s**2))
 Then, we do some unit conversions to get the vibrational frequency they way we want it.
 
 [[file:../dft-book/dft.org::*Manual%20calculation%20of%20vibrational%20frequency][Manual calculation of vibrational frequency]]
+
+
+#+BEGIN_SRC python
+import numpy as np
+k = np.array([1.0])
+from ase.data import atomic_masses
+from ase.units import *
+
+C_mass = atomic_masses[6] / kg
+O_mass = atomic_masses[8] / kg
+
+mu = 1.0 / (1.0 / C_mass + 1.0 / O_mass)
+
+frequency = 1. / (2. * np.pi) * np.sqrt(k / mu)
+
+print '{0}'.format(*frequency)
+#+END_SRC
+
+#+RESULTS:
+: 1.49112365015e+12
+
+#+BEGIN_SRC python
+def f(a, b):
+    return a*b
+
+print f(2,3)
+
+data = [4, 6, 5]
+print f(data[0], data[1])
+print f(4, 6, 5)
+#+END_SRC
+
+#+RESULTS:
+
+
 
 Typical units include:
 1. Hz (1/s)
