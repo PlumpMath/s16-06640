@@ -151,15 +151,15 @@ You will use your computers every day in class. I do not want to see or hear you
 *** Accommodations for Individuals with Disabilities
 If you wish to request an accommodation due to a documented disability, please inform me and contact Disability Resources as soon as possible. The request can be initiated at http://www.cmu.edu/hr/eos/disability/students.
 
-* Class schedule [3/32]
+* Class schedule [5/32]
 
 Here is an approximate class schedule. The days with NO CLASS are not likely to change. These days may be augmented with video lectures, or devoted to project work. The topics on a particular day may change.
 
 - [X] [2016-01-12 Tue] [[./notes/intro.org]]
 - [X] [2016-01-14 Thu] [[./notes/intro-dft.org]]
 - [X] [2016-01-19 Tue] [[./notes/intro-ase.org]] [[./notes/single-computations.org]]
-- [ ] [2016-01-21 Thu] [[./notes/geom-mol.org]]
-- [ ] [2016-01-26 Tue] [[./notes/vib-mol.org]]
+- [X] [2016-01-21 Thu] [[./notes/geom-mol.org]]
+- [X] [2016-01-26 Tue] [[./notes/vib-mol.org]]
 - [ ] [2016-01-28 Thu] [[./notes/reac-energies.org]] [[./notes/dft-comp.org]]
 - [ ] [2016-02-02 Tue] [[./notes/reac-barriers.org]]
 - [ ] [2016-02-04 Thu] [[elisp:(find-file (expand-file-name "examples" starter-kit-dir))]]
