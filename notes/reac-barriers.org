@@ -7,7 +7,7 @@
 ** 3. Generating bibtex files
 Do not type in entries except as a last resort! Tedious, error-prone, tedious...
 
-*** M-x doi-utils-add-bibtex-entry-from-doi
+*** M-x doi-add-bibtex-entry
 Enter doi at prompt, then the bibtex file, press enter
 
 10.1063/1.1809574
@@ -15,27 +15,22 @@ Enter doi at prompt, then the bibtex file, press enter
 subtle points: If you highlight a doi and run the command it is inserted for you
 If you just copied a doi to the clipboard and run the command, it is inserted for you
 
-*** M-x doi-utils-add-entry-from-crossref-query
-Enter a query, then bibtex file, press enter, and then select a hit.
-
-You can highlight words, which will act as the query
-
-R. A. Olsen and G. J. Kroes and G. Henkelman and  A. Arnaldsson and H. Jonsson, "Comparison of methods for finding saddle points  without knowledge of the final states", The Journal of Chemical Physics, 121:9776-9792 (2004)
-
+*** M-x crossref-add-bibtex-entry
 ** Inserting citations
 Do not type cite links in by hand. Tedious, error-prone, tedious...
 
-first, add
+First, add a link to the bibliography file, e.g.
 
+bibliography:references.bib (this file exists in the same directory as this file).
 
-
-C-c ] to select entries. choose entry, press enter. cite:sokalski-2012-optim-ta
+Type: C-c ] to select entries. choose entry, press enter. cite:sokalski-2012-optim-ta
 
 cite:sokalski-2012-optim-ta,gao-2015-surfac
 
 
 
 C-spc to select more than one entry, then enter to add them all at once.
+
 pydoc:ase.io.write
 
 
