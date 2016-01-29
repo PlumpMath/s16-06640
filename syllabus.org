@@ -211,8 +211,8 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
-** COLLECTED assignment:water-1	      :assignment:
-   DEADLINE: <2016-01-27 Wed>
+** GRADED assignment:water-1	      :assignment:
+   CLOSED: [2016-01-29 Fri 16:40] DEADLINE: <2016-01-27 Wed>
    :PROPERTIES:
    :CATEGORY: homework
    :POINTS:   2
