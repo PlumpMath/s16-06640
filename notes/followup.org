@@ -1,0 +1,40 @@
+* Some tips
+
+** Some basics
+| C-x C-s | Save your file                          |
+| C-x C-f | Find a file / create a new one          |
+| C-x C-w | rename current buffer to new file       |
+| C-x k   | Close a buffer (current one by default) |
+
+
+** What is in the directory I am working in?
+
+Type C-x C-f to "Find file". You can use the up and down arrows to select a file to open. Press Enter on the highlighted file.  If you are on a directory, press the right arrow to go into it, and press the left arrow to go "up" a directory.
+
+Say you want to delete a file. Press M-D (Alt-shift-d) to delete the highlighted file (works on directories too). Press Tab to see a lot of other things you can do. "Insert Path" might be something you are interested in.
+
+Press C-spc on several candidates to select more than one of them.
+
+Press Esc three times to cancel (or C-g)
+
+** Better editing of python code
+Type C-c ' to switch to Python editing mode. Type C-c ' to get back to org-mode
+
+Python mode provides better indentation, and some code completion functions.
+
+** Window navigation
+
+| C-x o     | Switch to other window                       |
+| C-x 1     | Make window you are in the only one          |
+| C-x 2     | Split window over/under                      |
+| C-x 3     | Split window left/right                      |
+| C-x 0     | Get rid of window you are in                 |
+| C-x left  | Switch to buffer you were in before this one |
+| C-x right | Switch to next buffer                        |
+| C-x b     | Get a list of buffers to select              |
+
+** How do I kill my jobs?
+
+M-x qstat
+
+select your jobs by typing your username, pressing C-spc on each job you want to delete, press tab, and select delete.

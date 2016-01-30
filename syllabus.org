@@ -160,7 +160,7 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
 - [X] [2016-01-19 Tue] [[./notes/intro-ase.org]] [[./notes/single-computations.org]]
 - [X] [2016-01-21 Thu] [[./notes/geom-mol.org]]
 - [X] [2016-01-26 Tue] [[./notes/vib-mol.org]]
-- [ ] [2016-01-28 Thu] [[./notes/reac-energies.org]] [[./notes/dft-comp.org]]
+- [ ] [2016-01-28 Thu] [[./notes/followup.org]]  [[./notes/reac-energies.org]] [[./notes/dft-comp.org]]
 - [ ] [2016-02-02 Tue] [[./notes/reac-barriers.org]]
 - [ ] [2016-02-04 Thu] [[elisp:(find-file (expand-file-name "examples" starter-kit-dir))]]
 - [ ] [2016-02-09 Tue] [[./notes/recitation-1.org]]
