@@ -35,5 +35,5 @@
   (package-install 'git-messenger))
 
 (require 'kitchinhub)
-(load-file "~/jmax/gilgamesh.el")
+(load-file (expand-file-name "gilgamesh.el" starter-kit-dir))
 (message "course setup.el loaded")
