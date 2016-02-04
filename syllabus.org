@@ -210,6 +210,7 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
    :CUSTOM_ID: bond-length
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
+solution:bond-length
 
 ** GRADED assignment:water-1	      :assignment:
    CLOSED: [2016-01-29 Fri 16:40] DEADLINE: <2016-01-27 Wed>
@@ -220,6 +221,8 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
+solution:water-1
+
 ** COLLECTED assignment:ethane-1				 :assignment:
    DEADLINE: <2016-01-29 Fri>
    :PROPERTIES:
@@ -228,6 +231,8 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
    :CUSTOM_ID: ethane-1
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
+
+solution:ethane-1
 
 ** COLLECTED assignment:ethane-2				 :assignment:
    DEADLINE: <2016-02-01 Mon>
@@ -238,6 +243,8 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
+solution:ethane-2
+
 ** COLLECTED assignment:bond-length-2				 :assignment:
    DEADLINE: <2016-02-03 Wed>
    :PROPERTIES:
@@ -246,6 +253,8 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
    :CUSTOM_ID: bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
+
+solution:bond-length-2
 
 * Useful class links
 - http://kitchingroup.cheme.cmu.edu/pycse A thorough resource on using Python for science and engineering
