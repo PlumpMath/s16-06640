@@ -238,7 +238,7 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
-** TODO assignment:bond-length-2      :assignment:
+** COLLECTED assignment:bond-length-2				 :assignment:
    DEADLINE: <2016-02-03 Wed>
    :PROPERTIES:
    :CATEGORY: homework
