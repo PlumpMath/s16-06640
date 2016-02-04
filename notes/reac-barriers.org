@@ -65,3 +65,13 @@ bibliography:references.bib
 
 * [[../dft-book/dft.org::*Molecular reaction barriers]]
 Nudged elastic band discussions
+
+
+#+BEGIN_SRC python
+import jasp
+print jasp.__file__
+#+END_SRC
+
+#+RESULTS:
+: /opt/kitchingroup/vasp-5.3.5/jasp-s16/jasp/__init__.pyc
+
