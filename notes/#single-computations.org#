@@ -1,0 +1,321 @@
+* [[file:../dft-book/dft.org::*Simple%20properties%20that%20require%20single%20computations][Simple properties that require single computations]]
+- Today we run our first calculation
+
+- We need DFT to calculate
+  - Total energy
+  - Forces
+  - electron density
+  - density of states
+
+The Atoms object has functions that return some of these properties
+
+pydoc:ase.Atoms.get_potential_energy
+
+pydoc:ase.Atoms.get_forces
+
+We have to tell the Atoms how to get those properties, since they require a DFT calculation.
+
+In =ase= we do that by creating a calculator. =ase= supports many calculators, including VASP.
+
+pydoc:ase.calculators
+
+We use a calculator called =jasp= pydoc:jasp
+  - =jasp= is a wrapper around pydoc:ase.calculators.vasp that adds many useful functions to it.
+  - I wrote =jasp=
+
+- Running a calculation from scratch requires:
+1. Set up the atomic geometry
+2. Set up the calculator
+3. run the calculation.
+
+
+** Sidebar on Exceptions
+When an error situation occurs, Python will often raise an Exception and tell you what happened.
+
+This block raises the ZeroDivisionError Exception
+#+BEGIN_SRC python
+print 1 / 0
+#+END_SRC
+
+#+RESULTS:
+
+We can catch exceptions if we want to.
+
+#+BEGIN_SRC python
+
+try:
+    prnt(1 / 0)
+except (ZeroDivisionError, NameError):
+    print 'You cannot divide by 0!'
+#+END_SRC
+
+#+RESULTS:
+: You cannot divide by 0!
+
+jasp uses exceptions extensively to control execution.
+
+
+** sidebar on context managers
+
+#+BEGIN_SRC python
+f = open('test.txt', 'a')
+f.write('a string\n')
+f.close()
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC sh
+cat test.txt
+#+END_SRC
+
+#+RESULTS:
+: a string
+
+#+BEGIN_SRC python
+with open('test.txt', 'a') as f:
+    f.write('another line\n')
+    print f
+print f
+#+END_SRC
+
+#+RESULTS:
+: <open file 'test.txt', mode 'a' at 0x2ad302e256f0>
+: <closed file 'test.txt', mode 'a' at 0x2ad302e256f0>
+
+
+** Running a calculation
+Here is the setup. This example does not do anything but print a representation of the calculation.
+#+BEGIN_SRC python :results output :exports both
+from ase import Atoms, Atom
+from jasp import *
+import os
+
+co = Atoms([Atom('C', [0,   0, 0]),
+            Atom('O', [1.2, 0, 0])],
+            cell=(6., 6., 6.))
+
+print os.getcwd()
+with jasp('simple-co', # output dir
+          xc='PBE',    # the exchange-correlation functional
+          nbands=6,    # number of bands
+          encut=350,   # planewave cutoff
+          ismear=1,    # Methfessel-Paxton smearing
+          sigma=0.01,  # very small smearing factor for a molecule
+          atoms=co) as calc:
+    print calc
+    print os.getcwd()
+print os.getcwd()
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+/home-research/jkitchin/techela/s16-06640/course/notes
+False
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/techela/s16-06640/course/notes/simple-co
+  converged: None
+  Energy = nan eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 6.000  0.000  0.000] 6.000
+  a1 [ 0.000  6.000  0.000] 6.000
+  a2 [ 0.000  0.000  6.000] 6.000
+  a,b,c,alpha,beta,gamma (deg):6.000 6.000 6.000 90.0 90.0 90.0
+  Unit cell volume = 216.000 Ang^3
+  Stress was not computed
+ Atom#  sym       position [x,y,z]tag  rmsForce constraints
+   0    C   [0.000      0.000      0.000]  0   nan      T T T
+   1    O   [1.200      0.000      0.000]  0   nan      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 6
+        ismear: 1
+         encut: 350
+         sigma: 0.01
+        magmom: None
+          kpts: (1, 1, 1)
+    reciprocal: False
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+None: None (git-hash: None)
+/home-research/jkitchin/techela/s16-06640/course/notes/simple-co
+/home-research/jkitchin/techela/s16-06640/course/notes
+#+end_example
+
+
+We will learn about the settings later.
+
+
+=jasp= is different than everything you have ever seen.
+ - It automatically submits the job to the queue system if it needs to, otherwise it gives you the answer you asked for.
+ - =jasp= raises an Exception if a job is submitted.
+
+
+Here is a typical script. Run it.
+
+#+BEGIN_SRC python :results output :exports both
+from ase import Atoms, Atom
+from jasp import *
+
+co = Atoms([Atom('C', [0,   0, 0]),
+            Atom('O', [1.2, 0, 0])],
+            cell=(6., 6., 6.))
+
+with jasp('simple-co', #output dir
+          xc='PBE',  # the exchange-correlation functional
+          nbands=6,  # number of bands
+          encut=350, # planewave cutoff
+          ismear=1,  # Methfessel-Paxton smearing
+          sigma=0.01,# very small smearing factor for a molecule
+          atoms=co) as calc:
+    print 'energy = {0} eV'.format(co.get_potential_energy())
+    print co.get_forces()
+#+END_SRC
+
+#+RESULTS:
+: energy = -14.69111507 eV
+: [[ 5.091  0.     0.   ]
+:  [-5.091  0.     0.   ]]
+
+If you run this, you should see a job:
+#+BEGIN_SRC sh
+qstat | grep $USER
+#+END_SRC
+
+#+RESULTS:
+: 1322762.gilgamesh         simple-co        jkitchin        00:00:06 C long           
+
+Let us check out what happened here:
+1. You have never run this job before, so it must be created and run. =jasp= created this directory: [[./simple-co]]
+
+2. In that directory =jasp= created
+ a) [[./simple-co/INCAR]]        input parameters
+ b) [[./simple-co/KPOINTS]]      kpoint grid
+ c) [[./simple-co/POSCAR]]       position of atoms
+ d) [[./simple-co/POTCAR]]       which pseudopotentials to use
+ e) [[./simple-co/METADATA]]     =jasp= creates this file of json data
+ f) [[./simple-co/ase-sort.dat]] you can ignore this
+
+These are the input files for VASP (that most people create by hand).
+
+Note we did not specify k-points anywhere. By default a grid of (1, 1, 1) is used, also called the Gamma-point. All VASP calculations require k-points.
+
+3. Then =jasp= created a run script and submitted it to the queue system. When that happened, =jasp= raised the VaspSubmitted exception, and stored the jobid of the job. The queue system takes care of running the job. As long as the job is in the queue system, there is nothing you can do but wait for it to finish. If you run the script again, you get either VaspQueued or VaspRunning. When the job is done, the script will print the energies.
+
+=jasp= tries to be very smart about not rerunning DFT calculations because they are expensive.
+
+When the job is done, there will be a lot of new files in the directory. The most important ones for now are:
+
+[[./simple-co/OUTCAR]] This is all the output
+[[./simple-co/vasprun.xml]] the output in xml
+[[./simple-co/CONTCAR]] the final positions of the atoms
+
+=ase= and =jasp= read these files for you to get the data you need.
+
+#+BEGIN_SRC sh
+ls simple-co
+#+END_SRC
+
+
+Probably by now your job as finished. If you run the block above, it will print the energy and forces.
+
+Alternatively, you can "reload" a calculation like this.
+
+#+BEGIN_SRC python
+from jasp import *
+from ase.visualize import view
+with jasp('simple-co') as calc:
+    atoms = calc.get_atoms()
+    atoms[1].position = [1.1, 0.1, 0.1]
+    forces = atoms.get_forces()
+    print forces
+    view(atoms)
+#+END_SRC
+
+#+RESULTS:
+: [[-4.43 -0.39 -0.39]
+:  [ 4.43  0.39  0.39]]
+
+#+BEGIN_SRC python
+import numpy as np
+
+a = np.array([4, 5, 7, 3,])
+print a.max()
+#+END_SRC
+
+#+RESULTS:
+: 7
+
+Or at the commandline:
+#+BEGIN_SRC sh
+jaspsum simple-co
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+: -----------------------------
+  VASP calculation from /home-research/jkitchin/techela/s16-06640/course/notes/simple-co
+  converged: True
+  Energy = -14.691115 eV
+
+  Unit cell vectors (angstroms)
+        x       y     z      length
+  a0 [ 6.000  0.000  0.000] 6.000
+  a1 [ 0.000  6.000  0.000] 6.000
+  a2 [ 0.000  0.000  6.000] 6.000
+  a,b,c,alpha,beta,gamma (deg):6.000 6.000 6.000 90.0 90.0 90.0
+  Unit cell volume = 216.000 Ang^3
+  Stress (GPa):xx,   yy,    zz,    yz,    xz,    xy
+             0.041  0.011  0.011-0.000 -0.000 -0.000
+ Atom#  sym       position [x,y,z]tag  rmsForce constraints
+   0    C   [0.000      0.000      0.000]  0   5.09      T T T
+   1    O   [1.200      0.000      0.000]  0   5.09      T T T
+--------------------------------------------------
+
+INCAR Parameters:
+-----------------
+        nbands: 6
+        ismear: 1
+         encut: 350.0
+         sigma: 0.01
+        magmom: None
+          kpts: [1, 1, 1]
+    reciprocal: False
+            xc: PBE
+           txt: -
+         gamma: False
+
+Pseudopotentials used:
+----------------------
+C: /potpaw_PBE/C/POTCAR (git-hash: ee4d8576584f8e9f32e90853a0cbf9d4a9297330)
+O: /potpaw_PBE/O/POTCAR (git-hash: 592f34096943a6f30db8749d13efca516d75ec55)
+#+end_example
+
+Let us interpret these results.
+1. The forces are large (\pm 5 eV/angstrom)
+That means the molecule is not at its ground state structure.
+2. Atom 0 as a positive force in the x-direction.
+3. Atom 1 has a negative force in the x-direction
+these forces are pushing the atoms together. If we shorten the bond, we should get lower forces. We do that later.
+
+** Calculation parameters that affect the calculation
+
+[[file:../dft-book/dft.org::*Convergence%20with%20unit%20cell%20size][Convergence with unit cell size]]
+The total energy changes a lot with unit cell size.  We have to make sure to use the right cell. The right cell depends on what you are trying to calculate! Here we want the total energy in the ideal gas limit.
+
+[[file:../dft-book/dft.org::*Convergence%20of%20ENCUT][Convergence of ENCUT]]
+This is a critical parameter to get right. You must set ENCUT high enough to be converged, and you must be able to demonstrate that. There are [[file:../dft-book/dft.org::*Recommended%20values%20for%20ENCUT%20and%20valence%20electrons%20for%20different%20POTCAR%20files][Recommended values for ENCUT and valence electrons for different POTCAR files]]. Small atoms like C, O, N have high cutoff energies. Large atoms like metals have low cutoff energies.
+
+The computational cost goes up with ENCUT.
+
+** Other properties
+[[file:../dft-book/dft.org::*The%20density%20of%20states%20(DOS)][The density of states (DOS)]]
+[[file:../dft-book/dft.org::*Atom-projected%20density%20of%20states%20on%20molecules][Atom-projected density of states on molecules]]

@@ -17,10 +17,80 @@ Press C-spc on several candidates to select more than one of them.
 
 Press Esc three times to cancel (or C-g)
 
+C-x d Enter will list the contents of the current directory in "dired" mode
+
 ** Better editing of python code
 Type C-c ' to switch to Python editing mode. Type C-c ' to get back to org-mode
 
 Python mode provides better indentation, and some code completion functions.
+Type C-c '
+#+BEGIN_SRC python
+import os
+
+print os.path.exists('DFT+U-lecture.pdf')
+
+# Run C-c C-c
+
+for i in range(6):
+    print i
+    for j in range(4):
+        print i*j
+        print i + j
+
+print 'done'
+
+def f(x):
+    print 5
+    
+from ase import Atom,Atoms
+
+a = Atom('He')
+
+atoms = Atoms()
+
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC python
+print 'hello'
+#+END_SRC
+
+#+RESULTS:
+: hello
+
+
+#+BEGIN_SRC python :results output :exports both
+from ase import Atoms, Atom
+from jasp import *
+import os
+
+co = Atoms([Atom('C', [0,   0, 0]),
+            Atom('O', [1.2, 0, 0])],
+            cell=(0.1,1,1.))
+
+print os.getcwd()
+with jasp('simple-co', # output dir
+          xc='PBE',    # the exchange-correlation functional
+
+          encut=350,   # planewave cutoff
+          ismear=1,    # Methfessel-Paxton smearing
+          sigma=0.01,  # very small smearing factor for a molecule
+          atoms=co) as calc:
+    print co.get_potential_energy()
+    print os.getcwd()
+print os.getcwd()
+#+END_SRC
+
+#+RESULTS:
+
+** How do I kill my jobs?
+
+M-x qstat
+
+select your jobs by typing your username, pressing C-spc on each job you want to delete, press tab, and select delete.
+
 
 ** Window navigation
 
@@ -33,8 +103,10 @@ Python mode provides better indentation, and some code completion functions.
 | C-x right | Switch to next buffer                        |
 | C-x b     | Get a list of buffers to select              |
 
-** How do I kill my jobs?
 
-M-x qstat
-
-select your jobs by typing your username, pressing C-spc on each job you want to delete, press tab, and select delete.
+| C-x 5 2 | New frame                 |
+| C-x 5 0 | delete frame              |
+| C-x 5 f | open file in new frame    |
+| C-x 4 f | open file in new window   |
+| C-x 4 b | open buffer in new window |
+| C-x 5 b | open buffer in new frame  |

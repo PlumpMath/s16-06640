@@ -1,0 +1,31 @@
+xmodmap:  unable to open display ''
+ vasp.5.3.5 31Mar14 (build Jan 09 2015 16:57:47) complex                        
+  
+ POSCAR found :  2 types and       2 ions
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR found :  2 types and       2 ions
+
+ ----------------------------------------------------------------------------- 
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|      The distance between some ions is very small                           |
+|      please check the nearest neigbor list in the OUTCAR file               |
+|          I HOPE YOU KNOW, WHAT YOU ARE  DOING                               |
+|                                                                             |
+ ----------------------------------------------------------------------------- 
+
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+vasp-vtst-serial-  0000000000ECCF84  Unknown               Unknown  Unknown
+vasp-vtst-serial-  0000000000EB15DA  Unknown               Unknown  Unknown
+vasp-vtst-serial-  0000000000EB15B6  Unknown               Unknown  Unknown
+vasp-vtst-serial-  000000000040DD42  Unknown               Unknown  Unknown
+vasp-vtst-serial-  000000000040549C  Unknown               Unknown  Unknown
+libc.so.6          0000003B8F61D9F4  Unknown               Unknown  Unknown
+vasp-vtst-serial-  00000000004053A9  Unknown               Unknown  Unknown

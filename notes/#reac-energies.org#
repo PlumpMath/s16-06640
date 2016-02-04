@@ -1,0 +1,17 @@
+* Reaction energies
+
+- We calculate reaction energies as the difference in energy of the products and reactants
+
+O_{2} \rightarrow 2O
+
+$D = 2*E_O - E_{O_2}$
+
+- [[file:~/techela/s16-06640/course/dft-book/dft.org::*Simple%20estimate%20of%20O_{2}%20dissociation%20energy][Simple estimate of O_{2} dissociation energy]]
+
+- [[file:~/techela-admin/s16-06640/course/dft-book/dft.org::*Estimating%20O_{2}%20dissociation%20energy%20with%20spin%20polarization%20in%20triplet%20ground%20states][Spin-polarization]]
+
+- [[file:~/techela-admin/s16-06640/course/dft-book/dft.org::*Illustration%20of%20the%20effect%20of%20SIGMA][SIGMA]]
+
+- [[file:~/techela-admin/s16-06640/course/dft-book/dft.org::*Estimating%20triplet%20oxygen%20dissociation%20energy%20with%20low%20symmetry][Estimating triplet oxygen dissociation energy with low symmetry]]
+
+- Read this on your own: [[file:~/techela-admin/s16-06640/course/dft-book/dft.org::*Water%20gas%20shift%20example][Water gas shift example]]
