@@ -223,7 +223,7 @@ solution:bond-length
 
 solution:water-1
 
-** COLLECTED assignment:ethane-1				 :assignment:
+** COLLECTED assignment:ethane-1      :assignment:
    DEADLINE: <2016-01-29 Fri>
    :PROPERTIES:
    :CATEGORY: homework
