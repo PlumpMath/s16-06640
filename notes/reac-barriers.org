@@ -12,25 +12,31 @@ Enter doi at prompt, then the bibtex file, press enter
 
 10.1063/1.1809574
 
+To insert a citation: C-c ]
+cite:olsen-2004-compar-method
+
 subtle points: If you highlight a doi and run the command it is inserted for you
 If you just copied a doi to the clipboard and run the command, it is inserted for you
 
 *** M-x crossref-add-bibtex-entry
+
+Gamarra, D.; Munuera, G.; Hungria, A. B.; Fernandez-Garcia, M.; Conesa, J. C.; Midgley, P. A.; Wang, X. Q.; Hanson, J. C.; Rodriguez, J. A.; Martinez-Arias, A. J. Phys. Chem. C 2007, 111, 11026−11038.
+
 ** Inserting citations
 Do not type cite links in by hand. Tedious, error-prone, tedious...
 
 First, add a link to the bibliography file, e.g.
 
-bibliography:references.bib (this file exists in the same directory as this file).
 
 Type: C-c ] to select entries. choose entry, press enter. cite:sokalski-2012-optim-ta
 
 cite:sokalski-2012-optim-ta,gao-2015-surfac
 
-
+cite:olsen-2004-compar,gao-2015-surfac,sokalski-2012-optim-ta
 
 C-spc to select more than one entry, then enter to add them all at once.
 
+** ase.io.write
 pydoc:ase.io.write
 
 
@@ -61,6 +67,8 @@ cat geom.xyz
 : H      0.00000000       0.00000000       1.67399000
 
 ** References
+
+bibliographystyle:unsrtnat
 bibliography:references.bib
 
 * [[../dft-book/dft.org::*Molecular reaction barriers]]
