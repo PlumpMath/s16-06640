@@ -234,7 +234,7 @@ solution:water-1
 
 solution:ethane-1
 
-** COLLECTED assignment:ethane-2				 :assignment:
+** COLLECTED assignment:ethane-2      :assignment:
    DEADLINE: <2016-02-01 Mon>
    :PROPERTIES:
    :CATEGORY: homework
