@@ -234,8 +234,8 @@ solution:water-1
 
 solution:ethane-1
 
-** COLLECTED assignment:ethane-2      :assignment:
-   DEADLINE: <2016-02-01 Mon>
+** GRADED assignment:ethane-2	      :assignment:
+   CLOSED: [2016-02-12 Fri 15:37] DEADLINE: <2016-02-01 Mon>
    :PROPERTIES:
    :CATEGORY: homework
    :POINTS:   2
