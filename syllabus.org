@@ -256,7 +256,7 @@ solution:ethane-2
 
 solution:bond-length-2
 
-** TODO assignment:vib-1	      :assignment:
+** COLLECTED assignment:vib-1	      :assignment:
    DEADLINE: <2016-02-12 Fri>
    :PROPERTIES:
    :CATEGORY: homework
