@@ -245,7 +245,7 @@ solution:ethane-1
 
 solution:ethane-2
 
-** COLLECTED assignment:bond-length-2				 :assignment:
+** COLLECTED assignment:bond-length-2 :assignment:
    DEADLINE: <2016-02-03 Wed>
    :PROPERTIES:
    :CATEGORY: homework
