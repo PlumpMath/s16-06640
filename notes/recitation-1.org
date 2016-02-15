@@ -1,17 +1,16 @@
 * Review of publishing using Emacs
 Notes from last class:
-[[~/jmax/examples/technical-documents-in-org.org]]
 
-LaTeX is the basis of all document publication that Emacs performs. As such, it is important to have a base understanding of LaTeX syntax.
+ [[elisp:(find-file (expand-file-name "examples" starter-kit-dir))]]
 
-Here is some basic LaTeX syntax:
+LaTeX is the basis of all document publication that Emacs performs. Here, we review some LaTeX syntax.
 
 ** '\\' - Line break
 Line breaks are most commonly used in equations with multiple lines.
 
 Equations with line breaks:
 
-C-c c-x-l
+Type C-c c-x-l to toggle the images
 
 \begin{align}
 &OVac\_FormE(cID) \rightarrow OVac\_FormE(mID, mag, num\_atoms, \nonumber \\
@@ -44,25 +43,9 @@ Equation & = blah \\
 = blah & \ blah \ blah \\
 \end{align}
 
-** More advanced tables
-The equation alignment works in a similar fashion to LaTeX table generation.
+** Publish the file
+C-c e o  will start the vanilla export. You get a menu of options. Press l o to make and open a pdf (via LaTeX), or h o to make and open an html file. Note, you may need latex_header tags for some packages. org does some things by default, but not everything.
 
-But first, make sure you have latex-preview-pane installed:
-
-1. type M-x list-packages
-2. search for 'latex-preview-pane'
-3. click on the link and then the install button
-4. job well done, pat yourself on the back
-
-Here are some examples of more complex table operations you can add to your org file:
-
-[[./table-examples.tex]]
-
-More examples for LaTeX tables in all of there glorious complexity can be found here:
-http://en.wikibooks.org/wiki/LaTeX/Tables
-
-Online tool for making latex tables from various data files:
-http://www.tablesgenerator.com/latex_tables
 
 
 * Review of VASP tags and their purpose
@@ -71,7 +54,7 @@ It's important to keep in mind that the purpose of VASP is to implement the Kohn
 All of the tags we implement are a means to that end.
 
 ** XC and GGA
-Hopefully, this one is pretty self explanatory. 
+Hopefully, this one is pretty self explanatory.
 
 The exchange correlation functional is every part of the Kohn-Sham equation that we don't know the exact solution for. So, it needs to be approximated.
 
@@ -89,15 +72,10 @@ with jasp('./molecules/func-pbe',
           xc='PBE',
           atoms=atoms) as calc:
     try:
-    
+
     calc.initialize(atoms)
     calc.write_potcar()
 #+END_SRC
-
-Here is the resulting POTCAR file which is written for our atoms object:
-[[./molecules/func-pbe/POTCAR]]
-
------
 
 The GGA tag stands for generalized gradient approximation. This is a class of functionals which include gradients (As opposed to LDA which is constant).
 
@@ -107,8 +85,8 @@ http://cms.mpi.univie.ac.at/vasp/vasp/GGA_tag.html
 91	Perdew -Wang 91
 PE	Perdew-Burke-Ernzerhof
 RP	revised Perdew-Burke-Ernzerhof
-AM	AM05 (Ref. [49,50], VASP tests see Ref. [51])
-PS	Perdew-Burke-Ernzerhof revised for solids (PBEsol, see Ref. [52])
+AM	AM05
+PS	Perdew-Burke-Ernzerhof revised for solids
 
 When implementing the GGA tag, it is recommended that you set xc equal to 'LDA' as follows:
 
@@ -124,17 +102,15 @@ with jasp('./molecules/func-ps',
           xc='LDA',
           gga='PS',
           atoms=atoms) as calc:
-    
+
     calc.initialize(atoms)
     calc.write_potcar()
 #+END_SRC
 
-Here is the resulting POTCAR file which is written for our atoms object:
-[[./molecules/func-ps/POTCAR]]
 
 The POTCAR contains all of the information needed to calculate the Kohn-Sham equations for the atoms in your atoms object for a specific functional.
 
-The XC tag tells VASP were to get the POTCAR information from. The producers of VASP have specifically tailored these files to calculate energies for each atom type quickly and effectively.
+The XC tag tells VASP where to get the POTCAR information from. The producers of VASP have specifically tailored these files to calculate energies for each atom type quickly and effectively.
 
 These files are what separate VASP from other codes which perform molecular simulation studies.
 
@@ -246,34 +222,28 @@ All emacs-lisp code lines in this folder are automatically loaded every time you
 
 Inside this file, you can create a custom folder to load special modules that you enjoy in emacs:
 
-Here's an example of mine:
-[[~jboes/boes-python/jmax/user/jboes.el]]
-
 Here is a code block you can run to generate a master bibliography setup in your home directory:
-#+BEGIN_SRC python
-import os
 
-home = os.path.expanduser('~')
+#+BEGIN_SRC emacs-lisp
+(unless (file-exists-p "~/bibliography")
+  (make-directory "~/bibliography"))
 
-bibvar = ''';; Setup bibliography variables
-(setq reftex-default-bibliography '("~/bibliography/references.bib"))
+(with-current-buffer (find-file-noselect
+		      (expand-file-name
+		       "user/my-bibliography.el" starter-kit-dir))
+  (insert
+   "(setq org-ref-bibliography-notes \"~/bibliography/notes.org\"
+      org-ref-default-bibliography '(\"~/bibliography/references.bib\")
+      org-ref-pdf-directory \"~/bibliography/bibtex-pdfs/\")
+")
+  (save-buffer)
+  (kill-buffer))
 
-(setq org-ref-bibliography-notes "~/bibliography/notes.org"
-      org-ref-default-bibliography '("~/bibliography/references.bib")
-      org-ref-pdf-directory "~/bibliography/bibtex-pdfs/")
-'''
 
-if not os.path.exists(os.path.join(home, 'bibliography')):
-    os.mkdir(os.path.join(home, 'bibliography'))
-    os.mkdir(os.path.join(home, 'bibliography/bibtex-pdfs'))
-
-    with open(os.path.join(home, 'jmax/user/user.el'), 'w') as f:
-        f.write(bibvar)
-
-    with open(os.path.join(home, 'bibliography/references.bib'), 'w') as f:
-        f.write('% Add your citations into this file. TIP: use M-x doi-utils-add-bibtex-entry-from-doi')
-else:
-    print('You already have a bibliography folder, you may already have a master bibliography file')
+(load-file (expand-file-name "user/my-bibliography.el" starter-kit-dir))
 #+END_SRC
 
-Now you can call citations from your master .bib file into
+#+RESULTS:
+: t
+
+You only need to run that once, subsequent times you open emacs the new file will be automatically loaded.
