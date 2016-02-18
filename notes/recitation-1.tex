@@ -1,12 +1,48 @@
+% Created 2016-02-16 Tue 09:19
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[version=3]{mhchem}
+\usepackage[numbers,super,sort&compress]{natbib}
+\usepackage{natmove}
+\usepackage{url}
+\usepackage{minted}
+\usepackage{underscore}
+\usepackage[linktocpage,pdfstartview=FitH,colorlinks,
+linkcolor=blue,anchorcolor=blue,
+citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue]{hyperref}
+\usepackage{attachfile}
+\author{John Kitchin}
+\date{\today}
+\title{recitation-1}
+\begin{document}
 
-* Review of publishing using Emacs
+\tableofcontents
+
+\section{Review of publishing using Emacs}
+\label{sec-1}
 Notes from last class:
 
- [[elisp:(find-file (expand-file-name "examples" starter-kit-dir))]]
+\url{(find-file (expand-file-name "examples" starter-kit-dir))}
 
-LaTeX is the basis of all document publication that Emacs performs. Here, we review some LaTeX syntax.
+\LaTeX{} is the basis of all document publication that Emacs performs. Here, we review some \LaTeX{} syntax.
 
-** '\\' - Line break
+\subsection{'\\' - Line break}
+\label{sec-1-1}
 Line breaks are most commonly used in equations with multiple lines.
 
 Equations with line breaks:
@@ -35,7 +71,7 @@ OVac\_FormE(cID) \rightarrow & OVac\_FormE(mID, mag, num\_atoms,
 &calculator, figure) \label{eq:multiline}
 \end{align}
 
-NOTE: The '&' symbol indicates where you would like to align the equation. for example:
+NOTE: The '\&' symbol indicates where you would like to align the equation. for example:
 
 \begin{align}
 Equation & = blah \\
@@ -43,7 +79,8 @@ Equation & = blah \\
 & = blah blah blah \\
 \end{align}
 
-** '\' - Forced spacing in equations
+\subsection{'$\backslash$' - Forced spacing in equations}
+\label{sec-1-2}
 Sometimes you would like to add space into your equations. This can be done using a single slash:
 
 \begin{align}
@@ -52,52 +89,57 @@ Equation & = blah \\
 & = blah \ blah \ blah \\
 \end{align}
 
-** Publish the file
-C-c e o  will start the vanilla export. You get a menu of options. Press l o to make and open a pdf (via LaTeX), or h o to make and open an html file. Note, you may need latex_header tags for some packages. org does some things by default, but not everything.
+\subsection{Publish the file}
+\label{sec-1-3}
+C-c e o  will start the vanilla export. You get a menu of options. Press l o to make and open a pdf (via \LaTeX{}), or h o to make and open an html file. Note, you may need latex\_header tags for some packages. org does some things by default, but not everything.
 
- [[./recitation-1.html]]
 
-* Review of VASP tags and their purpose
+
+\section{Review of VASP tags and their purpose}
+\label{sec-2}
 It's important to keep in mind that the purpose of VASP is to implement the Kohn-Sham equations in order to solve for properties of interested for various atomic configurations.
 
 All of the tags we implement are a means to that end.
 
-** XC and GGA
+\subsection{XC and GGA}
+\label{sec-2-1}
 Hopefully, this one is pretty self explanatory.
 
 The exchange correlation functional is every part of the Kohn-Sham equation that we don't know the exact solution for. So, it needs to be approximated.
 
 We do this by setting the XC tag to either 'LDA' (Local-Density Approximation), or 'PBE' (Perdew, Burke, and Ernzerhof).
 
-#+BEGIN_SRC python :results silent
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{python}
 from jasp import *
 from ase.structure import molecule
 
-atoms = molecule('H2O')
+atoms = molecule('H2')
 atoms.set_cell([6, 6, 6])
 atoms.center()
 
 with jasp('./molecules/func-pbe',
           xc='PBE',
           atoms=atoms) as calc:
+    try:
+
     calc.initialize(atoms)
     calc.write_potcar()
-#+END_SRC
+\end{minted}
 
 The GGA tag stands for generalized gradient approximation. This is a class of functionals which include gradients (As opposed to LDA which is constant).
 
 Here are a list of all the functionals you may use in the future:
-http://cms.mpi.univie.ac.at/vasp/vasp/GGA_tag.html
+\url{http://cms.mpi.univie.ac.at/vasp/vasp/GGA_tag.html}
 
-91	Perdew -Wang 91
-PE	Perdew-Burke-Ernzerhof
-RP	revised Perdew-Burke-Ernzerhof
-AM	AM05
-PS	Perdew-Burke-Ernzerhof revised for solids
+91        Perdew -Wang 91
+PE        Perdew-Burke-Ernzerhof
+RP        revised Perdew-Burke-Ernzerhof
+AM        AM05
+PS        Perdew-Burke-Ernzerhof revised for solids
 
 When implementing the GGA tag, it is recommended that you set xc equal to 'LDA' as follows:
 
-#+BEGIN_SRC python :results silent
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{python}
 from jasp import *
 from ase.structure import molecule
 
@@ -112,7 +154,7 @@ with jasp('./molecules/func-ps',
 
     calc.initialize(atoms)
     calc.write_potcar()
-#+END_SRC
+\end{minted}
 
 
 The POTCAR contains all of the information needed to calculate the Kohn-Sham equations for the atoms in your atoms object for a specific functional.
@@ -121,7 +163,8 @@ The XC tag tells VASP where to get the POTCAR information from. The producers of
 
 These files are what separate VASP from other codes which perform molecular simulation studies.
 
-** VASP 'behind the scenes'
+\subsection{VASP 'behind the scenes'}
+\label{sec-2-2}
 Notice in the previous example, I've used JASP to only produce one of the initialization files needed for a VASP calculations.
 
 Keep in mind that JASP is only a 'wrapper' for VASP!
@@ -134,7 +177,7 @@ We can use JASP for all of the Initialization files needed to run a VASP calcula
 
 The following code block shows the calculation initialization commands being run every time you start a new calculation:
 
-#+BEGIN_SRC python :results silent
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{python}
 from jasp import *
 from ase.structure import molecule
 
@@ -156,17 +199,19 @@ with jasp('./molecules/func-initial',
     calc.write_potcar()  #4
     calc.write_kpoints()  #5
     calc.write_sort_file()  #6
-#+END_SRC
+\end{minted}
 
-*** #1 - initializing the atoms object
+\subsubsection{\#1 - initializing the atoms object}
+\label{sec-2-2-1}
 Running this function defines a large number of variables based on the atoms object
 
 These variables will be utilized by JASP and ASE later to create the other initialization files
 
 JASP also creates a METADATA file here, to record meta-information about the calculation:
-[[./molecules/func-initial/METADATA]]
+\url{./molecules/func-initial/METADATA}
 
-*** #2 - writing the POSCAR
+\subsubsection{\#2 - writing the POSCAR}
+\label{sec-2-2-2}
 This code generates a POSCAR file using ASEs atom sorting tool
 
 POSCAR is fancy coder abbreviation for POSition Component Application Recourse, which is fancy speak for 'information about atom positions'
@@ -176,17 +221,19 @@ The ASE atoms sorter is used to collapse like atoms together so the POTCAR can b
 Without this sorting feature, each atom would need its OWN POTCAR. 50 atom unit cell? 50 identical POTCAR files.
 
 Here's what the POSCAR file looks like:
-[[./molecules/func-initial/POSCAR]]
+\url{./molecules/func-initial/POSCAR}
 
-*** #3 - writing the INCAR
+\subsubsection{\#3 - writing the INCAR}
+\label{sec-2-2-3}
 This code writes the INCAR file needed to start a VASP calculation
 
 Like POSCAR, this file is another abbreviation for INput Component Application Recourse, i.e. calculation inputs
 
 This file contains all of the input parameters specific to your calculation, and will likely look very familiar to you:
-[[./molecules/func-initial/INCAR]]
+\url{./molecules/func-initial/INCAR}
 
-*** #4 - writing the POTCAR
+\subsubsection{\#4 - writing the POTCAR}
+\label{sec-2-2-4}
 Writes the POTential Component Application Recourse file.
 
 As described above, this file contains the nuts and bolts of what makes VASP unique
@@ -195,33 +242,36 @@ There is information about how to solve the Kohn-Sham equation specific to the f
 
 There is also an entry for each type of atom in your atoms object!
 
-Try searching for 'PAW_PBE' in this file to see what I mean:
-[[./molecules/func-initial/POTCAR]]
+Try searching for 'PAW\_PBE' in this file to see what I mean:
+\url{./molecules/func-initial/POTCAR}
 
-The POSCAR and POTCAR files must be generated together, since ASE uses special sorting methods to represent all of the atoms in the POSCAR in /one/ POTCAR file.
+The POSCAR and POTCAR files must be generated together, since ASE uses special sorting methods to represent all of the atoms in the POSCAR in \emph{one} POTCAR file.
 
-*** #5 - writing the KPOINTS
-/k/-points are used to sample the Brillouin zone (http://en.wikipedia.org/wiki/Brillouin_zone) of a lattice to discretely measure characteristics of a continuous lattice
+\subsubsection{\#5 - writing the KPOINTS}
+\label{sec-2-2-5}
+\emph{k}-points are used to sample the Brillouin zone (\url{http://en.wikipedia.org/wiki/Brillouin_zone}) of a lattice to discretely measure characteristics of a continuous lattice
 
-You may not have know this existed yet, because we don't need more than one /k/-point for molecule simulation!
+You may not have know this existed yet, because we don't need more than one \emph{k}-point for molecule simulation!
 
-Notice that the KPOINTS file generate has 1 /k/-point by default
-[[./molecules/func-initial/KPOINTS]]
+Notice that the KPOINTS file generate has 1 \emph{k}-point by default
+\url{./molecules/func-initial/KPOINTS}
 
 This file is essential for ANY VASP calculation. Don't believe me? Go back and look in one of your old calculation folders.
 
-We will discuss /k/-points more when we get into bulk systems next class
+We will discuss \emph{k}-points more when we get into bulk systems next class
 
-*** #6 - writing the ASE sorting order
+\subsubsection{\#6 - writing the ASE sorting order}
+\label{sec-2-2-6}
 The ASE sorting utility is useful for collapsing the POTCAR into one file
 
 The ASE sorting file helps ASE keep track of potential differences between indices of atoms in your hand made atoms objects, and the order that ASE prefers for simplifying the POTCAR file.
 
 In this case, there is no difference, perhaps since the atoms object was generated using ASE:
-[[./molecules/func-initial/ase-sort.dat]]
+\url{./molecules/func-initial/ase-sort.dat}
 
 
-* How to set up a master bibliography file
+\section{How to set up a master bibliography file}
+\label{sec-3}
 
 Inside your jmax directory there is a folder called user
 
@@ -231,7 +281,7 @@ Inside this file, you can create a custom folder to load special modules that yo
 
 Here is a code block you can run to generate a master bibliography setup in your home directory:
 
-#+BEGIN_SRC emacs-lisp
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{common-lisp}
 (unless (file-exists-p "~/bibliography")
   (make-directory "~/bibliography"))
 
@@ -248,9 +298,12 @@ Here is a code block you can run to generate a master bibliography setup in your
 
 
 (load-file (expand-file-name "user/my-bibliography.el" starter-kit-dir))
-#+END_SRC
+\end{minted}
 
-#+RESULTS:
-: t
+\begin{verbatim}
+t
+\end{verbatim}
 
 You only need to run that once, subsequent times you open emacs the new file will be automatically loaded.
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

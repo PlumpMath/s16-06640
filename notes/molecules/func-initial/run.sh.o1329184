@@ -1,0 +1,30 @@
+xmodmap:  unable to open display 'localhost:21.0'
+ vasp.5.3.5 31Mar14 (build Jan 09 2015 16:57:47) complex                        
+  
+ POSCAR found :  2 types and       5 ions
+
+ ----------------------------------------------------------------------------- 
+|                                                                             |
+|  ADVICE TO THIS USER RUNNING 'VASP/VAMP'   (HEAR YOUR MASTER'S VOICE ...):  |
+|                                                                             |
+|      You enforced a specific xc-type in the INCAR file,                     |
+|      a different type was found on the POTCAR file                          |
+|          I HOPE YOU KNOW, WHAT YOU ARE  DOING                               |
+|                                                                             |
+ ----------------------------------------------------------------------------- 
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR found :  2 types and       5 ions
+ found WAVECAR, reading the header
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ WARNING: small aliasing (wrap around) errors must be expected
+ FFT: planning ...
+ reading WAVECAR
+ the WAVECAR file was read successfully
+ initial charge from wavefunction
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1    -0.238388728785E+02   -0.23839E+02   -0.20543E-07    16   0.322E-03    0.212E-04
+DAV:   2    -0.238388728785E+02   -0.25125E-10   -0.47674E-09     8   0.448E-04
+   1 F= -.23838873E+02 E0= -.23850469E+02  d E =0.347874E-01
+ writing wavefunctions

@@ -1,0 +1,39 @@
+xmodmap:  unable to open display 'localhost:21.0'
+ vasp.5.3.5 31Mar14 (build Jan 09 2015 16:57:47) complex                        
+  
+ POSCAR found :  2 types and       5 ions
+
+ ----------------------------------------------------------------------------- 
+|                                                                             |
+|  ADVICE TO THIS USER RUNNING 'VASP/VAMP'   (HEAR YOUR MASTER'S VOICE ...):  |
+|                                                                             |
+|      You enforced a specific xc-type in the INCAR file,                     |
+|      a different type was found on the POTCAR file                          |
+|          I HOPE YOU KNOW, WHAT YOU ARE  DOING                               |
+|                                                                             |
+ ----------------------------------------------------------------------------- 
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR found :  2 types and       5 ions
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ WARNING: small aliasing (wrap around) errors must be expected
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.341905702858E+02    0.34191E+02   -0.26996E+03    16   0.519E+02
+DAV:   2    -0.226795755000E+02   -0.56870E+02   -0.56870E+02    24   0.111E+02
+DAV:   3    -0.273107882852E+02   -0.46312E+01   -0.46521E+01    16   0.478E+01
+DAV:   4    -0.274664992461E+02   -0.15571E+00   -0.15343E+00    32   0.886E+00
+DAV:   5    -0.274665258491E+02   -0.26603E-04   -0.26603E-04    32   0.136E-01    0.882E+00
+DAV:   6    -0.244564942879E+02    0.30100E+01   -0.90403E+00    24   0.171E+01    0.438E+00
+DAV:   7    -0.239686604591E+02    0.48783E+00   -0.83695E-01    32   0.529E+00    0.221E+00
+DAV:   8    -0.238251828578E+02    0.14348E+00   -0.14973E-01    32   0.283E+00    0.316E-01
+DAV:   9    -0.238331975163E+02   -0.80147E-02   -0.11262E-02    32   0.589E-01    0.858E-02
+DAV:  10    -0.238353181398E+02   -0.21206E-02   -0.82906E-04    24   0.215E-01    0.482E-02
+DAV:  11    -0.238384314351E+02   -0.31133E-02   -0.33457E-04    16   0.136E-01    0.150E-02
+DAV:  12    -0.238387655763E+02   -0.33414E-03   -0.46777E-05    24   0.506E-02    0.773E-03
+DAV:  13    -0.238388703005E+02   -0.10472E-03   -0.10245E-05    16   0.259E-02    0.234E-03
+DAV:  14    -0.238388707908E+02   -0.49024E-06   -0.15730E-06    32   0.668E-03
+   1 F= -.23838871E+02 E0= -.23850467E+02  d E =0.347874E-01
+ writing wavefunctions

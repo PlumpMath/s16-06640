@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>recitation-1</title>
+<!-- 2016-02-16 Tue 09:17 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="John Kitchin" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">recitation-1</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Review of publishing using Emacs</a>
+<ul>
+<li><a href="#sec-1-1">1.1. '\\' - Line break</a></li>
+<li><a href="#sec-1-2">1.2. '\' - Forced spacing in equations</a></li>
+<li><a href="#sec-1-3">1.3. Publish the file</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Review of VASP tags and their purpose</a>
+<ul>
+<li><a href="#sec-2-1">2.1. XC and GGA</a></li>
+<li><a href="#sec-2-2">2.2. VASP 'behind the scenes'</a>
+<ul>
+<li><a href="#sec-2-2-1">2.2.1. #1 - initializing the atoms object</a></li>
+<li><a href="#sec-2-2-2">2.2.2. #2 - writing the POSCAR</a></li>
+<li><a href="#sec-2-2-3">2.2.3. #3 - writing the INCAR</a></li>
+<li><a href="#sec-2-2-4">2.2.4. #4 - writing the POTCAR</a></li>
+<li><a href="#sec-2-2-5">2.2.5. #5 - writing the KPOINTS</a></li>
+<li><a href="#sec-2-2-6">2.2.6. #6 - writing the ASE sorting order</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">3. How to set up a master bibliography file</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Review of publishing using Emacs</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Notes from last class:
+</p>
+
+<p>
+<a href="(find-file (expand-file-name "examples" starter-kit-dir))">(find-file (expand-file-name "examples" starter-kit-dir))</a>
+</p>
+
+<p>
+LaTeX is the basis of all document publication that Emacs performs. Here, we review some LaTeX syntax.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> '\\' - Line break</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Line breaks are most commonly used in equations with multiple lines.
+</p>
+
+<p>
+Equations with line breaks:
+</p>
+
+<p>
+Type C-c C-x C-l to toggle the images
+</p>
+
+<p>
+inline math
+\(x^2 = 4\)
+</p>
+
+<p>
+\(x^3 = 27\)
+</p>
+
+<p>
+display math
+\[x^4 = 16\]
+</p>
+
+\begin{align}
+OVac\_FormE(cID) \rightarrow OVac\_FormE(&mID, mag, num\_atoms, \nonumber \\
+&orientation, correction, calc\_quantity,\nonumber \\
+&calculator, figure) \label{eq:multiline}
+\end{align}
+
+<p>
+Equation without:
+</p>
+
+\begin{align}
+OVac\_FormE(cID) \rightarrow & OVac\_FormE(mID, mag, num\_atoms,
+&orientation, correction, calc\_quantity,
+&calculator, figure) \label{eq:multiline}
+\end{align}
+
+<p>
+NOTE: The '&amp;' symbol indicates where you would like to align the equation. for example:
+</p>
+
+\begin{align}
+Equation & = blah \\
+& = blah blah \\
+& = blah blah blah \\
+\end{align}
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> '\' - Forced spacing in equations</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Sometimes you would like to add space into your equations. This can be done using a single slash:
+</p>
+
+\begin{align}
+Equation & = blah \\
+& = blah \ blah \\
+& = blah \ blah \ blah \\
+\end{align}
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Publish the file</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+C-c e o  will start the vanilla export. You get a menu of options. Press l o to make and open a pdf (via LaTeX), or h o to make and open an html file. Note, you may need latex_header tags for some packages. org does some things by default, but not everything.
+</p>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Review of VASP tags and their purpose</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+It's important to keep in mind that the purpose of VASP is to implement the Kohn-Sham equations in order to solve for properties of interested for various atomic configurations.
+</p>
+
+<p>
+All of the tags we implement are a means to that end.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> XC and GGA</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Hopefully, this one is pretty self explanatory.
+</p>
+
+<p>
+The exchange correlation functional is every part of the Kohn-Sham equation that we don't know the exact solution for. So, it needs to be approximated.
+</p>
+
+<p>
+We do this by setting the XC tag to either 'LDA' (Local-Density Approximation), or 'PBE' (Perdew, Burke, and Ernzerhof).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python">from jasp import *
+from ase.structure import molecule
+
+atoms = molecule('H2')
+atoms.set_cell([6, 6, 6])
+atoms.center()
+
+with jasp('./molecules/func-pbe',
+          xc='PBE',
+          atoms=atoms) as calc:
+    try:
+
+    calc.initialize(atoms)
+    calc.write_potcar()
+</pre>
+</div>
+
+<p>
+The GGA tag stands for generalized gradient approximation. This is a class of functionals which include gradients (As opposed to LDA which is constant).
+</p>
+
+<p>
+Here are a list of all the functionals you may use in the future:
+<a href="http://cms.mpi.univie.ac.at/vasp/vasp/GGA_tag.html">http://cms.mpi.univie.ac.at/vasp/vasp/GGA_tag.html</a>
+</p>
+
+<p>
+91        Perdew -Wang 91
+PE        Perdew-Burke-Ernzerhof
+RP        revised Perdew-Burke-Ernzerhof
+AM        AM05
+PS        Perdew-Burke-Ernzerhof revised for solids
+</p>
+
+<p>
+When implementing the GGA tag, it is recommended that you set xc equal to 'LDA' as follows:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python">from jasp import *
+from ase.structure import molecule
+
+atoms = molecule('H2')
+atoms.set_cell([6, 6, 6])
+atoms.center()
+
+with jasp('./molecules/func-ps',
+          xc='LDA',
+          gga='PS',
+          atoms=atoms) as calc:
+
+    calc.initialize(atoms)
+    calc.write_potcar()
+</pre>
+</div>
+
+
+<p>
+The POTCAR contains all of the information needed to calculate the Kohn-Sham equations for the atoms in your atoms object for a specific functional.
+</p>
+
+<p>
+The XC tag tells VASP where to get the POTCAR information from. The producers of VASP have specifically tailored these files to calculate energies for each atom type quickly and effectively.
+</p>
+
+<p>
+These files are what separate VASP from other codes which perform molecular simulation studies.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> VASP 'behind the scenes'</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Notice in the previous example, I've used JASP to only produce one of the initialization files needed for a VASP calculations.
+</p>
+
+<p>
+Keep in mind that JASP is only a 'wrapper' for VASP!
+</p>
+
+<p>
+i.e. JASP is a fancy interface, designed to make VASP easier to use
+</p>
+
+<p>
+e.g. without JASP and ASE (Atomic Simulation Environment), we would need to make these input files manually!
+</p>
+
+<p>
+We can use JASP for all of the Initialization files needed to run a VASP calculation.
+</p>
+
+<p>
+The following code block shows the calculation initialization commands being run every time you start a new calculation:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python">from jasp import *
+from ase.structure import molecule
+
+atoms = molecule('CH4')
+atoms.set_cell([6, 6, 6])
+atoms.center()
+
+with jasp('./molecules/func-initial',
+          xc='PBE',
+          gga='PS',
+          ibrion=-1,
+          atoms=atoms) as calc:
+
+    calc.initialize(atoms)  #1
+    write_vasp('POSCAR',
+               calc.atoms_sorted,
+               symbol_count=calc.symbol_count)  #2
+    calc.write_incar(atoms)  #3
+    calc.write_potcar()  #4
+    calc.write_kpoints()  #5
+    calc.write_sort_file()  #6
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> #1 - initializing the atoms object</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+Running this function defines a large number of variables based on the atoms object
+</p>
+
+<p>
+These variables will be utilized by JASP and ASE later to create the other initialization files
+</p>
+
+<p>
+JASP also creates a METADATA file here, to record meta-information about the calculation:
+<a href="./molecules/func-initial/METADATA">./molecules/func-initial/METADATA</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> #2 - writing the POSCAR</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+This code generates a POSCAR file using ASEs atom sorting tool
+</p>
+
+<p>
+POSCAR is fancy coder abbreviation for POSition Component Application Recourse, which is fancy speak for 'information about atom positions'
+</p>
+
+<p>
+The ASE atoms sorter is used to collapse like atoms together so the POTCAR can be written into one succinct  file.
+</p>
+
+<p>
+Without this sorting feature, each atom would need its OWN POTCAR. 50 atom unit cell? 50 identical POTCAR files.
+</p>
+
+<p>
+Here's what the POSCAR file looks like:
+<a href="./molecules/func-initial/POSCAR">./molecules/func-initial/POSCAR</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2-3" class="outline-4">
+<h4 id="sec-2-2-3"><span class="section-number-4">2.2.3</span> #3 - writing the INCAR</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<p>
+This code writes the INCAR file needed to start a VASP calculation
+</p>
+
+<p>
+Like POSCAR, this file is another abbreviation for INput Component Application Recourse, i.e. calculation inputs
+</p>
+
+<p>
+This file contains all of the input parameters specific to your calculation, and will likely look very familiar to you:
+<a href="./molecules/func-initial/INCAR">./molecules/func-initial/INCAR</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2-4" class="outline-4">
+<h4 id="sec-2-2-4"><span class="section-number-4">2.2.4</span> #4 - writing the POTCAR</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+Writes the POTential Component Application Recourse file.
+</p>
+
+<p>
+As described above, this file contains the nuts and bolts of what makes VASP unique
+</p>
+
+<p>
+There is information about how to solve the Kohn-Sham equation specific to the functional being used
+</p>
+
+<p>
+There is also an entry for each type of atom in your atoms object!
+</p>
+
+<p>
+Try searching for 'PAW_PBE' in this file to see what I mean:
+<a href="./molecules/func-initial/POTCAR">./molecules/func-initial/POTCAR</a>
+</p>
+
+<p>
+The POSCAR and POTCAR files must be generated together, since ASE uses special sorting methods to represent all of the atoms in the POSCAR in <i>one</i> POTCAR file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2-5" class="outline-4">
+<h4 id="sec-2-2-5"><span class="section-number-4">2.2.5</span> #5 - writing the KPOINTS</h4>
+<div class="outline-text-4" id="text-2-2-5">
+<p>
+<i>k</i>-points are used to sample the Brillouin zone (<a href="http://en.wikipedia.org/wiki/Brillouin_zone">http://en.wikipedia.org/wiki/Brillouin_zone</a>) of a lattice to discretely measure characteristics of a continuous lattice
+</p>
+
+<p>
+You may not have know this existed yet, because we don't need more than one <i>k</i>-point for molecule simulation!
+</p>
+
+<p>
+Notice that the KPOINTS file generate has 1 <i>k</i>-point by default
+<a href="./molecules/func-initial/KPOINTS">./molecules/func-initial/KPOINTS</a>
+</p>
+
+<p>
+This file is essential for ANY VASP calculation. Don't believe me? Go back and look in one of your old calculation folders.
+</p>
+
+<p>
+We will discuss <i>k</i>-points more when we get into bulk systems next class
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2-6" class="outline-4">
+<h4 id="sec-2-2-6"><span class="section-number-4">2.2.6</span> #6 - writing the ASE sorting order</h4>
+<div class="outline-text-4" id="text-2-2-6">
+<p>
+The ASE sorting utility is useful for collapsing the POTCAR into one file
+</p>
+
+<p>
+The ASE sorting file helps ASE keep track of potential differences between indices of atoms in your hand made atoms objects, and the order that ASE prefers for simplifying the POTCAR file.
+</p>
+
+<p>
+In this case, there is no difference, perhaps since the atoms object was generated using ASE:
+<a href="./molecules/func-initial/ase-sort.dat">./molecules/func-initial/ase-sort.dat</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> How to set up a master bibliography file</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Inside your jmax directory there is a folder called user
+</p>
+
+<p>
+All emacs-lisp code lines in this folder are automatically loaded every time you open emacs
+</p>
+
+<p>
+Inside this file, you can create a custom folder to load special modules that you enjoy in emacs:
+</p>
+
+<p>
+Here is a code block you can run to generate a master bibliography setup in your home directory:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(unless (file-exists-p "~/bibliography")
+  (make-directory "~/bibliography"))
+
+(with-current-buffer (find-file-noselect
+		      (expand-file-name
+		       "user/my-bibliography.el" starter-kit-dir))
+  (insert
+   "(setq org-ref-bibliography-notes \"~/bibliography/notes.org\"
+      org-ref-default-bibliography '(\"~/bibliography/references.bib\")
+      org-ref-pdf-directory \"~/bibliography/bibtex-pdfs/\")
+")
+  (save-buffer)
+  (kill-buffer))
+
+
+(load-file (expand-file-name "user/my-bibliography.el" starter-kit-dir))
+</pre>
+</div>
+
+<pre class="example">
+t
+</pre>
+
+<p>
+You only need to run that once, subsequent times you open emacs the new file will be automatically loaded.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: John Kitchin</p>
+<p class="date">Created: 2016-02-16 Tue 09:17</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
