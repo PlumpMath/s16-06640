@@ -124,11 +124,9 @@ plt.show()
 #+RESULTS:
 
 ** Comparing crystal structures
-[[file:../dft-book/dft.org::bulk-fcc-bcc-Cu][file:~/06-640-s14/course/dft-book/dft.org::bulk-fcc-bcc-Cu]]
+[[file:../dft-book/dft.org::bulk-fcc-bcc-Cu][file:../dft-book/dft.org::bulk-fcc-bcc-Cu]]
 
 You can see in the figure that fcc is a little more stable (lower in energy) than bcc
-
-
 
 ** NBANDS
 You need enough bands so that the highest energy bands are unoccupied
