@@ -167,16 +167,16 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
 - [X] [2016-02-11 Thu] [[elisp:(find-file (expand-file-name "examples" starter-kit-dir))]]
 - [X] [2016-02-16 Tue] [[./notes/recitation-1.org]]
 - [X] [2016-02-18 Thu] [[./notes/bulk-intro.org]]
-- [ ] [2016-02-23 Tue] [[./notes/bulk-struct.org]] [[./notes/adv-bulk-struc.org]]
-- [ ] [2016-02-25 Thu] [[./notes/bulk-rxn.org]]
-- [ ] [2016-03-01 Tue] [[./notes/bulk-dos.org]]
-- [ ] [2016-03-03 Thu] [[./notes/intro-surf.org]]
+- [ ] [2016-02-23 Tue] [[./notes/bulk-struct.org]]
+- [ ] [2016-02-25 Thu] [[./notes/adv-bulk-struc.org]]
+- [ ] [2016-03-01 Tue] [[./notes/bulk-rxn.org]]
+- [ ] [2016-03-03 Thu] [[./notes/bulk-dos.org]]
 - [ ] [2016-03-08 Tue] NO CLASS Spring Break
 - [ ] [2016-03-10 Thu] NO CLASS Spring Break
 - [ ] [2016-03-15 Tue] NO CLASS Spring ACS meeting
 - [ ] [2016-03-17 Thu] NO CLASS Spring ACS meeting
-- [ ] [2016-03-22 Tue] [[./notes/database.org]]
-- [ ] [2016-03-24 Thu]
+- [ ] [2016-03-22 Tue] [[./notes/intro-surf.org]]
+- [ ] [2016-03-24 Thu] [[./notes/database.org]]
 - [ ] [2016-03-29 Tue] [[./notes/coverage_dependence.ppt]] (C-u C-u enter) [[./notes/alloy-adsorption.org]]
 - [ ] [2016-03-31 Thu] adsorbate vibrations, diffusion barriers
 - [ ] [2016-04-05 Tue] atomistic thermodynamics
