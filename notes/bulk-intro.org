@@ -1,6 +1,19 @@
 * org-tables
 
+sort tables  C-c ^ n for little to big
+sort tables  C-c ^ N for big to little
+
+M-x ore
 #+tblname: table-1
+| calc | exp |   |
+|------+-----+---|
+|    6 |   5 |   |
+|    4 |   3 |   |
+|    8 |   5 |   |
+|    2 |   1 |   |
+
+
+#+tblname: table-2
 | exp | calc |
 |-----+------|
 |   1 |    2 |
@@ -8,22 +21,52 @@
 |   5 |    8 |
 
 
-#+tblname: table-2
-| exp | calc |              |
-|-----+------+--------------|
-|   1 |    2 |         0.01 |
-|   3 |    4 | 3.3333333e-3 |
-|   5 |    8 |         6e-3 |
-#+TBLFM: $3=($2-$1)/$1*100
-
 #+BEGIN_SRC python :var data=table-2
-print data
+import numpy as np
+data = np.array(data)
+print data[:, 1] * 2
 #+END_SRC
 
 #+RESULTS:
-: [[1, 2, 0.01], [3, 4, '3.3333333e-3'], [5, 8, '6e-3']]
+: [ 4  8 16]
 
 And inline python code: The number of vibrational modes is src_python{return 3 * 8 - 7} =17=
+
+
+#+BEGIN_SRC python :results raw
+import numpy as np
+a = np.array([[1, 2, 3], [3, 4, 5]])
+
+print '#+tblname: table-1'
+for row in a:
+    print '|' + '|'.join([str(x) for x in row]) + '|'
+
+print '\n\n#+tblname: table-2'
+for row in a:
+    print '|' + '|'.join([str(2*x) for x in row]) + '|'
+
+#+END_SRC
+
+#+RESULTS:
+#+tblname: table-1
+| 1 | 2 | 3 |
+| 3 | 4 | 5 |
+
+
+#+tblname: table-2
+| 2 | 4 |  6 |
+| 6 | 8 | 10 |
+
+#+BEGIN_SRC python :results value
+a = [1, 2, 3]
+print 'hello'
+return a
+#+END_SRC
+
+#+RESULTS:
+| 1 | 2 | 3 |
+
+
 
 * [[file:../dft-book/dft.org::*Bulk%20systems][Bulk systems]]
 ** Setting up bulk structures
@@ -55,10 +98,20 @@ from ase.lattice.cubic import FaceCenteredCubic
 
 atoms = FaceCenteredCubic('Ag')
 
+print(atoms.positions)
+print(atoms.cell)
+
 view(atoms)
 #+END_SRC
 
 #+RESULTS:
+: [[ 0.     0.     0.   ]
+:  [ 2.045  2.045  0.   ]
+:  [ 2.045  0.     2.045]
+:  [ 0.     2.045  2.045]]
+: [[ 4.09  0.    0.  ]
+:  [ 0.    4.09  0.  ]
+:  [ 0.    0.    4.09]]
 
 You should get in the habit of viewing your atoms to make sure they make sense.
 
@@ -66,9 +119,10 @@ You should get in the habit of viewing your atoms to make sure they make sense.
 from ase.visualize import view
 from ase.lattice.cubic import FaceCenteredCubic
 
-atoms = FaceCenteredCubic('Ag')
+atoms = FaceCenteredCubic('Ag').repeat((3, 3, 3))
+atoms.set_cell([13, 13, 13], scale_atoms=True)
 
-view(atoms.repeat((3,3,3)))
+view(atoms)
 #+END_SRC
 
 #+RESULTS:
@@ -103,6 +157,8 @@ atoms = FaceCenteredCubic('Ag', directions=[[0, 1, 1],
 
 view(atoms)
 #+END_SRC
+
+#+RESULTS:
 
 
 ** Reading in data files
@@ -168,9 +224,12 @@ from ase.io import read
 from ase.visualize import view
 
 atoms = read('Ru2O4_1.cif')
-
+print atoms
 view(atoms)
 #+END_SRC
+
+#+RESULTS:
+: Atoms(symbols='O4Ru2', positions=..., cell=[[3.13970109, 0.0, 0.0], [2.7821757441274606e-16, 4.5436378, 0.0], [2.7821757441274606e-16, 2.7821757441274606e-16, 4.5436378]], pbc=[True, True, True])
 
 
 
@@ -207,5 +266,7 @@ atoms = Atoms([Atom('Ti', [0., 0., 0.]),
 
 view(atoms)
 #+END_SRC
+
+#+RESULTS:
 
 * [[file:../dft-book/dft.org::*Computational%20parameters%20that%20are%20important%20for%20bulk%20structures][Computational parameters that are important for bulk structures]]
