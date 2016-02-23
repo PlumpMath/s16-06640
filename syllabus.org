@@ -174,7 +174,7 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
 - [ ] [2016-03-08 Tue] NO CLASS Spring Break
 - [ ] [2016-03-10 Thu] NO CLASS Spring Break
 - [ ] [2016-03-15 Tue] NO CLASS Spring ACS meeting
-- [ ] [2016-03-17 Thu]
+- [ ] [2016-03-17 Thu] NO CLASS Spring ACS meeting
 - [ ] [2016-03-22 Tue] [[./notes/database.org]]
 - [ ] [2016-03-24 Thu]
 - [ ] [2016-03-29 Tue] [[./notes/coverage_dependence.ppt]] (C-u C-u enter) [[./notes/alloy-adsorption.org]]
