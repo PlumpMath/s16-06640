@@ -1,12 +1,12 @@
 * Optimization of more complex structures
 
 ** 2 degrees of freedom
-[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Optimizing%20the%20hcp%20lattice%20constant][Optimizing the hcp lattice constant]]
+[[file:../dft-book/dft.org::*Optimizing%20the%20hcp%20lattice%20constant][Optimizing the hcp lattice constant]]
 
-- We can scan one dimension at fixed values of the other dimension [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::ru-e-ca][file:~/06-640-s14/course/dft-book/dft.org::ru-e-ca]]
+- We can scan one dimension at fixed values of the other dimension [[file:../dft-book/dft.org::ru-e-ca][file:../dft-book/dft.org::ru-e-ca]]
   - We look for the global minimum energy
 
-- Contour plot [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::ru-countourf][file:~/06-640-s14/course/dft-book/dft.org::ru-countourf]]
+- Contour plot [[file:../dft-book/dft.org::ru-countourf][file:../dft-book/dft.org::ru-countourf]]
 
 - This is as complex an optimization as you would want to do by hand
 
@@ -279,21 +279,21 @@ Cu: potpaw_PBE/Cu/POTCAR (git-hash: a44c591415026f53deb16a99ca3f06b1e69be10b)
 - No change in structure. That indicates we are in a local minimum
 
 * A more complicated example - TiO_2
-[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::*Complex%20structures%20with%20internal%20degrees%20of%20freedom][Complex structures with internal degrees of freedom]]
+[[file:../dft-book/dft.org::*Complex%20structures%20with%20internal%20degrees%20of%20freedom][Complex structures with internal degrees of freedom]]
 
 This is usually a multistep process
 
 1. Find the volume (at constant shape, with relaxed ions) that minimizes the total energy ([[incar:ISIF][ISIF]]=2).
    - The goal here is to just get an idea of where the right volume is.
-   - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::step-1][file:~/06-640-s14/course/dft-book/dft.org::step-1]]
+   - [[file:../dft-book/dft.org::step-1][file:../dft-book/dft.org::step-1]]
    - You could directly use isif=7, but you do not get any information about how "well-behaved" the calculations are
 
 2. Using the results from step 1 as a starting point, perform a set of calculations at constant volume around the minimum from step 1, but the shape and internal atom positions are allowed to change ([[incar:ISIF][ISIF]]=4).
-   - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::step-2][file:~/06-640-s14/course/dft-book/dft.org::step-2]]
+   - [[file:../dft-book/dft.org::step-2][file:../dft-book/dft.org::step-2]]
 
 
 3. Finally, do a final calculation near the minimum energy allowing the volume to also change. ([[incar:ISIF][ISIF]]=3).
-  - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::step-3][file:~/06-640-s14/course/dft-book/dft.org::step-3]]
+  - [[file:../dft-book/dft.org::step-3][file:../dft-book/dft.org::step-3]]
 
 
 - This is not foolproof for all structures
