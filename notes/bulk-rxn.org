@@ -5,10 +5,10 @@ $P = -\left(\frac{\partial E}{\partial V}\right)_T$
 - the energy of two phases changes differently with volume
 
 - Here you can see there are volumes where the relative stabilities change
-  - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::tio2-anatase-rutile][file:~/06-640-s14/course/dft-book/dft.org::tio2-anatase-rutile]]
+  - [[file:../dft-book/dft.org::tio2-anatase-rutile]]
 
 - The common tangent gives us the transition pressure
-  - [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::common-tangent][file:~/06-640-s14/course/dft-book/dft.org::common-tangent]]
+  - [[file:../dft-book/dft.org::common-tangent]]
 
 * [[file:../dft-book/dft.org::*Cohesive%20energy][Cohesive energy]]
 
@@ -35,16 +35,16 @@ A + 2B \rightarrow AB_2
 and then see if they are exothermic.
 
 Let us consider alloy structures of Cu and Pd
-[[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::pure-metal-components][file:~/06-640-s14/course/dft-book/dft.org::pure-metal-components]]
+[[file:../dft-book/dft.org::pure-metal-components]]
 
-- first, two structures of the same composition [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::50-50-cu-pd][file:~/06-640-s14/course/dft-book/dft.org::50-50-cu-pd]]
+- first, two structures of the same composition [[file:../dft-book/dft.org::50-50-cu-pd]]
 
 
-- Next, another structure [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::alloy-cu3pd][file:~/06-640-s14/course/dft-book/dft.org::alloy-cu3pd]]
+- Next, another structure [[file:../dft-book/dft.org::alloy-cu3pd]]
   - Is this structure favorable?
   - is it more favorable than two separate phases?
 
-- One more Cu_{3}Pd structure [[file:/home-research/jkitchin/06-640-s14/course/dft-book/dft.org::alloy-cu3pd-2][file:~/06-640-s14/course/dft-book/dft.org::alloy-cu3pd-2]]
+- One more Cu_{3}Pd structure [[file:../dft-book/dft.org::alloy-cu3pd-2]]
 
 * Other solid reaction energies
 [[file:../dft-book/dft.org::*Metal%20oxide%20oxidation%20energies][Metal oxide oxidation energies]]
