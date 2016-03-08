@@ -176,12 +176,12 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
 - [ ] [2016-03-15 Tue] NO CLASS Spring ACS meeting
 - [ ] [2016-03-17 Thu] NO CLASS Spring ACS meeting
 - [ ] [2016-03-22 Tue] [[./notes/intro-surf.org]]
-- [ ] [2016-03-24 Thu] [[./notes/database.org]]
+- [ ] [2016-03-24 Thu]
 - [ ] [2016-03-29 Tue] [[./notes/coverage_dependence.ppt]] (C-u C-u enter) [[./notes/alloy-adsorption.org]]
 - [ ] [2016-03-31 Thu] adsorbate vibrations, diffusion barriers
 - [ ] [2016-04-05 Tue] atomistic thermodynamics
 - [ ] [2016-04-07 Thu]  [[./notes/DFT+U-lecture.pdf]]
-- [ ] [2016-04-12 Tue]
+- [ ] [2016-04-12 Tue]  [[./notes/database.org]]
 - [ ] [2016-04-14 Thu] NO CLASS Carnival
 - [ ] [2016-04-19 Tue]
 - [ ] [2016-04-21 Thu] [[./notes/emacs-magic.org]]
@@ -262,6 +262,15 @@ solution:bond-length-2
    :CATEGORY: homework
    :POINTS:   3
    :CUSTOM_ID: vib-1
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** TODO assignment:lit-review-1	      :assignment:
+   DEADLINE: <2016-03-31 Thu>
+   :PROPERTIES:
+   :CATEGORY: lit-review-1
+   :POINTS:   10
+   :CUSTOM_ID: lit-review-1
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
