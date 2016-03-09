@@ -274,21 +274,21 @@ solution:bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
-** TODO assignment:lit-review-2	      :assignment:
-   DEADLINE: <2016-04-14 Thu>
-   :PROPERTIES:
-   :CATEGORY: lit-review-2
-   :POINTS:   10
-   :CUSTOM_ID: lit-review-2
-   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
-   :END:
-
 ** TODO assignment:mini-1	      :assignment:
    DEADLINE: <2016-04-07 Thu>
    :PROPERTIES:
    :CATEGORY: mini-1
    :POINTS:   15
    :CUSTOM_ID: mini-1
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** TODO assignment:lit-review-2	      :assignment:
+   DEADLINE: <2016-04-14 Thu>
+   :PROPERTIES:
+   :CATEGORY: lit-review-2
+   :POINTS:   10
+   :CUSTOM_ID: lit-review-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
