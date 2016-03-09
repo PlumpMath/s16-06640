@@ -151,7 +151,7 @@ You will use your computers every day in class. I do not want to see or hear you
 *** Accommodations for Individuals with Disabilities
 If you wish to request an accommodation due to a documented disability, please inform me and contact Disability Resources as soon as possible. The request can be initiated at http://www.cmu.edu/hr/eos/disability/students.
 
-* Class schedule [16/32]
+* Class schedule [18/32]
 
 Here is an approximate class schedule. The days with NO CLASS are not likely to change. These days may be augmented with video lectures, or devoted to project work. The topics on a particular day may change.
 
@@ -171,8 +171,8 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
 - [X] [2016-02-25 Thu] [[./notes/adv-bulk-struc.org]]
 - [X] [2016-03-01 Tue] [[./notes/bulk-rxn.org]]
 - [X] [2016-03-03 Thu] [[./notes/bulk-dos.org]]
-- [ ] [2016-03-08 Tue] NO CLASS Spring Break
-- [ ] [2016-03-10 Thu] NO CLASS Spring Break
+- [X] [2016-03-08 Tue] NO CLASS Spring Break
+- [X] [2016-03-10 Thu] NO CLASS Spring Break
 - [ ] [2016-03-15 Tue] NO CLASS Spring ACS meeting
 - [ ] [2016-03-17 Thu] NO CLASS Spring ACS meeting
 - [ ] [2016-03-22 Tue] [[./notes/intro-surf.org]]
@@ -289,6 +289,15 @@ solution:bond-length-2
    :CATEGORY: mini-1
    :POINTS:   15
    :CUSTOM_ID: mini-1
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
+** TODO assignment:final-project      :assignment:
+   DEADLINE: <2016-04-21 Thu>
+   :PROPERTIES:
+   :CATEGORY: final-project
+   :POINTS:   15
+   :CUSTOM_ID: final-project
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
