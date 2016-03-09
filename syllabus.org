@@ -301,6 +301,15 @@ solution:bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
+** TODO assignment:final-presentation :assignment:
+   DEADLINE: <2016-04-28 Thu>
+   :PROPERTIES:
+   :CATEGORY: final-presentation
+   :POINTS:   10
+   :CUSTOM_ID: final-presentation
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
 * Useful class links
 - http://kitchingroup.cheme.cmu.edu/pycse A thorough resource on using Python for science and engineering
 - https://github.com/jkitchin/dft-book The github site for the notes
