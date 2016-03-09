@@ -274,6 +274,15 @@ solution:bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
+** TODO assignment:lit-review-2	      :assignment:
+   DEADLINE: <2016-04-14 Thu>
+   :PROPERTIES:
+   :CATEGORY: lit-review-2
+   :POINTS:   10
+   :CUSTOM_ID: lit-review-2
+   :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
+   :END:
+
 * Useful class links
 - http://kitchingroup.cheme.cmu.edu/pycse A thorough resource on using Python for science and engineering
 - https://github.com/jkitchin/dft-book The github site for the notes
