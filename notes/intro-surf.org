@@ -1,4 +1,4 @@
-#+TITLE: Lecture 15 - Introduction to surfaces
+#+TITLE: Introduction to surfaces
 
 - We model surfaces as /slabs/
 
@@ -77,7 +77,7 @@ view(atoms)
   - atoms overlap, and there are bands with significant dispersion
 
 - Normal to the slab, however, there is no band dispersion
-  - the bands are flat [[file:../dft-book/dft.org::surface-bands][file:~/06-640-s14/course/dft-book/dft.org::surface-bands]]
+  - the bands are flat [[file:../dft-book/dft.org::surface-bands][file:../dft-book/dft.org::surface-bands]]
 
 - That means we use M \times N \times 1 k-point grids where there is 1 k-point in the direction normal to the slab (usually the $z$ direction)
 
