@@ -1,7 +1,5 @@
 cite:kitchin-2004-tunin-the
 
-
-
 * Vegard's law
 
 #+attr_org: :width 300

@@ -1,0 +1,27 @@
+* Surface energies
+
+[[../dft-book/dft.org::*Surface energy]]
+
+- We compute the energy required to create surface area
+
+From the reaction:
+
+Bulk → slab with surfaces
+
+* Adsorption
+
+Simplest case:
+
+Surface + molecule → Surface + adsorbates
+
+Same as before, we compute the (energy of products) - (energy of reactants).
+
+New factors to consider:
+
+- How many adsorbates
+
+- What is the adsorbate configuration?
+
+- What is the concentration/coverage of adsorbates?
+
+[[../dft-book/dft.org::*Adsorption energies]]
