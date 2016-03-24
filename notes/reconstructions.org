@@ -1,0 +1,61 @@
+#+TITLE: Reconstructions and surface energy
+
+* Reconstructions
+  :PROPERTIES:
+  :ID:       A95739BD-228A-4C30-9984-66AFD3AFD309
+  :END:
+
+** Si 7 × 7
+
+
+
+#+attr_org: :width 300
+[[./screenshots/date-23-03-2016-time-20-12-28.png]]
+
+http://ramsey1.chem.uic.edu/mtrenary/STM%20gallery.html
+
+** Au herringbone
+
+http://www.icryst.com/TwoWireBeadCrystals.html
+
+
+#+attr_org: :width 300
+[[./screenshots/date-23-03-2016-time-20-15-08.png]]
+
+** Pt(100) hex reconstruction
+
+https://www.iap.tuwien.ac.at/www/surface/stm_gallery/reconstructions
+
+
+
+#+attr_org: :width 300
+[[./screenshots/date-23-03-2016-time-20-16-04.png]]
+
+** 110 missing row reconstruction
+http://www.cmu.edu/physics/stm/publ/107/LB-STM.pdf
+
+
+#+attr_org: :width 300
+[[./screenshots/date-23-03-2016-time-20-19-51.png]]
+
+
+* What drives reconstruction?
+Reduction of surface energy
+
+We can use DFT to estimate the likelihood of reconstruction
+
+We just have to consider a "reaction" like this:
+
+SurfaceStructureA → surfaceStructureB
+
+and ask if it is a favorable reaction.
+
+[[../dft-book/dft.org::*Surface reconstruction]]
+
+* [[../dft-book/dft.org::*Surface energy]]
+
+
+
+ Inoglu etal 2009: Atomis Therm Study Adsor Effec, Journal of Catalysis 261:188
+#+attr_org: :width 300
+[[./screenshots/date-23-03-2016-time-20-37-38.png]]
