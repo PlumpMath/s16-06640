@@ -54,8 +54,6 @@ and ask if it is a favorable reaction.
 
 * [[../dft-book/dft.org::*Surface energy]]
 
-
-
  Inoglu etal 2009: Atomis Therm Study Adsor Effec, Journal of Catalysis 261:188
 #+attr_org: :width 300
 [[./screenshots/date-23-03-2016-time-20-37-38.png]]
