@@ -151,7 +151,7 @@ You will use your computers every day in class. I do not want to see or hear you
 *** Accommodations for Individuals with Disabilities
 If you wish to request an accommodation due to a documented disability, please inform me and contact Disability Resources as soon as possible. The request can be initiated at http://www.cmu.edu/hr/eos/disability/students.
 
-* Class schedule [25/32]
+* Class schedule [26/32]
 
 Here is an approximate class schedule. The days with NO CLASS are not likely to change. These days may be augmented with video lectures, or devoted to project work. The topics on a particular day may change.
 
@@ -180,7 +180,7 @@ Here is an approximate class schedule. The days with NO CLASS are not likely to 
 - [X] [2016-03-29 Tue] [[./notes/adsorption.org]]
 - [X] [2016-03-31 Thu] [[./notes/coverage_dependence.ppt]] (C-u C-u enter)  [[./notes/alloy-adsorption.org]]
 - [X] [2016-04-05 Tue] adsorbate vibrations, diffusion barriers
-- [ ] [2016-04-07 Thu] atomistic thermodynamics
+- [X] [2016-04-07 Thu] atomistic thermodynamics
 - [ ] [2016-04-12 Tue]  [[./notes/DFT+U-lecture.pdf]]
 - [ ] [2016-04-14 Thu] NO CLASS Carnival
 - [ ] [2016-04-19 Tue] [[./notes/database.org]]
