@@ -274,8 +274,8 @@ solution:bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
-** COLLECTED assignment:mini-1	      :assignment:
-   DEADLINE: <2016-04-07 Thu>
+** GRADED assignment:mini-1	      :assignment:
+   CLOSED: [2016-04-16 Sat 17:05] DEADLINE: <2016-04-07 Thu>
    :PROPERTIES:
    :CATEGORY: mini-1
    :POINTS:   15
