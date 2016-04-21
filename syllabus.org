@@ -283,8 +283,8 @@ solution:bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
-** COLLECTED assignment:lit-review-2  :assignment:
-   DEADLINE: <2016-04-14 Thu>
+** GRADED assignment:lit-review-2     :assignment:
+   CLOSED: [2016-04-21 Thu 16:24] DEADLINE: <2016-04-14 Thu>
    :PROPERTIES:
    :CATEGORY: lit-review-2
    :POINTS:   10
