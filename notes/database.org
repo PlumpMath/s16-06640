@@ -60,7 +60,7 @@ Input information (small) =====> VASP (proprietary) =====> Results (huge)
 
 - Be sure to include the results you want to access from the database too!
 
-_RULE OF THUMB: When sharing, include at least enough information to reproduce your results._ 
+_RULE OF THUMB: When sharing, include at least enough information to reproduce your results._
 
 ** Summary
 Database provide:
@@ -172,18 +172,23 @@ energy = ['tot', 'pot', 'kin']
 nrg = [[2, 2, 0], [3, 3, 0], [2, 1, 1]]
 
 for i, m in enumerate(metals):
-    # We have to establish each entry 
+    # We have to establish each entry
     d[m] = {}
     d[m]['energies'] = {}
     for j, e in enumerate(energy):
         d[m]['index'] = i
         d[m]['energies'][e] = nrg[i][j]
 
-print(d)
+#print(d)
+
+import pprint
+pprint.pprint(d)
 #+END_SRC
 
 #+RESULTS:
-: {'Au': {'energies': {'pot': 2, 'kin': 0, 'tot': 2}, 'index': 0}, 'Cu': {'energies': {'pot': 1, 'kin': 1, 'tot': 2}, 'index': 2}, 'Pd': {'energies': {'pot': 3, 'kin': 0, 'tot': 3}, 'index': 1}}
+: {'Au': {'energies': {'kin': 0, 'pot': 2, 'tot': 2}, 'index': 0},
+:  'Cu': {'energies': {'kin': 1, 'pot': 1, 'tot': 2}, 'index': 2},
+:  'Pd': {'energies': {'kin': 0, 'pot': 3, 'tot': 3}, 'index': 1}}
 
 - This is useful for compact storage of information.
 
@@ -214,11 +219,49 @@ Turn the following table into
 Do not manually insert the data from the table, instead start with the following list of lists:
 
 #+BEGIN_SRC python :var data=tbldata
-print(data)
+import pprint
+
+d = {i: {'fname': x[1], 'lname':x[0], 'num':x[2]} for i,x in enumerate(data)}
+
+pprint.pprint(d)
+
+print d[1]['lname']
+print d[6]['num']
+
+d[7]['lname'] = 'Boes'
+
+print d[7]
+
+print [d[i] for i in d if d[i]['fname'] == 'Zhaofeng'][0]['lname']
+print [d[i] for i in d if (d[i]['fname']=='John' and d[i]['lname']) == 'Michael'][0]['num']
+
+[d[i] for i in d if d[i]['fname'] == 'Jacob'][0]['lname'] = 'Boes'
+print d[7]
 #+END_SRC
 
 #+RESULTS:
-: [['Bagusetty', 'Abhishek', 45], ['Chen', 'Zhaofeng', 71], ['Deshpande', 'Siddharth', 10], ['Feng', 'Bojun', 5], ['Khosla', 'Nathan', 0], ['Kitchin', 'John', 25], ['Michael', 'John', 62], ['Michael', 'Jacob', 7], ['Naik', 'Venkatesh', 5], ['Pande', 'Vikram', 39], ['Samira', 'Samji', 20], ['Sapunkov', 'Oleg', 99], ['Sen', 'Irem', 11], ['Thirumalai', 'Hari', 67]]
+#+begin_example
+{0: {'fname': 'Abhishek', 'lname': 'Bagusetty', 'num': 45},
+ 1: {'fname': 'Zhaofeng', 'lname': 'Chen', 'num': 71},
+ 2: {'fname': 'Siddharth', 'lname': 'Deshpande', 'num': 10},
+ 3: {'fname': 'Bojun', 'lname': 'Feng', 'num': 5},
+ 4: {'fname': 'Nathan', 'lname': 'Khosla', 'num': 0},
+ 5: {'fname': 'John', 'lname': 'Kitchin', 'num': 25},
+ 6: {'fname': 'John', 'lname': 'Michael', 'num': 62},
+ 7: {'fname': 'Jacob', 'lname': 'Michael', 'num': 7},
+ 8: {'fname': 'Venkatesh', 'lname': 'Naik', 'num': 5},
+ 9: {'fname': 'Vikram', 'lname': 'Pande', 'num': 39},
+ 10: {'fname': 'Samji', 'lname': 'Samira', 'num': 20},
+ 11: {'fname': 'Oleg', 'lname': 'Sapunkov', 'num': 99},
+ 12: {'fname': 'Irem', 'lname': 'Sen', 'num': 11},
+ 13: {'fname': 'Hari', 'lname': 'Thirumalai', 'num': 67}}
+Chen
+62
+{'lname': 'Boes', 'num': 7, 'fname': 'Jacob'}
+Chen
+62
+{'lname': 'Boes', 'num': 7, 'fname': 'Jacob'}
+#+end_example
 
 Once you have completed your dictionary, try the following from your dictionary:
 - Print Zhaofeng's last name
@@ -593,8 +636,8 @@ print(calc_info)
 
 print('\nHere is a temporary fix:')
 import json
-s = calc_info.replace("'", "\"") # Replace single quotes with double
-d = json.loads(s)
+#s = calc_info.replace("'", "\"") # Replace single quotes with double
+d = json.loads(calc_info)
 print(d)
 
 
@@ -701,7 +744,7 @@ for m in ['Pd', 'Ag']:
 : #+caption: Equation of state for fcc Pd
 : #+attr_org: :width 300
 : [[./EOS-Pd.png]]
-: 
+:
 : #+caption: Equation of state for fcc Ag
 : #+attr_org: :width 300
 : [[./EOS-Ag.png]]
