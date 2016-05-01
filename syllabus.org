@@ -301,7 +301,7 @@ solution:bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
-** TODO assignment:final-presentation :assignment:
+** COLLECTED assignment:final-presentation :assignment:
    DEADLINE: <2016-04-28 Thu>
    :PROPERTIES:
    :CATEGORY: final-presentation
