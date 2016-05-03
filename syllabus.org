@@ -292,8 +292,8 @@ solution:bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
-** COLLECTED assignment:final-project :assignment:
-   DEADLINE: <2016-04-21 Thu>
+** GRADED COLLECTE assignment:final-project :assignment:
+   CLOSED: [2016-05-03 Tue 14:06] DEADLINE: <2016-04-21 Thu>
    :PROPERTIES:
    :CATEGORY: final-project
    :POINTS:   15
@@ -301,8 +301,8 @@ solution:bond-length-2
    :RUBRIC:   (("technical" . 0.7) ("presentation" . 0.3))
    :END:
 
-** COLLECTED assignment:final-presentation :assignment:
-   DEADLINE: <2016-04-28 Thu>
+** GRADED assignment:final-presentation :assignment:
+   CLOSED: [2016-05-03 Tue 14:06] DEADLINE: <2016-04-28 Thu>
    :PROPERTIES:
    :CATEGORY: final-presentation
    :POINTS:   10
