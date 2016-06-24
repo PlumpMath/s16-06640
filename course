@@ -1,0 +1,10 @@
+(:course "Molecular Simulation"
+ :course-number "06-640"
+ :semester "Spring"
+ :year 2016
+ :institution "Carnegie Mellon University"
+ :department "Chemical Engineering"
+ :instructor "John Kitchin"
+ :instructor-email "jkitchin@andrew.cmu.edu"
+ :public-repo "https://github.com/jkitchin/s16-06640"
+ :private-repo "s16-06-640@techela.cheme.cmu.edu")
